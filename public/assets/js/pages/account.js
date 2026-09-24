@@ -43,13 +43,15 @@ else {
   currentCustomer().then((u) => { if (u) location.replace(next); });
 }
 
+const NOT_READY = 'Accounts aren’t available yet — our team is still building this feature. In the meantime, use Get a Quote or Contact us and we’ll help you directly.';
+
 const go = () => location.assign(next);
-handleForm($('#panel-login'), (d) => post('/auth/login', d), { onSuccess: go });
-handleForm($('#panel-register'), (d) => post('/auth/register', d), { onSuccess: go });
-handleForm($('#forgot-form'), (d) => post('/auth/forgot-password', d), {
+handleForm($('#panel-login'), (d) => post('/auth/login', d).catch(() => { throw new Error(NOT_READY); }), { onSuccess: go });
+handleForm($('#panel-register'), (d) => post('/auth/register', d).catch(() => { throw new Error(NOT_READY); }), { onSuccess: go });
+handleForm($('#forgot-form'), (d) => post('/auth/forgot-password', d).catch(() => { throw new Error(NOT_READY); }), {
   onSuccess: (res, form) => { const a = $('.form-alert', form); a.classList.add('ok'); a.textContent = res.message; form.email.value = ''; },
 });
-handleForm($('#reset-form'), (d) => post('/auth/reset-password', d), {
+handleForm($('#reset-form'), (d) => post('/auth/reset-password', d).catch(() => { throw new Error(NOT_READY); }), {
   onSuccess: (res, form) => {
     history.replaceState(null, '', '/account');
     form.innerHTML = `<div class="form-alert ok">${esc(res.message)}</div><a class="btn btn-primary btn-lg btn-block" href="${res.role === 'admin' ? '/admin/login' : '/account'}">Sign in</a>`;
