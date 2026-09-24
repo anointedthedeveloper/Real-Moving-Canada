@@ -50,11 +50,12 @@
 @media (max-width: 1080px) {
   .menu-toggle { display: inline-grid; margin-left: auto; }
   .nav {
-    position: fixed; top: 82px; left: 0; right: 0; z-index: 49; margin: 0;
+    position: fixed; top: var(--header-h, 82px); left: 0; right: 0; z-index: 49; margin: 0;
     /* backdrop-filter on .site-header makes it a containing block for fixed descendants,
        so "bottom: 0" resolves against the header's own (short) box instead of the viewport.
-       Viewport units sidestep that — they always measure the real viewport. */
-    height: calc(100vh - 82px); height: calc(100dvh - 82px);
+       Viewport units sidestep that — they always measure the real viewport. --header-h is
+       kept in sync with the header's actual (animated) height by site.js. */
+    height: calc(100vh - var(--header-h, 82px)); height: calc(100dvh - var(--header-h, 82px));
     flex-direction: column; align-items: stretch; gap: 0; padding: 1rem var(--gutter) 2rem;
     background: #fff; overflow-y: auto;
     transform: translateY(-8px); opacity: 0; visibility: hidden; transition: opacity .22s var(--ease), visibility .22s var(--ease), transform .22s var(--ease);
