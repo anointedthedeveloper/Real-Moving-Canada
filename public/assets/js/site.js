@@ -10,6 +10,16 @@ const onScroll = () => header?.classList.toggle('scrolled', window.scrollY > 8);
 onScroll();
 addEventListener('scroll', onScroll, { passive: true });
 
+// Keep --header-h in sync with the header's real (animated) height, so the
+// mobile menu panel — which is positioned below it — never drifts out of
+// alignment when the header condenses on scroll.
+if (header) {
+  const syncHeaderHeight = () => document.documentElement.style.setProperty('--header-h', `${header.offsetHeight}px`);
+  syncHeaderHeight();
+  if ('ResizeObserver' in window) new ResizeObserver(syncHeaderHeight).observe(header);
+  else addEventListener('resize', syncHeaderHeight);
+}
+
 // Mobile navigation
 const toggle = $('.menu-toggle');
 const nav = $('#site-nav');
