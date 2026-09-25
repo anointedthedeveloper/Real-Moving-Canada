@@ -31,6 +31,20 @@ export function servicesBlock(list) {
     <div class="svc-grid reveal">${rest.map(compactCard).join('')}</div>`;
 }
 
+/** Homepage teaser: one card per top-level service category, linking into its section on /services. */
+export function categoryGrid(categories) {
+  return `<div class="svc-cat-grid">${categories.map((c) => `
+    <a class="svc-cat-card reveal" href="/services#${esc(c.slug)}">
+      ${img(c)}
+      <div class="body">
+        <span class="thumb-icon">${icon(c.icon || 'box')}</span>
+        <h3>${esc(c.name)}</h3>
+        <p>${esc(c.summary)}</p>
+        <span class="more">Explore ${icon('arrow-right')}</span>
+      </div>
+    </a>`).join('')}</div>`;
+}
+
 export function tileMap(provinces, { light = false, hrefBase = '/service-areas' } = {}) {
   return `<nav class="tile-map${light ? ' light' : ''}" aria-label="Provinces and territories">${provinces.map((p) => {
     const [c, r] = TILE_POS[p.code] || [1, 1];
@@ -50,10 +64,10 @@ export function reviewCard(r) {
   </article>`;
 }
 
-export function reviewInvite(signedIn) {
+export function reviewInvite() {
   return `<div class="review-invite">
     ${icon('message')}
     <div><h3>Moved with RealMovingCanada?</h3><p>Customer reviews appear here once they’ve been read and approved by our team. We’d love to hear about your move.</p></div>
-    <a class="btn btn-dark" href="${signedIn ? '/reviews#write' : '/account?next=/reviews%23write'}">Share your experience</a>
+    <a class="btn btn-dark" href="/reviews#write">Share your experience</a>
   </div>`;
 }

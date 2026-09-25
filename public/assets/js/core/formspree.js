@@ -3,7 +3,7 @@
  *
  * Replace FORMSPREE_ENDPOINT with the real form endpoint from
  * https://formspree.io (looks like "https://formspree.io/f/xxxxxxxx") once
- * it's ready. Every public form on the site (quote, booking, contact) posts
+ * it's ready. Every public form on the site (quote, contact, reviews) posts
  * through submitToFormspree() below, so wiring up one endpoint here connects
  * all of them.
  */

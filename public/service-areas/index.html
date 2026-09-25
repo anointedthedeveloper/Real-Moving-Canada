@@ -3,12 +3,11 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Page Not Found — RealMovingCanada</title>
-  <meta name="description" content="This page could not be found.">
-  <meta name="robots" content="noindex, nofollow">
+  <title>Service Areas — RealMovingCanada</title>
+  <meta name="description" content="RealMovingCanada provides moving services across Canada's provinces and territories.">
   <meta name="theme-color" content="#0E2433">
-  <meta property="og:title" content="Page Not Found — RealMovingCanada">
-  <meta property="og:description" content="This page could not be found.">
+  <meta property="og:title" content="Service Areas — RealMovingCanada">
+  <meta property="og:description" content="RealMovingCanada provides moving services across Canada's provinces and territories.">
   <meta property="og:type" content="website">
   <link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
   <link rel="preload" href="/assets/fonts/archivo-variable.woff2" as="font" type="font/woff2" crossorigin>
@@ -40,12 +39,26 @@
   </div>
 </header>
 <main id="main">
+<section class="page-hero">
+  <div class="wrap areas-home">
+    <div>
+      <ol class="crumbs"><li><a href="/">Home</a></li><li>Service areas</li></ol>
+      <h1>Moving across Canada</h1>
+      <p class="lead">We plan moves within and between Canada’s provinces and territories. Select a region to see details.</p>
+    </div>
+    <div data-tile-map></div>
+  </div>
+</section>
 <section class="section">
-  <div class="wrap gate">
-    <svg class="i" aria-hidden="true" focusable="false"><use href="#i-route"></use></svg>
-    <h1 style="font-size:2.4rem">This page took a wrong turn</h1>
-    <p class="lead">The page you’re looking for doesn’t exist or has moved.</p>
-    <div class="actions"><a class="btn btn-primary" href="/">Go to the home page</a><a class="btn btn-outline" href="/contact">Contact us</a></div>
+  <div class="wrap" data-regions><div class="skeleton" style="height:360px"></div></div>
+</section>
+<section class="section tint">
+  <div class="wrap" style="max-width:820px;text-align:center">
+    <h2>Don’t see your city?</h2>
+    <p class="lead">Tell us where you’re moving from and to. We’ll let you know how we can help.</p>
+    <div style="display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap;margin-top:1.5rem">
+      <a class="btn btn-primary btn-lg" href="/quote">Get a Quote</a><a class="btn btn-outline btn-lg" href="/contact">Contact us</a>
+    </div>
   </div>
 </section>
 
@@ -101,6 +114,6 @@
     <div class="socials" data-socials></div>
   </div>
 </footer>
-<script type="module" src="/assets/js/site.js?v=mugjgwzv"></script>
+<script type="module" src="/assets/js/pages/areas.js?v=mugjgwzv"></script>
 </body>
 </html>

@@ -1,8 +1,21 @@
 'use strict';
 /**
- * Builds the static HTML pages in /public from /web/pages.
+ * Builds the static HTML pages in /public from /web-sources/pages.
  * Each page starts with <!--meta {json}--> and is wrapped in a shared layout
  * (header, footer, icon sprite). Run: npm run build:pages
+ *
+ * Routing: every page is written as a real directory with its own
+ * index.html (e.g. about.html -> about/index.html), so it's servable at a
+ * clean URL ("/about") with no ".html" extension and no client-side router —
+ * any static file server that resolves a directory request to its
+ * index.html (this repo's own server.js, Netlify, Vercel, GitHub Pages,
+ * nginx, `npx serve`) handles it natively, including on a hard refresh.
+ * The homepage is written twice — to / and to /home — since both are valid
+ * entry points. 404.html stays at the server root, which is the convention
+ * static hosts look for.
+ *
+ * All internal links/assets in the page sources are already absolute
+ * ("/quote", "/assets/img/logo.svg"), so nothing needs rewriting per page.
  */
 const fs = require('node:fs');
 const path = require('node:path');
@@ -44,114 +57,81 @@ const ICONS = {
   'arrow-right': '<path d="M5 12h14M13 6l6 6-6 6"/>',
   'chevron-down': '<path d="m6 9 6 6 6-6"/>',
   plus: '<path d="M12 5v14M5 12h14"/>',
-  logout: '<path d="M14 4h5v16h-5M10 8l-4 4 4 4M6 12h10"/>',
   headset: '<path d="M4 14v-2a8 8 0 0 1 16 0v2"/><rect x="3" y="13" width="4" height="6" rx="1.5"/><rect x="17" y="13" width="4" height="6" rx="1.5"/><path d="M19 19a3 3 0 0 1-3 3h-3"/>',
   hands: '<path d="M7 11V6.5a1.5 1.5 0 0 1 3 0V10M10 10V5a1.5 1.5 0 0 1 3 0v5M13 10V6a1.5 1.5 0 0 1 3 0v6M16 10a1.5 1.5 0 0 1 3 0v4a7 7 0 0 1-7 7h-1a6 6 0 0 1-4.5-2l-3-3.6a1.6 1.6 0 0 1 2.4-2.1L7 14.5"/>',
-  edit: '<path d="M4 20h4L19 9l-4-4L4 16z"/><path d="m13.5 6.5 4 4"/>',
-  trash: '<path d="M4 7h16M9.5 7V4h5v3M6 7l1 13h10l1-13"/>',
   search: '<circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/>',
   lock: '<rect x="5" y="10.5" width="14" height="10" rx="2"/><path d="M8 10.5V7a4 4 0 0 1 8 0v3.5"/>',
-  upload: '<path d="M12 16V4M7 9l5-5 5 5M4 20h16"/>',
   alert: '<circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.5v.01"/>',
   info: '<circle cx="12" cy="12" r="9"/><path d="M12 11v5.5M12 7.5v.01"/>',
-  eye: '<path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/>',
-  refresh: '<path d="M20 11a8 8 0 0 0-14.5-4.5L4 8M4 4v4h4M4 13a8 8 0 0 0 14.5 4.5L20 16M20 20v-4h-4"/>',
-  'external': '<path d="M14 4h6v6M20 4l-9 9M18 14v6H4V6h6"/>',
   archive: '<rect x="3" y="4" width="18" height="4.5" rx="1"/><path d="M5 8.5V20h14V8.5M10 12.5h4"/>',
   scale: '<path d="M12 4v16M5 20h14M4 8h16M7 8l-3 6a3 3 0 0 0 6 0zM17 8l-3 6a3 3 0 0 0 6 0z"/>',
   ruler: '<path d="M3 16.5 16.5 3 21 7.5 7.5 21z"/><path d="m7 12.5 2 2M10 9.5l2 2M13 6.5l2 2"/>',
+  trash: '<path d="M4 7h16M9.5 7V4h5v3M6 7l1 13h10l1-13"/>',
 };
 const sprite = `<svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">${Object.entries(ICONS)
   .map(([k, v]) => `<symbol id="i-${k}" viewBox="0 0 24 24">${v}</symbol>`).join('')}</svg>`;
 const I = (name, cls = 'i') => `<svg class="${cls}" aria-hidden="true" focusable="false"><use href="#i-${name}"></use></svg>`;
 
-// ─── Relative-path handling ───────────────────────────────────────────────
-// All internal links/assets are written relative to each page's own output
-// location, so the built site also works opened directly from disk (no
-// server) in addition to being served by Express. `depth` is how many
-// directories an output file sits below /public (e.g. admin/index.html = 1).
-const PAGE_FILE_MAP = {
-  '': 'index.html', about: 'about.html', services: 'services.html', 'service-areas': 'service-areas.html',
-  pricing: 'pricing.html', reviews: 'reviews.html', contact: 'contact.html', quote: 'quote.html',
-  booking: 'booking.html', account: 'account.html', dashboard: 'dashboard.html',
-  admin: 'admin/index.html', 'admin/login': 'admin/login.html',
-};
-const relPrefix = (depth) => (depth === 0 ? './' : '../'.repeat(depth));
-
-/** Rewrites root-absolute hrefs/srcs ("/about", "/assets/...") in a chunk of HTML into paths relative to a page at the given depth. */
-function rewriteLocalPaths(html, depth) {
-  const prefix = relPrefix(depth);
-  html = html.replace(/(href|src)="\/assets\/([^"]*)"/g, (_, attr, rest) => `${attr}="${prefix}assets/${rest}"`);
-  html = html.replace(/href="\/(?!\/|assets\/)([^"]*)"/g, (m, rest) => {
-    const idx = rest.search(/[#?]/);
-    const pathPart = idx === -1 ? rest : rest.slice(0, idx);
-    const suffix = idx === -1 ? '' : rest.slice(idx);
-    const target = PAGE_FILE_MAP[pathPart];
-    return target ? `href="${prefix}${target}${suffix}"` : m;
-  });
-  return html;
-}
-
 // ─── Shared partials ──────────────────────────────────────────────────────
-const header = (rel) => `<a class="skip-link" href="#main">Skip to content</a>
+// All hrefs/srcs below are root-absolute clean routes ("/quote", "/assets/…"),
+// which resolve correctly no matter how deep the current page's own URL is.
+const header = () => `<a class="skip-link" href="#main">Skip to content</a>
 <header class="site-header">
   <div class="wrap header-inner">
-    <a class="brand" href="${rel('index.html')}" aria-label="RealMovingCanada — home"><img src="${rel('assets/img/logo.svg')}" alt="RealMovingCanada" width="329" height="44" data-logo></a>
+    <a class="brand" href="/" aria-label="RealMovingCanada — home"><img src="/assets/img/logo.svg" alt="RealMovingCanada" width="329" height="44" data-logo></a>
     <nav class="nav" id="site-nav" aria-label="Main">
-      <a href="${rel('index.html')}">Home</a>
-      <a href="${rel('services.html')}">Services</a>
-      <a href="${rel('service-areas.html')}">Service Areas</a>
-      <a href="${rel('pricing.html')}">Pricing</a>
-      <a href="${rel('reviews.html')}">Reviews</a>
-      <a href="${rel('about.html')}">About</a>
-      <a href="${rel('contact.html')}">Contact</a>
+      <a href="/">Home</a>
+      <a href="/services">Services</a>
+      <a href="/service-areas">Service Areas</a>
+      <a href="/pricing">Pricing</a>
+      <a href="/reviews">Reviews</a>
+      <a href="/about">About</a>
+      <a href="/contact">Contact</a>
       <div class="nav-mobile-cta">
-        <a class="btn btn-primary" href="${rel('quote.html')}">Get a Free Moving Quote</a>
-        <a class="btn btn-outline" href="${rel('booking.html')}">Request a Booking</a>
+        <a class="btn btn-primary" href="/quote">Get a Quote</a>
       </div>
     </nav>
     <div class="header-actions">
-      <a class="account-link" href="${rel('account.html')}" data-account-link>${I('user')}<span>Sign in</span></a>
-      <a class="btn btn-primary btn-sm btn-quote" href="${rel('quote.html')}">Get a quote</a>
+      <a class="btn btn-primary btn-sm btn-quote" href="/quote">Get a Quote</a>
       <button class="icon-btn menu-toggle" type="button" aria-controls="site-nav" aria-expanded="false" aria-label="Open menu">${I('menu')}</button>
     </div>
   </div>
 </header>`;
 
-const footer = (rel) => `<footer class="site-footer">
+const footer = () => `<footer class="site-footer">
   <div class="wrap footer-grid">
     <div class="footer-brand">
-      <img src="${rel('assets/img/logo-light.svg')}" alt="RealMovingCanada" width="329" height="44" data-logo-light>
-      <p>Residential, commercial, long-distance and international moving services — planned carefully and communicated clearly, across Canada.</p>
+      <img src="/assets/img/logo-light.svg" alt="RealMovingCanada" width="329" height="44" data-logo-light>
+      <p class="footer-motto">Movers You Can Trust</p>
+      <p>Residential, commercial, local, long-distance and specialty moving services — planned carefully and communicated clearly, across Canada.</p>
     </div>
     <div>
       <h2>Services</h2>
       <ul>
-        <li><a href="${rel('services.html')}#residential-moving">Residential moving</a></li>
-        <li><a href="${rel('services.html')}#commercial-office-moving">Commercial &amp; office</a></li>
-        <li><a href="${rel('services.html')}#long-distance-moving">Long-distance</a></li>
-        <li><a href="${rel('services.html')}#international-moving">International</a></li>
-        <li><a href="${rel('services.html')}#packing-unpacking">Packing &amp; unpacking</a></li>
-        <li><a href="${rel('services.html')}#storage">Storage</a></li>
+        <li><a href="/services#residential-moving">Residential moving</a></li>
+        <li><a href="/services#packing-unpacking">Packing &amp; unpacking</a></li>
+        <li><a href="/services#specialty-moving">Specialty moving</a></li>
+        <li><a href="/services#logistics-storage">Logistics &amp; storage</a></li>
+        <li><a href="/services#junk-removal">Junk removal</a></li>
       </ul>
     </div>
     <div>
       <h2>Company</h2>
       <ul>
-        <li><a href="${rel('about.html')}">About us</a></li>
-        <li><a href="${rel('service-areas.html')}">Service areas</a></li>
-        <li><a href="${rel('pricing.html')}">Pricing</a></li>
-        <li><a href="${rel('reviews.html')}">Reviews</a></li>
-        <li><a href="${rel('contact.html')}">Contact</a></li>
+        <li><a href="/about">About us</a></li>
+        <li><a href="/service-areas">Service areas</a></li>
+        <li><a href="/pricing">Pricing</a></li>
+        <li><a href="/reviews">Reviews</a></li>
+        <li><a href="/contact">Contact</a></li>
       </ul>
     </div>
     <div>
-      <h2>Customers</h2>
+      <h2>Get started</h2>
       <ul>
-        <li><a href="${rel('quote.html')}">Get a quote</a></li>
-        <li><a href="${rel('booking.html')}">Request a booking</a></li>
-        <li><a href="${rel('account.html')}">Sign in or register</a></li>
-        <li><a href="${rel('dashboard.html')}">My dashboard</a></li>
+        <li><a href="/quote">Get a Quote</a></li>
+        <li><a href="/pricing#estimate">Instant estimate</a></li>
+        <li><a href="/reviews#write">Share your experience</a></li>
+        <li><a href="/contact">Ask a question</a></li>
       </ul>
     </div>
     <div class="footer-contact-col">
@@ -160,7 +140,7 @@ const footer = (rel) => `<footer class="site-footer">
         <li>${I('phone')}<span data-contact="phone"><span class="placeholder-note">[Phone number]</span></span></li>
         <li>${I('mail')}<span data-contact="email"><span class="placeholder-note">[Email address]</span></span></li>
         <li>${I('clock')}<span data-contact="hours-short"><span class="placeholder-note">[Business hours]</span></span></li>
-        <li>${I('pin')}<span>Serving communities across Canada</span></li>
+        <li>${I('pin')}<span>Serving communities across Canada · Postal Code S7V 1R9</span></li>
       </ul>
     </div>
   </div>
@@ -170,15 +150,11 @@ const footer = (rel) => `<footer class="site-footer">
   </div>
 </footer>`;
 
-function layout(meta, body, depth) {
-  const rel = (target) => relPrefix(depth) + target;
-  const css = meta.layout === 'app' ? ['core', 'app'] : meta.layout === 'site+app' ? ['core', 'site', 'app'] : ['core', 'site'];
-  // Page scripts import site.js themselves, so each page has a single module entry point.
-  const scripts = meta.scripts?.length ? meta.scripts : meta.layout === 'app' ? [] : ['site'];
+function layout(meta, body) {
+  const css = ['core', 'site'];
+  const scripts = meta.scripts?.length ? meta.scripts : ['site'];
   const robots = meta.noindex ? '\n  <meta name="robots" content="noindex, nofollow">' : '';
-  const shell = meta.layout === 'app'
-    ? `${sprite}\n${body}`
-    : `${sprite}\n${header(rel)}\n<main id="main">\n${body}\n</main>\n${footer(rel)}`;
+  const shell = `${sprite}\n${header()}\n<main id="main">\n${body}\n</main>\n${footer()}`;
   return `<!doctype html>
 <html lang="en-CA">
 <head>
@@ -190,16 +166,23 @@ function layout(meta, body, depth) {
   <meta property="og:title" content="${meta.title}">
   <meta property="og:description" content="${meta.description || ''}">
   <meta property="og:type" content="website">
-  <link rel="icon" href="${rel('assets/img/favicon.svg')}" type="image/svg+xml">
-  <link rel="preload" href="${rel('assets/fonts/archivo-variable.woff2')}" as="font" type="font/woff2" crossorigin>
-${css.map((c) => `  <link rel="stylesheet" href="${rel(`assets/css/${c}.css?v=${VERSION}`)}">`).join('\n')}
+  <link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="/assets/fonts/archivo-variable.woff2" as="font" type="font/woff2" crossorigin>
+${css.map((c) => `  <link rel="stylesheet" href="/assets/css/${c}.css?v=${VERSION}">`).join('\n')}
 </head>
 <body${meta.bodyClass ? ` class="${meta.bodyClass}"` : ''}>
 ${shell}
-${scripts.map((s) => `<script type="module" src="${rel(`assets/js/${s}.js?v=${VERSION}`)}"></script>`).join('\n')}
+${scripts.map((s) => `<script type="module" src="/assets/js/${s}.js?v=${VERSION}"></script>`).join('\n')}
 </body>
 </html>
 `;
+}
+
+/** Maps a source filename to its built, servable path (a real directory + index.html for clean URLs). */
+function outputPathFor(file, meta) {
+  if (meta.output) return meta.output;
+  if (file === 'index.html') return 'index.html';
+  return `${file.replace(/\.html$/, '')}/index.html`;
 }
 
 let count = 0;
@@ -208,15 +191,21 @@ for (const file of fs.readdirSync(SRC).filter((f) => f.endsWith('.html')).sort()
   const m = raw.match(/^<!--meta\s+([\s\S]*?)-->\s*/);
   if (!m) throw new Error(`${file}: missing <!--meta {...}--> header`);
   const meta = JSON.parse(m[1]);
-  const outRel = meta.output || file;
-  const depth = (outRel.match(/\//g) || []).length;
-  const body = rewriteLocalPaths(
-    raw.slice(m[0].length).replace(/\{\{icon:([\w-]+)(?::([\w\s-]+))?\}\}/g, (_, n, c) => I(n, c || 'i')),
-    depth
-  );
+  const body = raw.slice(m[0].length).replace(/\{\{icon:([\w-]+)(?::([\w\s-]+))?\}\}/g, (_, n, c) => I(n, c || 'i'));
+  const html = layout(meta, body);
+
+  const outRel = outputPathFor(file, meta);
   const out = path.join(OUT, outRel);
   fs.mkdirSync(path.dirname(out), { recursive: true });
-  fs.writeFileSync(out, layout(meta, body, depth));
+  fs.writeFileSync(out, html);
   count++;
+
+  // The homepage is also reachable at the clean "/home" route.
+  if (file === 'index.html') {
+    const homeOut = path.join(OUT, 'home', 'index.html');
+    fs.mkdirSync(path.dirname(homeOut), { recursive: true });
+    fs.writeFileSync(homeOut, html);
+    count++;
+  }
 }
 console.log(`[build] wrote ${count} pages`);

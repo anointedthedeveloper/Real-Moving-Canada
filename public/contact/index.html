@@ -3,12 +3,11 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Page Not Found — RealMovingCanada</title>
-  <meta name="description" content="This page could not be found.">
-  <meta name="robots" content="noindex, nofollow">
+  <title>Contact Us — RealMovingCanada</title>
+  <meta name="description" content="Contact RealMovingCanada about your move. Send us a message and our team will reply by email.">
   <meta name="theme-color" content="#0E2433">
-  <meta property="og:title" content="Page Not Found — RealMovingCanada">
-  <meta property="og:description" content="This page could not be found.">
+  <meta property="og:title" content="Contact Us — RealMovingCanada">
+  <meta property="og:description" content="Contact RealMovingCanada about your move. Send us a message and our team will reply by email.">
   <meta property="og:type" content="website">
   <link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
   <link rel="preload" href="/assets/fonts/archivo-variable.woff2" as="font" type="font/woff2" crossorigin>
@@ -40,12 +39,39 @@
   </div>
 </header>
 <main id="main">
+<section class="page-hero">
+  <div class="wrap">
+    <ol class="crumbs"><li><a href="/">Home</a></li><li>Contact</li></ol>
+    <h1>Contact us</h1>
+    <p class="lead"><strong>Movers You Can Trust.</strong> Questions about a move or a quote? Send us a message and our team will get back to you.</p>
+  </div>
+</section>
 <section class="section">
-  <div class="wrap gate">
-    <svg class="i" aria-hidden="true" focusable="false"><use href="#i-route"></use></svg>
-    <h1 style="font-size:2.4rem">This page took a wrong turn</h1>
-    <p class="lead">The page you’re looking for doesn’t exist or has moved.</p>
-    <div class="actions"><a class="btn btn-primary" href="/">Go to the home page</a><a class="btn btn-outline" href="/contact">Contact us</a></div>
+  <div class="wrap contact-layout">
+    <form class="card card-pad" id="contact-form" novalidate>
+      <h2 style="font-size:1.5rem">Send a message</h2>
+      <div class="form-alert" role="alert"></div>
+      <div class="form-grid" style="margin-top:1rem">
+        <div class="field"><label for="c-name">Name</label><input id="c-name" name="name" autocomplete="name" required maxlength="100"></div>
+        <div class="field"><label for="c-email">Email</label><input id="c-email" name="email" type="email" autocomplete="email" required maxlength="254"></div>
+        <div class="field"><label for="c-phone">Phone <span class="opt">(optional)</span></label><input id="c-phone" name="phone" type="tel" autocomplete="tel" maxlength="30"></div>
+        <div class="field"><label for="c-subject">Subject</label><input id="c-subject" name="subject" required maxlength="150"></div>
+        <div class="field span-all"><label for="c-message">Message</label><textarea id="c-message" name="message" rows="6" required maxlength="5000"></textarea></div>
+        <div class="hp" aria-hidden="true"><label for="c-website">Leave this field empty</label><input id="c-website" name="_gotcha" tabindex="-1" autocomplete="off"></div>
+      </div>
+      <div style="display:flex;gap:1rem;align-items:center;flex-wrap:wrap;margin-top:1.4rem">
+        <button class="btn btn-primary btn-lg" type="submit">Send message</button>
+        <span class="small muted">We use your details only to respond to your message.</span>
+      </div>
+    </form>
+    <aside class="contact-aside">
+      <div class="info-block"><h3><svg class="i" aria-hidden="true" focusable="false"><use href="#i-phone"></use></svg> Phone</h3><p data-contact="phone-link"><span class="placeholder-note">[Phone number]</span></p></div>
+      <div class="info-block"><h3><svg class="i" aria-hidden="true" focusable="false"><use href="#i-mail"></use></svg> Email</h3><p data-contact="email-link"><span class="placeholder-note">[Email address]</span></p></div>
+      <div class="info-block"><h3><svg class="i" aria-hidden="true" focusable="false"><use href="#i-clock"></use></svg> Business hours</h3><div data-contact="hours"><p><span class="placeholder-note">[Business hours]</span></p></div></div>
+      <div class="info-block"><h3><svg class="i" aria-hidden="true" focusable="false"><use href="#i-map"></use></svg> Service area</h3><p data-setting="contact.serviceAreaSummary">Residential, commercial and long-distance moves across Canada.</p><p style="margin-top:.5rem"><a class="link" href="/service-areas">View service areas</a></p></div>
+      <div class="info-block"><h3><svg class="i" aria-hidden="true" focusable="false"><use href="#i-pin"></use></svg> Postal code</h3><p>S7V 1R9</p></div>
+      <div class="info-block"><h3><svg class="i" aria-hidden="true" focusable="false"><use href="#i-users"></use></svg> Follow us</h3><div class="socials" data-socials data-socials-placeholder><span class="placeholder-note">[Social media links]</span></div></div>
+    </aside>
   </div>
 </section>
 
@@ -101,6 +127,6 @@
     <div class="socials" data-socials></div>
   </div>
 </footer>
-<script type="module" src="/assets/js/site.js?v=mugjgwzv"></script>
+<script type="module" src="/assets/js/pages/contact.js?v=mugjgwzv"></script>
 </body>
 </html>

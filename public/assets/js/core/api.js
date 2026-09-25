@@ -39,13 +39,3 @@ export async function api(path, { method = 'GET', body, signal } = {}) {
 
 export const get = (p, o) => api(p, o);
 export const post = (p, body) => api(p, { method: 'POST', body: body ?? {} });
-export const put = (p, body) => api(p, { method: 'PUT', body });
-export const patch = (p, body) => api(p, { method: 'PATCH', body });
-export const del = (p) => api(p, { method: 'DELETE' });
-
-/** Current customer session (null when signed out). Cached per page load. */
-let mePromise;
-export function currentCustomer() {
-  mePromise ??= api('/auth/me').then((d) => d?.user || null).catch(() => null);
-  return mePromise;
-}

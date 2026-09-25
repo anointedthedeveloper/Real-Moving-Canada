@@ -3,12 +3,11 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Page Not Found — RealMovingCanada</title>
-  <meta name="description" content="This page could not be found.">
-  <meta name="robots" content="noindex, nofollow">
+  <title>Customer Reviews — RealMovingCanada</title>
+  <meta name="description" content="Read reviews from RealMovingCanada customers, or share your own moving experience.">
   <meta name="theme-color" content="#0E2433">
-  <meta property="og:title" content="Page Not Found — RealMovingCanada">
-  <meta property="og:description" content="This page could not be found.">
+  <meta property="og:title" content="Customer Reviews — RealMovingCanada">
+  <meta property="og:description" content="Read reviews from RealMovingCanada customers, or share your own moving experience.">
   <meta property="og:type" content="website">
   <link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
   <link rel="preload" href="/assets/fonts/archivo-variable.woff2" as="font" type="font/woff2" crossorigin>
@@ -40,12 +39,26 @@
   </div>
 </header>
 <main id="main">
+<section class="page-hero">
+  <div class="wrap">
+    <ol class="crumbs"><li><a href="/">Home</a></li><li>Reviews</li></ol>
+    <h1>Customer reviews</h1>
+    <p class="lead">Reviews are submitted by RealMovingCanada customers and published after they’ve been read by our team.</p>
+    <div class="actions" data-summary></div>
+  </div>
+</section>
 <section class="section">
-  <div class="wrap gate">
-    <svg class="i" aria-hidden="true" focusable="false"><use href="#i-route"></use></svg>
-    <h1 style="font-size:2.4rem">This page took a wrong turn</h1>
-    <p class="lead">The page you’re looking for doesn’t exist or has moved.</p>
-    <div class="actions"><a class="btn btn-primary" href="/">Go to the home page</a><a class="btn btn-outline" href="/contact">Contact us</a></div>
+  <div class="wrap">
+    <div data-review-list><div class="skeleton" style="height:240px"></div></div>
+  </div>
+</section>
+<section class="section tint" id="write">
+  <div class="wrap" style="max-width:760px">
+    <div class="section-head" style="margin-bottom:1.5rem">
+      <h2>Share your experience</h2>
+      <p class="lead">Your review helps other families and businesses plan their move.</p>
+    </div>
+    <div data-review-form><div class="skeleton" style="height:200px"></div></div>
   </div>
 </section>
 
@@ -101,6 +114,6 @@
     <div class="socials" data-socials></div>
   </div>
 </footer>
-<script type="module" src="/assets/js/site.js?v=mugjgwzv"></script>
+<script type="module" src="/assets/js/pages/reviews.js?v=mugjgwzv"></script>
 </body>
 </html>

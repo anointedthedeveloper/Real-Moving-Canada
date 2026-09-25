@@ -1,10 +1,9 @@
 import { $, imageFallbacks } from '../core/ui.js';
-import { currentCustomer } from '../core/api.js';
 import { loadOptions, optionTags } from '../core/options.js';
-import { loadServices, loadAreas, loadReviews } from '../core/catalog.js';
-import { PROVINCES } from '../core/data.js';
+import { loadAreas, loadReviews } from '../core/catalog.js';
+import { PROVINCES, SERVICE_CATEGORIES } from '../core/data.js';
 import { mountEstimate, applyRoute } from '../components/estimate.js';
-import { servicesBlock, tileMap, reviewCard, reviewInvite } from '../components/cards.js';
+import { categoryGrid, tileMap, reviewCard, reviewInvite } from '../components/cards.js';
 import { initCarousels } from '../components/carousel.js';
 import { observeReveals } from '../site.js';
 
@@ -29,15 +28,13 @@ ticket.addEventListener('submit', async (e) => {
   setTimeout(() => form.elements['origin.city'].focus({ preventScroll: true }), 600);
 });
 
-loadServices().then((list) => {
-  $('[data-services]').innerHTML = servicesBlock(list);
-  imageFallbacks($('[data-services]'));
-  observeReveals();
-});
+$('[data-services]').innerHTML = categoryGrid(SERVICE_CATEGORIES);
+imageFallbacks($('[data-services]'));
+observeReveals();
 
 loadAreas().then((areas) => { $('[data-tile-map]').innerHTML = tileMap(areas.length === 13 ? areas : PROVINCES.map((p) => ({ ...p, isActive: areas.some((a) => a.code === p.code) }))); });
 
-Promise.all([loadReviews(1, 3), currentCustomer()]).then(([data, user]) => {
+loadReviews(1, 3).then((data) => {
   const el = $('[data-reviews]');
-  el.innerHTML = data.reviews.length ? `<div class="review-grid">${data.reviews.map(reviewCard).join('')}</div>` : reviewInvite(!!user);
+  el.innerHTML = data.reviews.length ? `<div class="review-grid">${data.reviews.map(reviewCard).join('')}</div>` : reviewInvite();
 });

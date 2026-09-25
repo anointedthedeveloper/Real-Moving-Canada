@@ -9,24 +9,11 @@ export const icon = (name, cls = 'i') => `<svg class="${cls}" aria-hidden="true"
 // ─── Formatting ───────────────────────────────────────────────────────────
 const moneyFmt = new Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD', maximumFractionDigits: 0 });
 export const money = (n) => (n == null || n === '' ? '—' : moneyFmt.format(Number(n)));
-export const priceRange = (a, b) => (a == null ? '—' : b == null || Number(a) === Number(b) ? money(a) : `${money(a)} – ${money(b)}`);
 const toDate = (v) => (/^\d{4}-\d{2}-\d{2}$/.test(v) ? new Date(`${v}T12:00:00`) : new Date(v));
 export const fmtDate = (v, opts = {}) => (v ? toDate(v).toLocaleDateString('en-CA', { year: 'numeric', month: 'short', day: 'numeric', ...opts }) : '—');
-export const fmtDateTime = (v) => (v ? new Date(v).toLocaleString('en-CA', { month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit' }) : '—');
-export function timeAgo(v) {
-  const s = Math.round((Date.now() - new Date(v).getTime()) / 1000);
-  if (s < 60) return 'just now';
-  const units = [[60, 'minute'], [24, 'hour'], [7, 'day'], [4.35, 'week'], [12, 'month']];
-  let n = s / 60;
-  let unit = 'minute';
-  for (let i = 1; i < units.length && n >= units[i][0]; i++) { n /= units[i][0]; unit = units[i][1]; }
-  n = Math.floor(n);
-  return n < 1 ? fmtDate(v) : `${n} ${unit}${n === 1 ? '' : 's'} ago`;
-}
 export const todayIso = () => { const d = new Date(); d.setMinutes(d.getMinutes() - d.getTimezoneOffset()); return d.toISOString().slice(0, 10); };
 export const initials = (name) => String(name || '?').trim().split(/\s+/).map((p) => p[0]).slice(0, 2).join('').toUpperCase();
 export const place = (loc) => (!loc ? '—' : loc.province === 'INTL' ? `${loc.city}, ${loc.country || 'Outside Canada'}` : `${loc.city}, ${loc.province}`);
-export const badge = (status, label) => `<span class="badge s-${esc(status)}">${esc(label || status)}</span>`;
 export function stars(n) {
   let out = `<span class="stars" role="img" aria-label="${Number(n)} out of 5 stars">`;
   for (let i = 1; i <= 5; i++) out += icon('star', `i i-fill${i > n ? ' off' : ''}`);
@@ -42,34 +29,6 @@ export function toast(message, type = 'ok') {
   el.innerHTML = `${icon(type === 'error' ? 'alert' : 'check')}<div>${esc(message)}</div>`;
   host.append(el);
   setTimeout(() => { el.style.opacity = '0'; el.style.transition = 'opacity .3s'; setTimeout(() => el.remove(), 320); }, 4200);
-}
-
-// ─── Dialogs ──────────────────────────────────────────────────────────────
-export function modal({ title, body = '', actions = '', wide = false, onOpen } = {}) {
-  const dlg = document.createElement('dialog');
-  dlg.className = `modal${wide ? ' wide' : ''}`;
-  dlg.innerHTML = `<div class="modal-head"><h2>${esc(title)}</h2><button type="button" class="icon-btn" data-close aria-label="Close">${icon('x')}</button></div>
-    <div class="modal-body">${body}</div>${actions ? `<div class="modal-foot">${actions}</div>` : ''}`;
-  document.body.append(dlg);
-  dlg.addEventListener('click', (e) => { if (e.target === dlg || e.target.closest('[data-close]')) dlg.close(); });
-  dlg.addEventListener('close', () => dlg.remove());
-  dlg.showModal();
-  onOpen?.(dlg);
-  return dlg;
-}
-
-export function confirmDialog(message, { title = 'Are you sure?', confirmLabel = 'Confirm', danger = false } = {}) {
-  return new Promise((resolve) => {
-    let ok = false;
-    const dlg = modal({
-      title,
-      body: `<p style="margin:0">${esc(message)}</p>`,
-      actions: `<button class="btn btn-outline" data-close type="button">Cancel</button>
-                <button class="btn ${danger ? 'btn-primary' : 'btn-dark'}" data-ok type="button">${esc(confirmLabel)}</button>`,
-    });
-    dlg.querySelector('[data-ok]').addEventListener('click', () => { ok = true; dlg.close(); });
-    dlg.addEventListener('close', () => resolve(ok));
-  });
 }
 
 // ─── Forms ────────────────────────────────────────────────────────────────
@@ -163,27 +122,6 @@ export function fillForm(form, data, prefix = '') {
       el.dispatchEvent(new Event('change', { bubbles: true }));
     });
   }
-}
-
-/** Password show/hide buttons. */
-export function enhancePasswords(root = document) {
-  $$('.pw-wrap', root).forEach((wrap) => {
-    if (wrap.dataset.ready) return;
-    wrap.dataset.ready = '1';
-    const input = $('input', wrap);
-    const btn = document.createElement('button');
-    btn.type = 'button';
-    btn.className = 'pw-toggle';
-    btn.textContent = 'Show';
-    btn.setAttribute('aria-label', 'Show password');
-    btn.addEventListener('click', () => {
-      const show = input.type === 'password';
-      input.type = show ? 'text' : 'password';
-      btn.textContent = show ? 'Hide' : 'Show';
-      btn.setAttribute('aria-label', show ? 'Hide password' : 'Show password');
-    });
-    wrap.append(btn);
-  });
 }
 
 /** Photos degrade to a branded panel when they can't load. */
