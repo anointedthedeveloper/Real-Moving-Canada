@@ -1,5 +1,5 @@
 /** Runs on every public page: header, navigation state, account link, site settings, images, reveal. */
-import { get, currentCustomer } from './core/api.js';
+import { get } from './core/api.js';
 import { $, $$, esc, icon, imageFallbacks } from './core/ui.js';
 
 document.documentElement.classList.add('js');
@@ -43,15 +43,6 @@ const pageKey = (p) => {
 };
 const here = pageKey(location.pathname);
 $$('#site-nav > a').forEach((a) => { if (pageKey(a.getAttribute('href')) === here) a.setAttribute('aria-current', 'page'); });
-
-// Account link reflects the session
-currentCustomer().then((user) => {
-  const link = $('[data-account-link]');
-  if (user && link) {
-    link.href = '/dashboard';
-    link.innerHTML = `${icon('user')}<span>My account</span>`;
-  }
-});
 
 // Year
 $$('[data-year]').forEach((el) => { el.textContent = new Date().getFullYear(); });

@@ -104,7 +104,7 @@ function unavailableResult() {
     <p style="margin:0 0 .6rem"><strong style="color:var(--ink)">We can’t calculate an instant price right now.</strong></p>
     <p>Request a free quote instead — a member of our team will review your move details and follow up with a price.</p>
     <div style="display:grid;gap:.6rem;margin-top:1.2rem">
-      <a class="btn btn-primary btn-block" href="/quote" data-to-quote>Request a free quote</a>
+      <a class="btn btn-primary btn-block" href="/quote" data-to-quote>Get a Quote</a>
     </div>
   </div>`;
 }
@@ -118,8 +118,8 @@ function renderResult(est, disclaimer) {
     ${est.notes?.length ? `<div class="estimate-notes">${est.notes.map(esc).join('<br>')}</div>` : ''}
     <p class="disclaimer">${esc(disclaimer)}</p>
     <div style="display:grid;gap:.6rem">
-      <a class="btn btn-primary btn-block" href="/quote" data-to-quote>Request a formal quote</a>
-      <a class="btn btn-outline btn-block" href="/booking">Request a booking</a>
+      <a class="btn btn-primary btn-block" href="/quote" data-to-quote>Get a Quote</a>
+      <a class="btn btn-outline btn-block" href="/contact">Ask a question</a>
     </div>
   </div>`;
 }
