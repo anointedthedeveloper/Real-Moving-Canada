@@ -7,7 +7,7 @@
  * through submitToFormspree() below, so wiring up one endpoint here connects
  * all of them.
  */
-export const FORMSPREE_ENDPOINT = 'YOUR_FORMSPREE_ENDPOINT';
+export const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xaenbadr';
 
 const isConfigured = () => /^https:\/\/formspree\.io\/f\/\w+$/.test(FORMSPREE_ENDPOINT);
 export const formspreeConfigured = () => isConfigured();
