@@ -63,12 +63,15 @@ export function categoryGrid(categories) {
   });
 }
 
+/** Shorter labels so every name fits on a map tile (full names stay in the tooltip). */
+const TILE_LABEL = { SK: 'Sask.', NL: 'Nfld. & Labrador', NT: 'N.W.T.', PE: 'P.E.I.', NB: 'New Brunswick', BC: 'British Columbia' };
+
 export function tileMap(provinces, { light = false, hrefBase = '/service-areas' } = {}) {
   return `<nav class="tile-map${light ? ' light' : ''}" aria-label="Provinces and territories">${provinces.map((p) => {
     const [c, r] = TILE_POS[p.code] || [1, 1];
     const active = p.isActive !== false;
     return `<a class="tile${active ? ' active' : ''}" href="${hrefBase}#${p.code.toLowerCase()}" style="--c:${c};--r:${r}" title="${esc(p.name)}${active ? '' : ' (not currently listed)'}">
-      <strong>${p.code}</strong><span>${esc(p.name)}</span></a>`;
+      <strong>${p.code}</strong><span>${esc(TILE_LABEL[p.code] || p.name)}</span></a>`;
   }).join('')}</nav>`;
 }
 

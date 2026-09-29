@@ -28,7 +28,7 @@
           <div class="field"><label for="t-from">Moving from</label>
             <select id="t-from" name="from" required><option value="">Province or territory</option></select></div>
           <div class="field"><label for="t-to">Moving to</label>
-            <select id="t-to" name="to" required><option value="">Province, territory or abroad</option></select></div>
+            <select id="t-to" name="to" required><option value="">Choose a destination</option></select></div>
         </div>
         <div class="field" style="margin-bottom:1.2rem"><label for="t-size">Home or office size</label>
           <select id="t-size" name="size"><option value="">Select size</option></select></div>
@@ -143,7 +143,7 @@
       <p class="lead">From British Columbia to Newfoundland and Labrador, and north to Yukon, the Northwest Territories and Nunavut, we plan moves within provinces and between them.</p>
       <a class="btn btn-light" href="/service-areas" style="margin-top:.8rem">Explore service areas</a>
     </div>
-    <div data-tile-map aria-busy="true">{{skeleton:tiles}}</div>
+    <div class="tile-map-wrap" data-tile-map aria-busy="true">{{skeleton:tiles}}</div>
   </div>
 </section>
 

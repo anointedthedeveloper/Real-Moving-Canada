@@ -129,6 +129,8 @@ p { margin: 0 0 1em; text-wrap: pretty; }
 .btn-lg { min-height: 54px; padding: .85rem 1.6rem; font-size: 1.05rem; }
 .btn-sm { min-height: 36px; padding: .4rem .8rem; font-size: .9rem; border-radius: var(--r-xs); }
 .btn-block { width: 100%; }
+/* On narrow screens long button labels wrap instead of pushing past the edge. */
+@media (max-width: 480px) { .btn { white-space: normal; text-align: center; max-width: 100%; } }
 .btn[disabled], .btn[aria-busy="true"] { opacity: .65; cursor: not-allowed; transform: none; }
 .btn[aria-busy="true"]::before {
   content: ''; width: 1em; height: 1em; border-radius: 50%;
