@@ -137,10 +137,10 @@ const footer = () => `<footer class="site-footer">
     <div class="footer-contact-col">
       <h2>Contact</h2>
       <ul class="footer-contact">
-        <li>${I('phone')}<span data-contact="phone"><span class="placeholder-note">[Phone number]</span></span></li>
-        <li>${I('mail')}<span data-contact="email"><span class="placeholder-note">[Email address]</span></span></li>
+        <li>${I('phone')}<span data-contact="phone"><a href="tel:+13068804560">+1 (306) 880-4560</a></span></li>
+        <li>${I('mail')}<span data-contact="email"><a href="mailto:etualiu@yahoo.com">etualiu@yahoo.com</a></span></li>
         <li>${I('clock')}<span data-contact="hours-short"><span class="placeholder-note">[Business hours]</span></span></li>
-        <li>${I('pin')}<span>Serving communities across Canada · Postal Code S7V 1R9</span></li>
+        <li>${I('pin')}<span>231 Flynn Bend, Saskatoon, Saskatchewan S7V 1R9</span></li>
       </ul>
     </div>
   </div>
