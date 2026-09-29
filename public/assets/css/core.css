@@ -165,7 +165,7 @@ p { margin: 0 0 1em; text-wrap: pretty; }
 .form-alert { padding: .85rem 1rem; border-radius: var(--r-sm); background: var(--red-tint); color: #7D1021; font-size: .95rem; border: 1px solid #F0C6CD; }
 .form-alert.ok { background: var(--ok-tint); color: var(--ok); border-color: #BFE0CC; }
 .form-alert:empty { display: none; }
-.form-alert:not(:empty) { animation: alertIn .35s var(--ease); }
+.form-alert:not(:empty) { margin-bottom: 1.4rem; animation: alertIn .35s var(--ease); }
 @keyframes alertIn {
   0% { opacity: 0; transform: translateY(-6px) scale(.98); }
   60% { transform: translateX(-4px); }
@@ -255,10 +255,48 @@ legend { padding: 0; font-weight: 680; font-stretch: 106%; font-size: 1.02rem; m
 @keyframes pop { from { opacity: 0; transform: translateY(10px) scale(.98); } }
 
 /* ─── Misc ─────────────────────────────────────────────────────────────── */
-.spinner { width: 28px; height: 28px; border-radius: 50%; border: 3px solid var(--line); border-top-color: var(--ink); animation: spin .8s linear infinite; }
+.spinner { width: 28px; height: 28px; border-radius: 50%; border: 3px solid var(--line); border-top-color: var(--red); animation: spin .8s linear infinite; }
 .loading { display: grid; place-items: center; padding: 3rem 1rem; }
-.skeleton { background: linear-gradient(90deg, var(--line-2) 0%, #F7F9FA 50%, var(--line-2) 100%); background-size: 200% 100%; animation: shimmer 1.3s infinite; border-radius: var(--r); }
+.skeleton { background: linear-gradient(90deg, var(--line-2) 0%, #F7F9FA 50%, var(--line-2) 100%); background-size: 200% 100%; animation: shimmer 1.3s ease-in-out infinite; border-radius: var(--r); }
 @keyframes shimmer { to { background-position: -200% 0; } }
+
+/* Content-shaped skeletons (rendered by the page builder's {{skeleton:…}} tokens) */
+.sk-wrap { animation: skIn .3s var(--ease) both; }
+@keyframes skIn { from { opacity: 0; } }
+.sk-card { display: flex; flex-direction: column; border: 1px solid var(--line-2); border-radius: var(--r-lg); overflow: hidden; background: #fff; }
+.sk-media { aspect-ratio: 16 / 10; border-radius: 0; }
+.sk-body { position: relative; padding: 1.7rem 1.5rem 1.5rem; display: grid; gap: .6rem; }
+.sk-icon { position: absolute; top: -24px; left: 1.5rem; width: 48px; height: 48px; border-radius: 12px; box-shadow: 0 0 0 4px #fff; }
+.sk-line { height: .8rem; border-radius: 6px; width: 100%; }
+.sk-line.tall { height: 1.2rem; margin: .3rem 0 .2rem; }
+.sk-line.w80 { width: 80%; } .sk-line.w60 { width: 60%; } .sk-line.w40 { width: 40%; }
+.sk-form { display: grid; gap: 1.2rem; }
+.sk-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem 1.1rem; }
+.sk-grid.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.sk-field { display: grid; gap: .45rem; }
+.sk-input { height: 48px; border-radius: var(--r-sm); }
+.sk-input.tall { height: 120px; }
+.sk-btn { width: 200px; height: 50px; border-radius: var(--r-sm); }
+.sk-ticket { border-radius: var(--r-lg); overflow: hidden; background: #fff; border: 1px solid var(--line-2); }
+.sk-ticket-head { height: 70px; background: var(--ink); }
+.sk-tiles .tile { background: rgba(255, 255, 255, .08); border-color: rgba(255, 255, 255, .1); animation: tilePulse 1.4s ease-in-out infinite; }
+.sk-tiles .tile:nth-child(odd) { animation-delay: .2s; }
+@keyframes tilePulse { 50% { opacity: .45; } }
+@media (max-width: 640px) { .sk-grid, .sk-grid.three { grid-template-columns: 1fr; } .sk-card:nth-child(n+2) { display: none; } }
+
+/* Branded loader: a truck driving along a dashed road */
+.loader { display: grid; justify-items: center; gap: 1rem; padding: clamp(3rem, 8vw, 5rem) 1rem; color: var(--muted); font-weight: 560; }
+.loader p { margin: 0; }
+.loader-road { position: relative; width: 180px; height: 44px; overflow: hidden; }
+.loader-road::after {
+  content: ''; position: absolute; left: 0; right: 0; bottom: 4px; height: 3px;
+  background: repeating-linear-gradient(90deg, var(--line) 0 14px, transparent 14px 24px);
+  animation: road .6s linear infinite;
+}
+.loader-truck { position: absolute; left: 50%; bottom: 8px; width: 38px; height: 38px; margin-left: -19px; color: var(--red); stroke-width: 1.9; animation: bump .6s ease-in-out infinite; }
+@keyframes road { to { background-position: -24px 0; } }
+@keyframes bump { 50% { transform: translateY(-2px); } }
+
 .empty { text-align: center; padding: 3rem 1.5rem; color: var(--muted); }
 .empty .i { width: 40px; height: 40px; margin: 0 auto .8rem; color: var(--faint); }
 .empty h3 { color: var(--ink); font-size: 1.15rem; }

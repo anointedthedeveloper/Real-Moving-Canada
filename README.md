@@ -32,6 +32,9 @@ public/                  ← the BUILT, servable website
   about/, services/, service-areas/, pricing/, reviews/, contact/, quote/
                             one directory + index.html per route (clean URLs,
                             no .html extensions)
+  services/<slug>/index.html
+                            one detail page per service (e.g. /services/local-moving),
+                            generated from FALLBACK_SERVICES in assets/js/core/data.js
   404.html                  served for any unmatched route
   assets/css/                core.css (design tokens/components), site.css (site)
   assets/js/                  core/ (api client, UI helpers, reference data,
@@ -54,7 +57,24 @@ server.js                  zero-dependency static file server (see above)
 ```
 
 To change a page's content, edit the matching file in `web-sources/pages/`
-and run `npm run build:pages`. Assets under `public/assets/` are edited
+and run `npm run build:pages`. To change a service (its text, "what's
+included", "ideal for" lists or photo) or the business phone/email/address,
+edit `public/assets/js/core/data.js` and rebuild — the header, footer, mega
+menu and every `/services/<slug>` page are generated from it.
+
+Page sources can use a few build tokens: `{{icon:name}}`, `{{phone}}`,
+`{{email}}`, `{{skeleton:cards:3}}` / `{{skeleton:form}}` /
+`{{skeleton:estimate}}` / `{{skeleton:tiles}}` (loading placeholders shaped
+like the content that replaces them) and `{{loader:Text…}}` (branded loader).
+
+### Card grids never leave a gap
+
+Card lists (services, reviews, provinces) use `fillGrid()` from
+`assets/js/components/cards.js`. Grids are 3 columns on desktop, 2 on tablets
+and 1 on phones; when the number of items doesn't fill the last row, a
+call-to-action card is added that spans exactly the empty slots at each
+breakpoint (7 items in a 3-column grid → a CTA spanning 2 columns), and is
+hidden wherever the row is already full. Assets under `public/assets/` are edited
 directly — they aren't templated by the build script.
 
 ## How pages fetch data

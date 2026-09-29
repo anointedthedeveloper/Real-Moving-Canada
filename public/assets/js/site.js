@@ -29,20 +29,41 @@ function setMenu(open) {
   toggle.setAttribute('aria-expanded', String(open));
   toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
   toggle.innerHTML = icon(open ? 'x' : 'menu');
+  if (!open) setMega(false);
 }
 toggle?.addEventListener('click', () => setMenu(!nav.classList.contains('open')));
 nav?.addEventListener('click', (e) => { if (e.target.closest('a')) setMenu(false); });
-addEventListener('keydown', (e) => { if (e.key === 'Escape' && nav?.classList.contains('open')) { setMenu(false); toggle.focus(); } });
 
-// Current page in navigation — compare by filename so this works whether
-// the page was reached via a clean server route ("/about") or a relative
-// file link ("about.html" / "../about.html", e.g. when opened from disk).
-const pageKey = (p) => {
-  const last = p.split('#')[0].split('?')[0].replace(/\/+$/, '').split('/').pop() || 'index';
-  return last.replace(/\.html$/, '') || 'index';
+// Services mega menu: opens on hover/focus on desktop (CSS), and via the chevron button everywhere.
+const mega = $('.has-mega');
+const megaBtn = $('.mega-toggle');
+function setMega(open) {
+  if (!mega) return;
+  mega.classList.toggle('open', open);
+  megaBtn.setAttribute('aria-expanded', String(open));
+}
+megaBtn?.addEventListener('click', (e) => { e.stopPropagation(); setMega(!mega.classList.contains('open')); });
+document.addEventListener('click', (e) => { if (mega?.classList.contains('open') && !mega.contains(e.target)) setMega(false); });
+mega?.addEventListener('focusout', (e) => { if (!nav.classList.contains('open') && !mega.contains(e.relatedTarget)) setMega(false); });
+
+addEventListener('keydown', (e) => {
+  if (e.key !== 'Escape') return;
+  if (mega?.classList.contains('open')) { setMega(false); megaBtn.focus(); return; }
+  if (nav?.classList.contains('open')) { setMenu(false); toggle.focus(); }
+});
+
+// Current section in navigation — compare the first path segment, so nested
+// pages ("/services/local-moving") highlight their parent ("Services"). Also
+// works for relative file links ("about.html") when opened from disk.
+const section = (p) => {
+  const first = p.split('#')[0].split('?')[0].split('/').filter(Boolean)[0] || 'index';
+  return first.replace(/\.html$/, '') || 'index';
 };
-const here = pageKey(location.pathname);
-$$('#site-nav > a').forEach((a) => { if (pageKey(a.getAttribute('href')) === here) a.setAttribute('aria-current', 'page'); });
+const here = section(location.pathname) === 'home' ? 'index' : section(location.pathname);
+$$('#site-nav .nav-link').forEach((a) => {
+  if (section(a.getAttribute('href')) !== here) return;
+  a.setAttribute('aria-current', location.pathname.replace(/\/+$/, '') === a.getAttribute('href').replace(/\/+$/, '') ? 'page' : 'true');
+});
 
 // Year
 $$('[data-year]').forEach((el) => { el.textContent = new Date().getFullYear(); });

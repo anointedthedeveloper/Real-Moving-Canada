@@ -91,13 +91,45 @@ export function showErrors(form, fields = {}, message) {
   if (first) { first.focus?.({ preventScroll: true }); first.scrollIntoView?.({ behavior: 'smooth', block: 'center' }); }
 }
 
-/** Wire a form: busy state, API errors mapped to fields, success callback. */
+/** Friendly message for a field that fails the browser's built-in constraint checks. */
+function validityMessage(el) {
+  const v = el.validity;
+  if (v.valueMissing) return el.tagName === 'SELECT' ? 'Please choose an option.' : 'This field is required.';
+  if (v.typeMismatch && el.type === 'email') return 'Enter a valid email address, like name@example.com.';
+  if (v.tooShort) return `Please enter at least ${el.minLength} characters (currently ${el.value.trim().length}).`;
+  if (v.rangeUnderflow && el.type === 'date') return 'Choose today or a later date.';
+  return el.validationMessage || 'Please check this field.';
+}
+
+/** Client-side check of required/email/length rules (forms use novalidate so errors render inline). */
+export function validateForm(form) {
+  const fields = {};
+  for (const el of form.elements) {
+    if (!el.name || el.disabled || el.closest('[hidden]') || !el.willValidate) continue;
+    // Whitespace-only answers count as empty.
+    if (el.required && !['radio', 'checkbox', 'select-one'].includes(el.type) && !el.value.trim()) el.value = '';
+    if (!el.checkValidity() && !(el.name in fields)) fields[el.name] = validityMessage(el);
+  }
+  return fields;
+}
+
+/** Wire a form: client validation, busy state, API errors mapped to fields, success callback. */
 export function handleForm(form, submit, { onSuccess } = {}) {
+  // Clear a field's error as soon as the visitor fixes it.
+  form.addEventListener('input', (e) => {
+    const field = e.target.closest?.('.field, [data-field]');
+    if (!field?.classList.contains('has-error')) return;
+    field.classList.remove('has-error');
+    field.querySelector('.field-error')?.remove();
+    e.target.removeAttribute('aria-invalid');
+  });
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     const btn = form.querySelector('[type=submit]');
     if (btn?.getAttribute('aria-busy') === 'true') return;
     clearErrors(form);
+    const invalid = validateForm(form);
+    if (Object.keys(invalid).length) { showErrors(form, invalid, 'Please fix the highlighted fields and try again.'); return; }
     btn?.setAttribute('aria-busy', 'true');
     try {
       const result = await submit(formToObject(form), form);
@@ -126,8 +158,8 @@ export function fillForm(form, data, prefix = '') {
 
 /** Photos degrade to a branded panel when they can't load. */
 export function imageFallbacks(root = document) {
-  $$('.media img', root).forEach((img) => {
-    const fail = () => img.closest('.media')?.classList.add('img-failed');
+  $$('.media img, .carousel-slide img', root).forEach((img) => {
+    const fail = () => img.closest('.media, .carousel-slide')?.classList.add('img-failed');
     if (img.complete && img.naturalWidth === 0 && img.src) fail();
     img.addEventListener('error', fail, { once: true });
   });
