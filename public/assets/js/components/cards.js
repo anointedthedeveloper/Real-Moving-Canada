@@ -3,38 +3,52 @@ import { TILE_POS } from '../core/data.js';
 
 const img = (s, cls = '') => `<div class="media ${cls}"><img src="${esc(s.imageUrl || '')}" alt="${esc(s.imageAlt || '')}" loading="lazy" decoding="async" width="1200" height="800"></div>`;
 
-export function featureCard(s) {
-  return `<article class="svc-feature reveal">
+/**
+ * Card grid that never leaves a lonely last row. Grids are 3 columns on
+ * desktop, 2 on tablets and 1 on phones; when the item count doesn't divide
+ * evenly, a call-to-action card is added that spans exactly the empty slots
+ * at each breakpoint (and is hidden where the row is already full).
+ */
+export function fillGrid(items, fill, cls = '') {
+  const n = items.length;
+  const lg = (3 - (n % 3)) % 3;
+  const md = (2 - (n % 2)) % 2;
+  const filler = lg || md ? gridFill(fill, lg, md) : '';
+  return `<div class="card-grid ${cls}">${items.join('')}${filler}</div>`;
+}
+
+function gridFill({ title, text, actions = [], variant = '' } = {}, lg, md) {
+  const btns = actions.map((a, i) => `<a class="btn ${a.cls || (i ? 'btn-outline' : 'btn-primary')}" href="${esc(a.href)}">${a.icon ? icon(a.icon) : ''}${esc(a.label)}</a>`).join('');
+  return `<aside class="grid-fill ${variant} reveal" data-lg="${lg}" data-md="${md}" style="--fill-lg:${lg || 1};--fill-md:${md || 1}">
+    <div class="grid-fill-copy"><h3>${esc(title)}</h3>${text ? `<p>${esc(text)}</p>` : ''}</div>
+    ${btns ? `<div class="grid-fill-actions">${btns}</div>` : ''}
+  </aside>`;
+}
+
+/** Filler used after lists of services: nudges visitors who haven't found their exact need. */
+export const SERVICE_FILL = {
+  title: 'Need something that isn’t listed?',
+  text: 'Every move is different. Tell us what you need and we’ll put together a plan and a price.',
+  actions: [{ label: 'Get a Quote', href: '/quote' }, { label: 'Ask a question', href: '/contact' }],
+};
+
+/** A single service, linking to its own detail page. */
+export function serviceCard(s) {
+  return `<a class="svc-card reveal" href="/services/${esc(s.slug)}">
     ${img(s)}
     <div class="body">
+      <span class="thumb-icon">${icon(s.icon || 'box')}</span>
       <h3>${esc(s.name)}</h3>
-      <p class="muted">${esc(s.summary)}</p>
-      <ul>${(s.highlights || []).slice(0, 3).map((h) => `<li>${icon('check')}${esc(h)}</li>`).join('')}</ul>
-      <a class="link" href="/services#${esc(s.slug)}">Learn more<span class="sr-only"> about ${esc(s.name)}</span></a>
+      <p>${esc(s.summary)}</p>
+      <span class="more">View details ${icon('arrow-right')}</span>
     </div>
-  </article>`;
-}
-
-export function compactCard(s) {
-  return `<a class="svc-card" href="/services#${esc(s.slug)}">
-    <div class="thumb-wrap">${img(s, 'thumb')}<span class="thumb-icon">${icon(s.icon || 'box')}</span></div>
-    <h3>${esc(s.name)}</h3>
-    <p>${esc(s.summary)}</p>
-    <span class="more">Learn more ${icon('arrow-right')}</span>
   </a>`;
-}
-
-export function servicesBlock(list) {
-  const featured = list.filter((s) => s.isFeatured).slice(0, 2);
-  const rest = list.filter((s) => !featured.includes(s));
-  return `${featured.length ? `<div class="svc-features">${featured.map(featureCard).join('')}</div>` : ''}
-    <div class="svc-grid reveal">${rest.map(compactCard).join('')}</div>`;
 }
 
 /** Homepage teaser: one card per top-level service category, linking into its section on /services. */
 export function categoryGrid(categories) {
-  return `<div class="svc-cat-grid">${categories.map((c) => `
-    <a class="svc-cat-card reveal" href="/services#${esc(c.slug)}">
+  return fillGrid(categories.map((c) => `
+    <a class="svc-card reveal" href="/services#${esc(c.slug)}">
       ${img(c)}
       <div class="body">
         <span class="thumb-icon">${icon(c.icon || 'box')}</span>
@@ -42,7 +56,11 @@ export function categoryGrid(categories) {
         <p>${esc(c.summary)}</p>
         <span class="more">Explore ${icon('arrow-right')}</span>
       </div>
-    </a>`).join('')}</div>`;
+    </a>`), {
+    title: 'Not sure where to start?',
+    text: 'See every service in one place, or get a price range for your move in seconds.',
+    actions: [{ label: 'View all services', href: '/services', cls: 'btn-primary' }, { label: 'Instant estimate', href: '/pricing#estimate' }],
+  });
 }
 
 export function tileMap(provinces, { light = false, hrefBase = '/service-areas' } = {}) {
@@ -55,7 +73,7 @@ export function tileMap(provinces, { light = false, hrefBase = '/service-areas' 
 }
 
 export function reviewCard(r) {
-  return `<article class="review-card">
+  return `<article class="review-card reveal">
     ${stars(r.rating)}
     ${r.title ? `<h3>${esc(r.title)}</h3>` : ''}
     <blockquote>${esc(r.body).replace(/\n/g, '<br>')}</blockquote>
@@ -63,6 +81,13 @@ export function reviewCard(r) {
       <div><strong>${esc(r.displayName)}</strong><div class="tiny muted">${fmtDate(r.date)}</div></div></footer>
   </article>`;
 }
+
+/** Review cards in a filled grid — the spare slot invites the visitor to leave their own review. */
+export const reviewGrid = (reviews) => fillGrid(reviews.map(reviewCard), {
+  title: 'Moved with us?',
+  text: 'Tell other families and businesses how your move went.',
+  actions: [{ label: 'Share your experience', href: '/reviews#write', cls: 'btn-dark' }],
+});
 
 export function reviewInvite() {
   return `<div class="review-invite">

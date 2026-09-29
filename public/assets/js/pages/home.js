@@ -3,7 +3,7 @@ import { loadOptions, optionTags } from '../core/options.js';
 import { loadAreas, loadReviews } from '../core/catalog.js';
 import { PROVINCES, SERVICE_CATEGORIES } from '../core/data.js';
 import { mountEstimate, applyRoute } from '../components/estimate.js';
-import { categoryGrid, tileMap, reviewCard, reviewInvite } from '../components/cards.js';
+import { categoryGrid, tileMap, reviewGrid, reviewInvite } from '../components/cards.js';
 import { initCarousels } from '../components/carousel.js';
 import { observeReveals } from '../site.js';
 
@@ -29,12 +29,15 @@ ticket.addEventListener('submit', async (e) => {
 });
 
 $('[data-services]').innerHTML = categoryGrid(SERVICE_CATEGORIES);
+$('[data-services]').removeAttribute('aria-busy');
 imageFallbacks($('[data-services]'));
 observeReveals();
 
-loadAreas().then((areas) => { $('[data-tile-map]').innerHTML = tileMap(areas.length === 13 ? areas : PROVINCES.map((p) => ({ ...p, isActive: areas.some((a) => a.code === p.code) }))); });
+loadAreas().then((areas) => { $('[data-tile-map]').removeAttribute('aria-busy'); $('[data-tile-map]').innerHTML = tileMap(areas.length === 13 ? areas : PROVINCES.map((p) => ({ ...p, isActive: areas.some((a) => a.code === p.code) }))); });
 
 loadReviews(1, 3).then((data) => {
   const el = $('[data-reviews]');
-  el.innerHTML = data.reviews.length ? `<div class="review-grid">${data.reviews.map(reviewCard).join('')}</div>` : reviewInvite();
+  el.innerHTML = data.reviews.length ? reviewGrid(data.reviews) : reviewInvite();
+  el.removeAttribute('aria-busy');
+  observeReveals(el);
 });

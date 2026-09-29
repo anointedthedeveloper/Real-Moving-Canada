@@ -10,6 +10,7 @@
  * any static file server that resolves a directory request to its
  * index.html (this repo's own server.js, Netlify, Vercel, GitHub Pages,
  * nginx, `npx serve`) handles it natively, including on a hard refresh.
+ * Every service in core/data.js also gets its own page at /services/<slug>.
  * The homepage is written twice — to / and to /home — since both are valid
  * entry points. 404.html stays at the server root, which is the convention
  * static hosts look for.
@@ -19,6 +20,7 @@
  */
 const fs = require('node:fs');
 const path = require('node:path');
+const { pathToFileURL } = require('node:url');
 
 const ROOT = path.join(__dirname, '..');
 const SRC = path.join(ROOT, 'pages');
@@ -75,23 +77,53 @@ const I = (name, cls = 'i') => `<svg class="${cls}" aria-hidden="true" focusable
 // ─── Shared partials ──────────────────────────────────────────────────────
 // All hrefs/srcs below are root-absolute clean routes ("/quote", "/assets/…"),
 // which resolve correctly no matter how deep the current page's own URL is.
+const telHref = () => `tel:${DATA.PHONE_TEL}`;
+
+/** "Services" mega menu: one column per category, plus a CTA tile so the 3×2 grid is always full. */
+const megaMenu = () => `<div class="mega" id="mega-services">
+        <div class="wrap mega-grid">
+          ${DATA.SERVICE_CATEGORIES.map((c) => {
+            const list = DATA.FALLBACK_SERVICES.filter((s) => s.category === c.slug);
+            const links = list.length > 1 || list[0]?.slug !== c.slug ? list : [];
+            return `<div class="mega-col">
+            <a class="mega-cat" href="/services#${c.slug}">${I(c.icon)}<span>${c.name}</span></a>
+            ${links.length ? `<ul>${links.map((s) => `<li><a href="/services/${s.slug}">${s.name}</a></li>`).join('')}</ul>` : `<p>${c.summary}</p><a class="mega-more" href="/services/${list[0]?.slug || ''}">Learn more ${I('arrow-right')}</a>`}
+          </div>`;
+          }).join('\n          ')}
+          <div class="mega-cta">
+            <strong>Not sure what you need?</strong>
+            <p>Get a price range in seconds, or talk to our team.</p>
+            <a class="btn btn-primary btn-sm" href="/quote">Get a Quote</a>
+            <a class="mega-phone" href="${telHref()}">${I('phone')}${DATA.PHONE}</a>
+          </div>
+        </div>
+      </div>`;
+
 const header = () => `<a class="skip-link" href="#main">Skip to content</a>
 <header class="site-header">
   <div class="wrap header-inner">
     <a class="brand" href="/" aria-label="RealMovingCanada — home"><img src="/assets/img/logo.svg" alt="RealMovingCanada" width="329" height="44" data-logo></a>
     <nav class="nav" id="site-nav" aria-label="Main">
-      <a href="/">Home</a>
-      <a href="/services">Services</a>
-      <a href="/service-areas">Service Areas</a>
-      <a href="/pricing">Pricing</a>
-      <a href="/reviews">Reviews</a>
-      <a href="/about">About</a>
-      <a href="/contact">Contact</a>
+      <a class="nav-link" href="/" style="--i:1">Home</a>
+      <div class="nav-item has-mega" style="--i:2">
+        <a class="nav-link" href="/services">Services</a>
+        <button class="mega-toggle" type="button" aria-expanded="false" aria-controls="mega-services" aria-label="Show all services">${I('chevron-down')}</button>
+      ${megaMenu()}
+      </div>
+      <a class="nav-link" href="/service-areas" style="--i:3">Service Areas</a>
+      <a class="nav-link" href="/pricing" style="--i:4">Pricing</a>
+      <a class="nav-link" href="/reviews" style="--i:5">Reviews</a>
+      <a class="nav-link" href="/about" style="--i:6">About</a>
+      <a class="nav-link" href="/contact" style="--i:7">Contact</a>
       <div class="nav-mobile-cta">
-        <a class="btn btn-primary" href="/quote">Get a Quote</a>
+        <a class="btn btn-primary btn-lg" href="/quote">Get a Quote</a>
+        <a class="btn btn-outline btn-lg" href="${telHref()}">${I('phone')}Call ${DATA.PHONE}</a>
+        <p class="nav-mobile-meta">${I('mail')}<a href="mailto:${DATA.EMAIL}">${DATA.EMAIL}</a></p>
+        <p class="nav-mobile-meta">${I('pin')}<span>${DATA.ADDRESS.city}, ${DATA.ADDRESS.province}</span></p>
       </div>
     </nav>
     <div class="header-actions">
+      <a class="header-phone" href="${telHref()}">${I('phone')}<span><small>Call us</small>${DATA.PHONE}</span></a>
       <a class="btn btn-primary btn-sm btn-quote" href="/quote">Get a Quote</a>
       <button class="icon-btn menu-toggle" type="button" aria-controls="site-nav" aria-expanded="false" aria-label="Open menu">${I('menu')}</button>
     </div>
@@ -108,11 +140,12 @@ const footer = () => `<footer class="site-footer">
     <div>
       <h2>Services</h2>
       <ul>
-        <li><a href="/services#residential-moving">Residential moving</a></li>
-        <li><a href="/services#packing-unpacking">Packing &amp; unpacking</a></li>
-        <li><a href="/services#specialty-moving">Specialty moving</a></li>
-        <li><a href="/services#logistics-storage">Logistics &amp; storage</a></li>
-        <li><a href="/services#junk-removal">Junk removal</a></li>
+        <li><a href="/services/local-moving">Local moving</a></li>
+        <li><a href="/services/long-distance-moving">Long-distance moving</a></li>
+        <li><a href="/services/full-service-packing">Packing &amp; unpacking</a></li>
+        <li><a href="/services/storage-solutions">Storage</a></li>
+        <li><a href="/services/junk-removal">Junk removal</a></li>
+        <li><a href="/services">All services</a></li>
       </ul>
     </div>
     <div>
@@ -137,10 +170,10 @@ const footer = () => `<footer class="site-footer">
     <div class="footer-contact-col">
       <h2>Contact</h2>
       <ul class="footer-contact">
-        <li>${I('phone')}<span data-contact="phone"><a href="tel:+13068804560">+1 (306) 880-4560</a></span></li>
-        <li>${I('mail')}<span data-contact="email"><a href="mailto:etualiu@yahoo.com">etualiu@yahoo.com</a></span></li>
+        <li>${I('phone')}<span data-contact="phone"><a href="${telHref()}">${DATA.PHONE}</a></span></li>
+        <li>${I('mail')}<span data-contact="email"><a href="mailto:${DATA.EMAIL}">${DATA.EMAIL}</a></span></li>
         <li>${I('clock')}<span data-contact="hours-short"><span class="placeholder-note">[Business hours]</span></span></li>
-        <li>${I('pin')}<span>231 Flynn Bend, Saskatoon, Saskatchewan S7V 1R9</span></li>
+        <li>${I('pin')}<span>${DATA.ADDRESS.street}<br>${DATA.ADDRESS.city}, ${DATA.ADDRESS.province} ${DATA.ADDRESS.postal}</span></li>
       </ul>
     </div>
   </div>
@@ -185,27 +218,160 @@ function outputPathFor(file, meta) {
   return `${file.replace(/\.html$/, '')}/index.html`;
 }
 
-let count = 0;
-for (const file of fs.readdirSync(SRC).filter((f) => f.endsWith('.html')).sort()) {
-  const raw = fs.readFileSync(path.join(SRC, file), 'utf8');
-  const m = raw.match(/^<!--meta\s+([\s\S]*?)-->\s*/);
-  if (!m) throw new Error(`${file}: missing <!--meta {...}--> header`);
-  const meta = JSON.parse(m[1]);
-  const body = raw.slice(m[0].length).replace(/\{\{icon:([\w-]+)(?::([\w\s-]+))?\}\}/g, (_, n, c) => I(n, c || 'i'));
-  const html = layout(meta, body);
+// ─── Loading placeholders ─────────────────────────────────────────────────
+// Page sources drop these in where JS fills content later, e.g. {{skeleton:cards:3}}.
+// They're shaped like the real content so the page doesn't jump when it arrives.
+const busy = (label, inner) => `<div class="sk-wrap" role="status" aria-label="${label}">${inner}<span class="sr-only">${label}</span></div>`;
+const skCard = () => `<div class="sk-card" aria-hidden="true"><div class="skeleton sk-media"></div><div class="sk-body"><div class="skeleton sk-icon"></div><div class="skeleton sk-line w60 tall"></div><div class="skeleton sk-line"></div><div class="skeleton sk-line w80"></div></div></div>`;
+const skField = (w = '') => `<div class="sk-field"><div class="skeleton sk-line w40"></div><div class="skeleton sk-input ${w}"></div></div>`;
+const SKELETONS = {
+  cards: (n = 3) => busy('Loading…', `<div class="card-grid">${Array.from({ length: Number(n) }, skCard).join('')}</div>`),
+  form: () => busy('Loading form…', `<div class="card card-pad sk-form" aria-hidden="true"><div class="sk-grid">${skField()}${skField()}</div>${skField('tall')}<div class="skeleton sk-btn"></div></div>`),
+  estimate: () => busy('Loading the estimate calculator…', `<div class="estimate-layout" aria-hidden="true"><div class="card card-pad sk-form">${[1, 2, 3].map(() => `<div class="sk-grid three">${skField()}${skField()}${skField()}</div>`).join('')}<div class="skeleton sk-btn"></div></div><div class="sk-ticket"><div class="sk-ticket-head"></div><div class="sk-body"><div class="skeleton sk-line w60 tall"></div><div class="skeleton sk-line"></div><div class="skeleton sk-line w80"></div><div class="skeleton sk-line w40"></div></div></div></div>`),
+  tiles: () => busy('Loading map…', `<div class="tile-map sk-tiles" aria-hidden="true">${Object.values(DATA.TILE_POS).map(([c, r]) => `<span class="tile" style="--c:${c};--r:${r}"></span>`).join('')}</div>`),
+};
+const loader = (text) => `<div class="loader" role="status"><div class="loader-road" aria-hidden="true">${I('truck', 'i loader-truck')}</div><p>${text}</p></div>`;
 
-  const outRel = outputPathFor(file, meta);
-  const out = path.join(OUT, outRel);
+function renderTokens(src) {
+  return src
+    .replace(/\{\{skeleton:(\w+)(?::(\d+))?\}\}/g, (_, kind, n) => SKELETONS[kind](n))
+    .replace(/\{\{loader:([^}]+)\}\}/g, (_, text) => loader(text))
+    .replace(/\{\{phone\}\}/g, `<a href="${telHref()}">${DATA.PHONE}</a>`)
+    .replace(/\{\{email\}\}/g, `<a href="mailto:${DATA.EMAIL}">${DATA.EMAIL}</a>`)
+    .replace(/\{\{icon:([\w-]+)(?::([\w\s-]+))?\}\}/g, (_, n, c) => I(n, c || 'i'));
+}
+
+// ─── Service detail pages (/services/<slug>) ──────────────────────────────
+const escHtml = (v) => String(v ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+function servicePage(svc, all, { serviceCard, fillGrid }) {
+  const cat = DATA.SERVICE_CATEGORIES.find((c) => c.slug === svc.category);
+  const siblings = all.filter((s) => s.category === svc.category && s.slug !== svc.slug);
+  // Always exactly three related services — same category first, then the rest in order.
+  const related = [...siblings, ...all.filter((s) => s.category !== svc.category)].slice(0, 3);
+  const i = all.indexOf(svc);
+  const prev = all[(i - 1 + all.length) % all.length];
+  const next = all[(i + 1) % all.length];
+  const paras = String(svc.description || svc.summary).split(/\n{2,}/).map((p) => `<p>${escHtml(p)}</p>`).join('');
+  const check = (list) => `<ul class="checklist">${list.map((h) => `<li>${I('check')}${escHtml(h)}</li>`).join('')}</ul>`;
+
+  const body = `<section class="page-hero svc-hero">
+  <div class="wrap svc-hero-grid">
+    <div>
+      <ol class="crumbs"><li><a href="/">Home</a></li><li><a href="/services">Services</a></li><li><a href="/services#${cat.slug}">${escHtml(cat.name)}</a></li><li aria-current="page">${escHtml(svc.name)}</li></ol>
+      <span class="hero-badge">${I(svc.icon || 'box')}${escHtml(cat.name)}</span>
+      <h1>${escHtml(svc.name)}</h1>
+      <p class="lead">${escHtml(svc.summary)}</p>
+      <div class="actions">
+        <a class="btn btn-primary btn-lg" href="/quote">Get a Free Quote</a>
+        <a class="btn btn-light btn-lg" href="${telHref()}">${I('phone')}${DATA.PHONE}</a>
+      </div>
+    </div>
+    <div class="media svc-hero-media"><img src="${escHtml(svc.imageUrl)}" alt="${escHtml(svc.imageAlt)}" width="1200" height="800" fetchpriority="high"></div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap svc-detail">
+    <div class="svc-detail-main">
+      <p class="kicker">About this service</p>
+      <h2>How we handle your ${escHtml(svc.name.toLowerCase())}</h2>
+      <div class="prose">${paras}</div>
+      <div class="svc-detail-lists">
+        <div class="detail-box"><h3>${I('check')}What’s included</h3>${check(svc.highlights || [])}</div>
+        ${svc.idealFor?.length ? `<div class="detail-box"><h3>${I('users')}Ideal for</h3>${check(svc.idealFor)}</div>` : ''}
+      </div>
+      <div class="notice"><span>${I('info')}</span><div><strong>Every move is quoted individually</strong>Your price depends on distance, the size of your move, your date and any extra services. Get an instant range on our <a class="link" href="/pricing#estimate">pricing page</a>, then a confirmed quote from our team.</div></div>
+    </div>
+    <aside class="svc-detail-side">
+      <div class="side-card">
+        <h3>Get a quote for ${escHtml(svc.name.toLowerCase())}</h3>
+        <p>Free and no-obligation. We reply within one business day.</p>
+        <a class="btn btn-primary btn-block" href="/quote">Request a Quote</a>
+        <a class="btn btn-outline btn-block" href="/pricing#estimate">Instant estimate</a>
+        <ul class="side-contact">
+          <li>${I('phone')}<a href="${telHref()}">${DATA.PHONE}</a></li>
+          <li>${I('mail')}<a href="mailto:${DATA.EMAIL}">${DATA.EMAIL}</a></li>
+          <li>${I('pin')}<span>${DATA.ADDRESS.city}, ${DATA.ADDRESS.province}</span></li>
+        </ul>
+      </div>
+      ${siblings.length ? `<nav class="side-card side-links" aria-label="More ${escHtml(cat.name)}">
+        <h3>More in ${escHtml(cat.name)}</h3>
+        <ul>${siblings.map((s) => `<li><a href="/services/${s.slug}">${I(s.icon || 'box')}<span>${escHtml(s.name)}</span>${I('arrow-right', 'i go')}</a></li>`).join('')}</ul>
+      </nav>` : ''}
+    </aside>
+  </div>
+</section>
+
+<section class="section tint">
+  <div class="wrap">
+    <div class="section-head"><p class="kicker">How it works</p><h2>From quote to moving day</h2></div>
+    <ol class="mini-steps">
+      <li class="reveal"><span class="step-no">1</span><h3>Tell us about your move</h3><p>Share your route, dates and what needs moving in a quick quote request.</p></li>
+      <li class="reveal"><span class="step-no">2</span><h3>Get a confirmed price</h3><p>We review the details and follow up by phone or email with your quote.</p></li>
+      <li class="reveal"><span class="step-no">3</span><h3>Book your date</h3><p>Pick a date and arrival window that works for you, and we confirm it in writing.</p></li>
+      <li class="reveal"><span class="step-no">4</span><h3>We handle the rest</h3><p>Our crew arrives prepared and keeps you updated until the job is done.</p></li>
+    </ol>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="section-head split">
+      <div><p class="kicker">Related services</p><h2>You might also need</h2></div>
+      <a class="btn btn-outline" href="/services">View all services</a>
+    </div>
+    ${fillGrid(related.map(serviceCard), {})}
+    <nav class="pager-nav" aria-label="Browse services">
+      <a href="/services/${prev.slug}" rel="prev">${I('arrow-right', 'i flip')}<span><small>Previous</small>${escHtml(prev.name)}</span></a>
+      <a href="/services/${next.slug}" rel="next"><span><small>Next</small>${escHtml(next.name)}</span>${I('arrow-right')}</a>
+    </nav>
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="media"><img src="https://images.unsplash.com/photo-1730154838368-c37b1fdebcf6?auto=format&fit=crop&w=2000&q=70" alt="" loading="lazy" width="2000" height="1200"></div>
+  <div class="wrap cta-inner">
+    <div><h2>Ready to book ${escHtml(svc.name.toLowerCase())}?</h2><p>Get a free, no-obligation quote and we’ll follow up with a confirmed price.</p></div>
+    <div class="actions"><a class="btn btn-primary btn-lg" href="/quote">Get a Quote</a><a class="btn btn-light btn-lg" href="/contact">Contact Us</a></div>
+  </div>
+</section>`;
+  return layout({
+    title: `${svc.name} — RealMovingCanada`,
+    description: svc.summary,
+    scripts: ['site'],
+  }, body);
+}
+
+function write(rel, html) {
+  const out = path.join(OUT, rel);
   fs.mkdirSync(path.dirname(out), { recursive: true });
   fs.writeFileSync(out, html);
-  count++;
-
-  // The homepage is also reachable at the clean "/home" route.
-  if (file === 'index.html') {
-    const homeOut = path.join(OUT, 'home', 'index.html');
-    fs.mkdirSync(path.dirname(homeOut), { recursive: true });
-    fs.writeFileSync(homeOut, html);
-    count++;
-  }
 }
-console.log(`[build] wrote ${count} pages`);
+
+let DATA;
+async function main() {
+  const jsRoot = path.join(OUT, 'assets', 'js');
+  DATA = await import(pathToFileURL(path.join(jsRoot, 'core', 'data.js')).href);
+  const cards = await import(pathToFileURL(path.join(jsRoot, 'components', 'cards.js')).href);
+
+  let count = 0;
+  for (const file of fs.readdirSync(SRC).filter((f) => f.endsWith('.html')).sort()) {
+    const raw = fs.readFileSync(path.join(SRC, file), 'utf8');
+    const m = raw.match(/^<!--meta\s+([\s\S]*?)-->\s*/);
+    if (!m) throw new Error(`${file}: missing <!--meta {...}--> header`);
+    const meta = JSON.parse(m[1]);
+    const html = layout(meta, renderTokens(raw.slice(m[0].length)));
+    write(outputPathFor(file, meta), html);
+    count++;
+    // The homepage is also reachable at the clean "/home" route.
+    if (file === 'index.html') { write(path.join('home', 'index.html'), html); count++; }
+  }
+
+  // One page per service, e.g. /services/local-moving
+  const all = DATA.FALLBACK_SERVICES;
+  for (const svc of all) { write(path.join('services', svc.slug, 'index.html'), servicePage(svc, all, cards)); count++; }
+
+  console.log(`[build] wrote ${count} pages`);
+}
+main().catch((err) => { console.error(err); process.exit(1); });

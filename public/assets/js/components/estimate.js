@@ -37,6 +37,7 @@ export async function mountEstimate(el) {
     </form>
     <aside class="ticket estimate-result" aria-live="polite" data-result>${emptyResult()}</aside>
   </div>`;
+  el.removeAttribute('aria-busy');
 
   const form = el.querySelector('form');
   const result = el.querySelector('[data-result]');
