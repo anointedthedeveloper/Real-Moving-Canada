@@ -172,7 +172,6 @@ const footer = () => `<footer class="site-footer">
       <ul class="footer-contact">
         <li>${I('phone')}<span data-contact="phone"><a href="${telHref()}">${DATA.PHONE}</a></span></li>
         <li>${I('mail')}<span data-contact="email"><a href="mailto:${DATA.EMAIL}">${DATA.EMAIL}</a></span></li>
-        <li>${I('clock')}<span data-contact="hours-short"><span class="placeholder-note">[Business hours]</span></span></li>
         <li>${I('pin')}<span>${DATA.ADDRESS.street}<br>${DATA.ADDRESS.city}, ${DATA.ADDRESS.province} ${DATA.ADDRESS.postal}</span></li>
       </ul>
     </div>
@@ -281,7 +280,7 @@ function servicePage(svc, all, { serviceCard, fillGrid }) {
         <div class="detail-box"><h3>${I('check')}What’s included</h3>${check(svc.highlights || [])}</div>
         ${svc.idealFor?.length ? `<div class="detail-box"><h3>${I('users')}Ideal for</h3>${check(svc.idealFor)}</div>` : ''}
       </div>
-      <div class="notice"><span>${I('info')}</span><div><strong>Every move is quoted individually</strong>Your price depends on distance, the size of your move, your date and any extra services. Get an instant range on our <a class="link" href="/pricing#estimate">pricing page</a>, then a confirmed quote from our team.</div></div>
+      <div class="notice">${I('info')}<div><strong>Every move is quoted individually</strong>Your price depends on distance, the size of your move, your date and any extra services. Get an instant range on our <a class="link" href="/pricing#estimate">pricing page</a>, then a confirmed quote from our team.</div></div>
     </div>
     <aside class="svc-detail-side">
       <div class="side-card">
