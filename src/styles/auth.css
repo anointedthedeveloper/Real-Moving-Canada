@@ -1,0 +1,97 @@
+/* ─── Auth (login, sign up, forgot/reset password, signed out) ──────────── */
+.auth-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); min-height: 100vh; background: var(--white); }
+.auth-layout.is-flipped { grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); }
+.auth-layout.is-flipped .auth-panel { order: 2; }
+.auth-layout.is-flipped .auth-media { order: 1; }
+.auth-panel { display: flex; flex-direction: column; padding: clamp(1rem, 2.5vw, 1.75rem) clamp(1rem, 4vw, 3rem); }
+.auth-top { display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+.auth-back { display: inline-flex; align-items: center; gap: .4rem; color: var(--red); font-weight: 600; font-size: .88rem; text-decoration: none; }
+.auth-back:hover { text-decoration: underline; }
+.auth-main { flex: 1; display: flex; flex-direction: column; justify-content: center; width: 100%; max-width: 440px; margin: 2rem auto; }
+.auth-heading h1 { font-family: var(--font-body); font-weight: 400; font-size: clamp(1.8rem, 3vw, 2.2rem); letter-spacing: -.02em; margin-bottom: .3rem; }
+.auth-heading p { margin: 0 0 1.75rem; }
+.auth-form { display: grid; gap: 1rem; }
+.auth-form .notice { margin: 0; }
+.auth-row { display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; }
+.auth-switch { margin: 1.5rem 0 0; text-align: center; font-size: .9rem; color: var(--muted); }
+.auth-note { margin: .75rem 0 0; text-align: center; font-size: .85rem; color: var(--faint); }
+.auth-foot { font-size: .8rem; color: var(--faint); }
+.auth-foot a { color: inherit; text-decoration: none; }
+.auth-foot a:hover { color: var(--ink); }
+.auth-main .success-panel { padding-inline: 0; }
+.auth-main .success-panel .actions { display: grid; width: 100%; }
+
+.auth-media { position: relative; overflow: hidden; background: var(--ink); color: var(--white); }
+.auth-media > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transform: scale(1.06); transition: opacity .8s var(--ease), transform 1.4s var(--ease); }
+.auth-media > img.is-active { opacity: 1; transform: none; }
+.auth-media::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(10,10,10,.55) 0%, rgba(10,10,10,.1) 30%, rgba(10,10,10,.45) 55%, rgba(10,10,10,.9) 100%); }
+.auth-media-top { position: absolute; z-index: 1; top: clamp(1.25rem, 3vw, 2rem); left: clamp(1.5rem, 4vw, 3rem); }
+.auth-media-copy { position: absolute; z-index: 1; left: clamp(1.5rem, 4vw, 3rem); right: clamp(1.5rem, 4vw, 3rem); bottom: clamp(1.75rem, 5vw, 3.5rem); max-width: 560px; animation: auth-rise .6s .15s var(--ease) both; }
+.auth-media-copy li { animation: auth-rise .5s var(--ease) both; }
+.auth-media-copy li:nth-child(1) { animation-delay: .3s; }
+.auth-media-copy li:nth-child(2) { animation-delay: .38s; }
+.auth-media-copy li:nth-child(3) { animation-delay: .46s; }
+.auth-media-copy h2 { color: var(--white); font-family: var(--font-body); font-weight: 300; font-size: clamp(2rem, 3.6vw, 3.1rem); line-height: 1.05; letter-spacing: -.03em; margin: 0 0 .8rem; }
+.auth-media-copy p { color: rgba(255,255,255,.85); font-size: 1.05rem; margin: 0; max-width: 46ch; }
+.auth-media-copy ul { list-style: none; margin: 1.4rem 0 0; padding: 0; display: grid; gap: .7rem; }
+.auth-media-copy li { display: flex; align-items: center; gap: .7rem; font-weight: 500; }
+.auth-media-copy li span { display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: var(--red); flex: none; }
+.auth-media-copy li .icon { width: 14px; height: 14px; stroke-width: 3; }
+@keyframes auth-fade { from { opacity: .4; } to { opacity: 1; } }
+@keyframes auth-rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+@media (max-width: 880px) {
+  .auth-layout, .auth-layout.is-flipped { grid-template-columns: 1fr; }
+  .auth-top .logo-text small { display: none; }
+  .auth-media { display: none; }
+  .auth-main { margin: 2rem auto; justify-content: flex-start; }
+}
+.auth-media { position: sticky; top: 0; height: 100vh; min-height: 560px; }
+@media (max-width: 520px) {
+  .auth-back-long { display: none; }
+}
+.auth-media-top .logo-text { text-shadow: 0 1px 8px rgba(0,0,0,.55); }
+
+/* Phones and small tablets: the photo becomes a banner behind the page headline and
+   the form sits in a card that overlaps it. */
+@media (max-width: 880px) {
+  .auth-layout, .auth-layout.is-flipped { display: flex; flex-direction: column; background: var(--paper); }
+  .auth-panel { display: contents; }
+  .auth-top { order: 1; padding: .8rem var(--gutter); background: var(--white); border-bottom: 1px solid var(--line); position: relative; z-index: 3; }
+  .auth-media { order: 2; display: block; position: relative; top: auto; height: auto; min-height: 0; padding: 2.25rem var(--gutter) 4.75rem; }
+  .auth-media::after { background: linear-gradient(180deg, rgba(10,10,10,.45) 0%, rgba(10,10,10,.8) 100%); }
+  .auth-media-top { display: none; }
+  .auth-media-copy { position: relative; inset: auto; max-width: 560px; }
+  .auth-media-copy h2 { font-size: clamp(1.7rem, 7vw, 2.3rem); }
+  .auth-media-copy p { font-size: .95rem; }
+  .auth-media-copy ul { margin-top: 1rem; gap: .45rem; font-size: .9rem; }
+  .auth-main { order: 3; position: relative; z-index: 2; width: auto; max-width: 560px; margin: -3rem var(--gutter) 0; align-self: stretch; padding: 1.5rem clamp(1.1rem, 4vw, 1.75rem) 1.75rem; background: var(--white); border-radius: 20px; box-shadow: 0 18px 40px -18px rgba(22,22,22,.35); }
+  .auth-foot { order: 4; padding: 1.5rem var(--gutter) 2rem; text-align: center; }
+}
+@media (min-width: 600px) and (max-width: 880px) {
+  .auth-main { align-self: center; width: calc(100% - 2 * var(--gutter)); }
+}
+@media (max-width: 480px) {
+  .auth-media-copy ul { display: none; }
+}
+
+/* Desktop: the photo fills the screen behind, and the white form panel slides across
+   it when switching between login (form left) and sign-up (form right). The headline
+   moves to whichever side is uncovered and fades in there. */
+@media (min-width: 881px) {
+  .auth-layout, .auth-layout.is-flipped { display: block; --panel-w: 46%; --pad: clamp(1.5rem, 4vw, 3rem); }
+  .auth-panel { width: var(--panel-w); min-height: 100vh; position: relative; z-index: 2; background: var(--white); box-shadow: 0 0 60px -20px rgba(0,0,0,.45); transform: translateX(0); transition: transform .85s cubic-bezier(.7, 0, .2, 1); }
+  .auth-layout.is-flipped .auth-panel { transform: translateX(calc(100% * (100 - 46) / 46)); }
+  .auth-media, .auth-layout.is-flipped .auth-media { position: fixed; inset: 0; width: auto; height: auto; min-height: 0; z-index: 1; }
+  .auth-media-top, .auth-media-copy { left: calc(var(--panel-w) + var(--pad)); right: var(--pad); }
+  .auth-layout.is-flipped .auth-media-top, .auth-layout.is-flipped .auth-media-copy { left: var(--pad); right: calc(var(--panel-w) + var(--pad)); }
+}
+.auth-swap { animation: auth-swap .55s var(--ease) both; }
+@keyframes auth-swap { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) {
+  .auth-panel, .auth-media, .auth-media > img { transition: none !important; }
+}
+@media (min-width: 881px) {
+  /* Keep the people in each photo on the uncovered side of the screen. */
+  .auth-media > img { object-position: 78% center; transition: opacity .8s var(--ease), transform 1.4s var(--ease), object-position .85s cubic-bezier(.7, 0, .2, 1); }
+  .auth-layout.is-flipped .auth-media > img { object-position: 22% center; }
+}

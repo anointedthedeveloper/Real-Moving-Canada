@@ -1,14 +1,14 @@
 /**
  * Post-build step: writes dist/sitemap.xml and dist/robots.txt for search engines.
  * Public pages are listed here; service pages are read from src/constants/services.js.
- * Set VITE_SITE_URL to the live domain (defaults to the Vercel deployment).
+ * Set VITE_SITE_URL to override the public domain (defaults to the production domain).
  */
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const SITE_URL = (process.env.VITE_SITE_URL || 'https://real-moving-canada-ddne.vercel.app').replace(/\/+$/, '');
+const SITE_URL = (process.env.VITE_SITE_URL || 'https://realmovingcanada.ca').replace(/\/+$/, '');
 const today = new Date().toISOString().slice(0, 10);
 
 const servicesSource = fs.readFileSync(path.join(root, 'src/constants/services.js'), 'utf8');
