@@ -1,9 +1,16 @@
+import { useEffect } from 'react';
 import Button from '../../components/common/Button.jsx';
 import Icon from '../../components/common/Icon.jsx';
 import { useDocumentTitle } from '../../hooks/useDocumentTitle.js';
 
 export default function NotFoundPage() {
   useDocumentTitle('Page not found');
+  // Keep unknown URLs out of search results (the host answers every path with the app shell).
+  useEffect(() => {
+    const meta = Object.assign(document.createElement('meta'), { name: 'robots', content: 'noindex' });
+    document.head.append(meta);
+    return () => meta.remove();
+  }, []);
   return (
     <section className="section">
       <div className="wrap not-found">

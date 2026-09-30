@@ -14,7 +14,12 @@ npm run build     # production build into dist/
 npm start         # serves dist/ at http://localhost:3000 (zero-dependency Node server)
 ```
 
-`server.js` serves real files from `dist/` and answers every other path with
+**Vercel** — `vercel.json` builds with Vite into `dist/`, rewrites every page URL to
+`index.html` (so a refresh on any route works and unknown URLs show the app's 404
+page), and caches the hashed files in `/assets/` for a year while always
+revalidating `index.html`, so a new deploy shows up on the next reload.
+
+`server.js` (for running the build yourself) serves real files from `dist/` and answers every other path with
 `index.html`, so a hard refresh on any route (e.g. `/services/storage`,
 `/dashboard/quotes`) works and unknown URLs show the app's own 404 page. Any static
 host works the same way once it is configured to fall back to `index.html`
@@ -71,6 +76,10 @@ Until accounts exist, `/dashboard` is viewable as a labelled preview. Set
   `<ScrollToTop />`) opens every new route at the top, scrolls to `#hash` targets,
   restores the previous position on browser back/forward, and ignores query-string
   changes such as tabs.
+- **Loading** — `index.html` contains a lightweight page frame that shows instantly on
+  a full reload; while a page's code downloads, a skeleton shaped like that page is
+  shown (`components/common/PageSkeleton.jsx`). Common pages are prefetched when the
+  browser is idle (`hooks/usePrefetchRoutes.js`).
 - **Old URLs** — `/home` redirects to `/`, and the previous `/services/<slug>` pages
   redirect to the closest service in the new catalogue.
 - **Legacy site** — the previous static site is still in `public/` and

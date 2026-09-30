@@ -1,12 +1,12 @@
 /* ─── Customer portal shell ─────────────────────────────────────────────── */
-.portal { --side-w: 248px; min-height: 100vh; background: var(--paper); }
+.portal { --side-w: 264px; min-height: 100vh; background: var(--paper); }
 .portal-side {
   position: fixed; inset: 0 auto 0 0; width: var(--side-w); z-index: 30;
   display: flex; flex-direction: column; background: var(--ink); color: #CFCAC4; overflow-y: auto;
 }
 .side-brand { padding: 1.4rem 1.1rem 1.2rem; }
-.side-brand .logo img { width: 46px; height: 46px; }
-.side-brand .logo-text strong { font-size: .98rem; }
+.side-brand .logo img { width: 50px; height: 50px; }
+.side-brand .logo-text strong { font-size: .9rem; }
 .side-nav { padding: 0 .85rem; }
 .side-nav ul { list-style: none; margin: 0; padding: 0; display: grid; gap: .2rem; }
 .side-link {

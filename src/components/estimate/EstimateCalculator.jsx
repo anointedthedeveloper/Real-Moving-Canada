@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import Button from '../common/Button.jsx';
 import Icon from '../common/Icon.jsx';
 import TextField from '../forms/TextField.jsx';
@@ -33,14 +33,29 @@ const schema = {
   moveDate: [required('Choose a moving date.'), notBefore(todayIso())],
 };
 
+/** Applies a route from the homepage ticket (?from=SK&to=AB&size=two_bed) over any saved draft. */
+function withRoute(values, params) {
+  const from = params.get('from');
+  const to = params.get('to');
+  const size = params.get('size');
+  if (!from && !to && !size) return values;
+  return {
+    ...values,
+    origin: from ? { province: from, city: values.origin.province === from ? values.origin.city : '' } : values.origin,
+    destination: to ? { province: to, city: values.destination.province === to ? values.destination.city : '' } : values.destination,
+    propertySize: size || values.propertySize,
+  };
+}
+
 /**
  * Instant estimate (from the original /pricing page). The price range is
  * calculated server-side; when that service isn't reachable the result panel
  * says so and offers a quote request instead of showing a made-up number.
  */
 export default function EstimateCalculator() {
+  const [params] = useSearchParams();
   const saved = session.get(STORAGE_KEYS.estimateDraft);
-  const form = useForm({ initialValues: { ...EMPTY, ...saved }, schema });
+  const form = useForm({ initialValues: withRoute({ ...EMPTY, ...saved }, params), schema });
   const [result, setResult] = useState(null);
   const resultRef = useRef(null);
 
