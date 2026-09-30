@@ -6,7 +6,9 @@
 }
 .side-brand { padding: 1.4rem 1.1rem 1.2rem; }
 .side-brand .logo img { width: 50px; height: 50px; }
-.side-brand .logo-text strong { font-size: .9rem; }
+.side-brand .logo { gap: .6rem; }
+.side-brand .logo-text strong { font-size: .8rem; letter-spacing: 0; }
+.side-brand .logo-text small { font-size: .7rem; }
 .side-nav { padding: 0 .85rem; }
 .side-nav ul { list-style: none; margin: 0; padding: 0; display: grid; gap: .2rem; }
 .side-link {
