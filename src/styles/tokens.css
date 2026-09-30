@@ -34,12 +34,12 @@
   --shadow-2: 0 10px 30px -14px rgba(22, 22, 22, .25), 0 2px 6px rgba(22, 22, 22, .05);
   --shadow-3: 0 30px 60px -24px rgba(22, 22, 22, .4);
 
-  --wrap: 1296px;
-  --gutter: clamp(1rem, 4vw, 2.5rem);
-  --section: clamp(3.5rem, 7vw, 6rem);
-  --header-h: 88px;
+  --wrap: 1440px;
+  --gutter: clamp(1rem, 3vw, 2rem);
+  --section: clamp(2.75rem, 5.5vw, 4.75rem);
+  --header-h: 80px;
   --ease: cubic-bezier(.2, .7, .2, 1);
 }
 @media (max-width: 960px) {
-  :root { --header-h: 68px; }
+  :root { --header-h: 66px; }
 }

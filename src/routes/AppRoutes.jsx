@@ -5,7 +5,7 @@ import AuthLayout from '../layouts/AuthLayout.jsx';
 import QuoteLayout from '../layouts/QuoteLayout.jsx';
 import DashboardLayout from '../layouts/DashboardLayout.jsx';
 import RequireAuth from './RequireAuth.jsx';
-import Spinner from '../components/common/Spinner.jsx';
+import PageSkeleton from '../components/common/PageSkeleton.jsx';
 import HomePage from '../pages/public/HomePage.jsx';
 import NotFoundPage from '../pages/public/NotFoundPage.jsx';
 
@@ -35,14 +35,17 @@ const MessagesPage = lazy(() => import('../pages/dashboard/MessagesPage.jsx'));
 const ProfilePage = lazy(() => import('../pages/dashboard/ProfilePage.jsx'));
 const SettingsPage = lazy(() => import('../pages/dashboard/SettingsPage.jsx'));
 
-const PageFallback = () => (
-  <div className="page-loading"><Spinner size={28} label="Loading page…" /></div>
+/**
+ * Wraps a lazily loaded page so only the page area shows a skeleton of the
+ * page shape while its code downloads — the header, sidebar and footer stay put.
+ */
+const withSkeleton = (variant) => (Component, props) => (
+  <Suspense fallback={<PageSkeleton variant={variant} />}><Component {...props} /></Suspense>
 );
-
-/** Wraps a lazily loaded page so only the page area shows a loader, never the layout. */
-const page = (Component, props) => (
-  <Suspense fallback={<PageFallback />}><Component {...props} /></Suspense>
-);
+const page = withSkeleton('public');
+const authPage = withSkeleton('auth');
+const quotePage = withSkeleton('quote');
+const portalPage = withSkeleton('dashboard');
 
 export default function AppRoutes() {
   return (
@@ -63,30 +66,30 @@ export default function AppRoutes() {
       </Route>
 
       <Route element={<QuoteLayout />}>
-        <Route path="quote" element={page(QuotePage)} />
+        <Route path="quote" element={quotePage(QuotePage)} />
         <Route path="book" element={<Navigate to="/quote" replace />} />
       </Route>
 
       <Route element={<AuthLayout />}>
-        <Route path="login" element={page(LoginPage)} />
-        <Route path="signup" element={page(SignupPage)} />
-        <Route path="forgot-password" element={page(ForgotPasswordPage)} />
-        <Route path="reset-password" element={page(ResetPasswordPage)} />
-        <Route path="signed-out" element={page(SignedOutPage)} />
+        <Route path="login" element={authPage(LoginPage)} />
+        <Route path="signup" element={authPage(SignupPage)} />
+        <Route path="forgot-password" element={authPage(ForgotPasswordPage)} />
+        <Route path="reset-password" element={authPage(ResetPasswordPage)} />
+        <Route path="signed-out" element={authPage(SignedOutPage)} />
       </Route>
 
       <Route path="dashboard" element={<RequireAuth />}>
         <Route element={<DashboardLayout />}>
-          <Route index element={page(OverviewPage)} />
-          <Route path="moves" element={page(MovesPage)} />
-          <Route path="quotes" element={page(QuotesPage)} />
-          <Route path="bookings" element={page(BookingsPage)} />
-          <Route path="payments" element={page(PaymentsPage)} />
-          <Route path="payments/pay" element={page(MakePaymentPage)} />
-          <Route path="documents" element={page(DocumentsPage)} />
-          <Route path="messages" element={page(MessagesPage)} />
-          <Route path="profile" element={page(ProfilePage)} />
-          <Route path="settings" element={page(SettingsPage)} />
+          <Route index element={portalPage(OverviewPage)} />
+          <Route path="moves" element={portalPage(MovesPage)} />
+          <Route path="quotes" element={portalPage(QuotesPage)} />
+          <Route path="bookings" element={portalPage(BookingsPage)} />
+          <Route path="payments" element={portalPage(PaymentsPage)} />
+          <Route path="payments/pay" element={portalPage(MakePaymentPage)} />
+          <Route path="documents" element={portalPage(DocumentsPage)} />
+          <Route path="messages" element={portalPage(MessagesPage)} />
+          <Route path="profile" element={portalPage(ProfilePage)} />
+          <Route path="settings" element={portalPage(SettingsPage)} />
           <Route path="*" element={<NotFoundPage />} />
         </Route>
       </Route>

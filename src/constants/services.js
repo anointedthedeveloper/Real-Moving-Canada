@@ -3,7 +3,7 @@ import clipboardCheck from '../assets/images/clipboard-check.webp';
 import blanketWrapping from '../assets/images/blanket-wrapping.webp';
 import crewTruckLoading from '../assets/images/crew-truck-loading.webp';
 import couchInside from '../assets/images/couch-inside.webp';
-import couchDoorway from '../assets/images/couch-doorway.webp';
+import armchairRamp from '../assets/images/armchair-ramp.webp';
 import packingSupplies from '../assets/images/packing-supplies.webp';
 import hallwayBoxes from '../assets/images/hallway-boxes.webp';
 import crewAtTruck from '../assets/images/crew-at-truck.webp';
@@ -148,8 +148,8 @@ export const SERVICES = [
     includes: ['Sofas, beds and dressers', 'Fridges, washers and dryers', 'Floor and doorway protection', 'Single-item or full-move service'],
     idealFor: ['New furniture deliveries', 'Moving a few large items', 'Appliance swaps'],
     related: ['heavy-oversized-items', 'furniture-disassembly-reassembly', 'residential'],
-    image: couchDoorway,
-    imageAlt: 'Two movers carrying a plastic-wrapped couch out of a front door',
+    image: armchairRamp,
+    imageAlt: 'A mover wheeling a plastic-wrapped armchair down a truck ramp',
   },
   {
     slug: 'junk-removal',
