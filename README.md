@@ -70,6 +70,20 @@ footer, services pages and quote form are all generated from it.
 Until accounts exist, `/dashboard` can be browsed without signing in (empty states and a sign-in prompt). Set
 `VITE_REQUIRE_AUTH=true` once `/api/auth/session` works to require sign-in.
 
+## SEO
+
+- `index.html` carries the default title, description, keywords, Open Graph/Twitter
+  tags (with `static/og-image.jpg`) and `MovingCompany` structured data.
+- Each page sets its own title, description, keywords, canonical URL and social tags
+  through `useDocumentTitle()` (`src/hooks/useDocumentTitle.js`); keyword lists live in
+  `src/constants/seo.js`. Service pages add `Service` + breadcrumb data, the home and
+  pricing pages add FAQ data. Account and dashboard pages are `noindex`.
+- `npm run build` also writes `dist/sitemap.xml` and `dist/robots.txt`
+  (`scripts/generate-seo.mjs`).
+- **Set `VITE_SITE_URL`** (Vercel → Settings → Environment Variables) to the real domain
+  once there is one — canonical links, social previews and the sitemap all use it.
+  It defaults to `https://real-moving-canada-ddne.vercel.app`.
+
 ## Notes
 
 - **Scroll restoration** — `hooks/useScrollToTop.js` (mounted once via

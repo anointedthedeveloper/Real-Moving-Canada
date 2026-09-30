@@ -4,6 +4,7 @@ import SectionHeader from '../../components/common/SectionHeader.jsx';
 import Icon from '../../components/common/Icon.jsx';
 import CtaBand from '../../components/layout/CtaBand.jsx';
 import { useDocumentTitle } from '../../hooks/useDocumentTitle.js';
+import { keywordsFor } from '../../constants/seo.js';
 import heroImage from '../../assets/images/crew-at-truck.webp';
 import approachImage from '../../assets/images/packing-supplies.webp';
 
@@ -20,7 +21,9 @@ const VALUES = [
 ];
 
 export default function AboutPage() {
-  useDocumentTitle('About', 'Real Moving Canada is a Saskatoon-based moving company helping households and businesses move across Canada.');
+  useDocumentTitle('About Us — Saskatoon Movers Moving Canada Forward', 'Real Moving Canada is a Saskatoon-based moving company helping households and businesses move within their city, between provinces and across Canada — with careful work, honest estimates and clear communication.', {
+    keywords: keywordsFor('about'),
+  });
   return (
     <>
       <PageHero

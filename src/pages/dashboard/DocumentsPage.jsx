@@ -44,7 +44,7 @@ const COLUMNS = [
 ];
 
 export default function DocumentsPage() {
-  useDocumentTitle('Documents');
+  useDocumentTitle('Documents', undefined, { noindex: true });
   const { data, loading, error, reload } = useAsync(fetchDocuments);
   const [category, setCategory] = useState('all');
   const [query, setQuery] = useState('');

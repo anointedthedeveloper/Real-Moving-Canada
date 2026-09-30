@@ -12,7 +12,7 @@ import { fmtDate } from '../../utils/format.js';
 import { COMPANY } from '../../constants/company.js';
 
 export default function MessagesPage() {
-  useDocumentTitle('Messages');
+  useDocumentTitle('Messages', undefined, { noindex: true });
   const { data, loading, error, reload } = useAsync(fetchConversations);
   const [query, setQuery] = useState('');
   const [activeId, setActiveId] = useState(null);

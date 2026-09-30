@@ -11,7 +11,7 @@ import { required, minLength, matches } from '../../utils/validation.js';
 
 /** Reached from the emailed link: /reset-password?token=… */
 export default function ResetPasswordPage() {
-  useDocumentTitle('Reset password');
+  useDocumentTitle('Reset password', undefined, { noindex: true });
   const [params] = useSearchParams();
   const token = params.get('token') || '';
   const form = useForm({

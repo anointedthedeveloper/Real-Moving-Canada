@@ -24,7 +24,7 @@ const PREFS = [
 ];
 
 export default function SettingsPage() {
-  useDocumentTitle('Settings');
+  useDocumentTitle('Settings', undefined, { noindex: true });
   const { logout } = useAuth();
   const navigate = useNavigate();
   const [section, setSection] = useState('notifications');

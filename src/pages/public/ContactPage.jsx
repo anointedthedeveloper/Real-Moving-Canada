@@ -6,10 +6,14 @@ import Icon from '../../components/common/Icon.jsx';
 import ContactForm from '../../components/forms/ContactForm.jsx';
 import { COMPANY, MAP_EMBED_URL, MAP_DIRECTIONS_URL } from '../../constants/company.js';
 import { useDocumentTitle } from '../../hooks/useDocumentTitle.js';
+import { keywordsFor, businessJsonLd } from '../../constants/seo.js';
 import heroImage from '../../assets/images/clipboard-check.webp';
 
 export default function ContactPage() {
-  useDocumentTitle('Contact', 'Contact Real Moving Canada about your move. Send a message, or start a quote to share complete move details.');
+  useDocumentTitle('Contact Our Movers — Saskatoon, Saskatchewan', `Contact Real Moving Canada: call ${COMPANY.phone}, email ${COMPANY.email}, or visit ${COMPANY.address.street}, Saskatoon. Ask about your move or start a free moving quote.`, {
+    keywords: keywordsFor('contact'),
+    jsonLd: businessJsonLd(),
+  });
   const { address } = COMPANY;
   return (
     <>

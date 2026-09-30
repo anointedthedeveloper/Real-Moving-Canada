@@ -8,11 +8,16 @@ import Button from '../../components/common/Button.jsx';
 import ServiceGrid from '../../components/services/ServiceGrid.jsx';
 import { SERVICE_BY_SLUG, FEATURED_SERVICE_SLUGS } from '../../constants/services.js';
 import { useDocumentTitle } from '../../hooks/useDocumentTitle.js';
+import { keywordsFor, businessJsonLd, faqJsonLd } from '../../constants/seo.js';
+import { HOME_FAQ } from '../../components/home/HomeFaq.jsx';
 
 const featured = FEATURED_SERVICE_SLUGS.map((slug) => SERVICE_BY_SLUG[slug]);
 
 export default function HomePage() {
-  useDocumentTitle(null, 'Residential, commercial, packing, cleanout, storage and specialty moving services — planned around the details of your move.');
+  useDocumentTitle(null, 'Real Moving Canada is a Saskatoon moving company for local and long-distance moves across Canada — residential, commercial, packing, storage, cleanouts and heavy items. Get a free moving quote.', {
+    keywords: keywordsFor('home'),
+    jsonLd: [businessJsonLd(), faqJsonLd(HOME_FAQ)],
+  });
   return (
     <>
       <HomeHero />

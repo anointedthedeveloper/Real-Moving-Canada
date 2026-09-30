@@ -24,7 +24,7 @@ const FILTERS = [
 ];
 
 export default function MovesPage() {
-  useDocumentTitle('My Moves');
+  useDocumentTitle('My Moves', undefined, { noindex: true });
   const { data, loading, error, reload } = useAsync(fetchMoves);
   const [query, setQuery] = useState('');
   const [filter, setFilter] = useState('all');

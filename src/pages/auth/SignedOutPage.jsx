@@ -4,7 +4,7 @@ import { useDocumentTitle } from '../../hooks/useDocumentTitle.js';
 
 /** "Logout / Signed out" screen from the portal design. */
 export default function SignedOutPage() {
-  useDocumentTitle('Signed out');
+  useDocumentTitle('Signed out', undefined, { noindex: true });
   return (
     <SuccessPanel
       headingAs="h1" tone="neutral" icon="logout" title="You’re signed out"

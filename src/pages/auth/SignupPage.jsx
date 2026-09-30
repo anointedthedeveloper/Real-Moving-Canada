@@ -11,7 +11,7 @@ import { useAuth } from '../../context/AuthContext.jsx';
 import { required, email, minLength, matches, checked } from '../../utils/validation.js';
 
 export default function SignupPage() {
-  useDocumentTitle('Sign up');
+  useDocumentTitle('Sign up', undefined, { noindex: true });
   const { signup } = useAuth();
   const navigate = useNavigate();
   const form = useForm({

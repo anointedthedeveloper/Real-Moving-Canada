@@ -14,6 +14,7 @@ import QuoteSummary from '../../components/quote/QuoteSummary.jsx';
 import { QUOTE_STEPS, EMPTY_QUOTE, quoteSchema, STEP_FIELDS, fromEstimateDraft, QUOTE_SERVICES } from '../../components/quote/quoteModel.js';
 import { useForm } from '../../hooks/useForm.js';
 import { useDocumentTitle } from '../../hooks/useDocumentTitle.js';
+import { keywordsFor } from '../../constants/seo.js';
 import { submitQuoteRequest } from '../../services/formsService.js';
 import { local, session, STORAGE_KEYS } from '../../utils/storage.js';
 import { formatPlace, fmtDate, firstName } from '../../utils/format.js';
@@ -41,7 +42,9 @@ function initialQuote(serviceParam) {
 
 /** Get a Quote / Book a Move — five-step flow from the design. Submits through Formspree. */
 export default function QuotePage() {
-  useDocumentTitle('Get a quote', 'Request a moving quote: your details, the move, services and items, then review and submit.');
+  useDocumentTitle('Get a Free Moving Quote', 'Get a free moving quote from Real Moving Canada. Tell us your route, date, home size and the services you need — local, long-distance and cross-Canada moves.', {
+    keywords: keywordsFor('quote'),
+  });
   const [params] = useSearchParams();
   const initial = useMemo(() => initialQuote(params.get('service')), []); // eslint-disable-line react-hooks/exhaustive-deps
   const [step, setStep] = useState(initial.step);
@@ -90,7 +93,7 @@ export default function QuotePage() {
           {submitted ? (
             <Confirmation values={submitted} />
           ) : (
-            <form onSubmit={step === 3 ? submit : next} noValidate>
+            <form key={step} onSubmit={step === 3 ? submit : next} noValidate>
               <header className="quote-head">
                 <h1>{HEADINGS[step][0]}</h1>
                 <p className="muted">{HEADINGS[step][1]}</p>

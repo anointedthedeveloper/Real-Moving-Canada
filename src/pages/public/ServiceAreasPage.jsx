@@ -3,6 +3,7 @@ import Button from '../../components/common/Button.jsx';
 import { SkeletonCard } from '../../components/common/Skeleton.jsx';
 import { useAsync } from '../../hooks/useAsync.js';
 import { useDocumentTitle } from '../../hooks/useDocumentTitle.js';
+import { keywordsFor } from '../../constants/seo.js';
 import { loadServiceAreas } from '../../services/catalogService.js';
 import { PROVINCES, REGION_ORDER } from '../../constants/options.js';
 import heroImage from '../../assets/images/clipboard-check.webp';
@@ -10,7 +11,9 @@ import heroImage from '../../assets/images/clipboard-check.webp';
 const slug = (region) => region.toLowerCase().replace(/\s+/g, '-');
 
 export default function ServiceAreasPage() {
-  useDocumentTitle('Service areas', 'Real Moving Canada plans moves within and between Canada’s provinces and territories.');
+  useDocumentTitle('Service Areas — Movers Across Canada, Coast to Coast', 'Moving in Canada? Real Moving Canada plans local and long-distance moves in British Columbia, Alberta, Saskatchewan, Manitoba, Ontario, Quebec, the Atlantic provinces and the North.', {
+    keywords: keywordsFor('areas'),
+  });
   const { data: areas, loading } = useAsync(loadServiceAreas);
 
   const byCode = Object.fromEntries((areas || []).map((a) => [a.code, a]));

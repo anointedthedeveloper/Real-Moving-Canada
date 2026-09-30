@@ -14,7 +14,7 @@ export default function QuoteLayout() {
           </div>
         </div>
       </header>
-      <main id="main"><Outlet /></main>
+      <main id="main" className="page-enter"><Outlet /></main>
     </div>
   );
 }

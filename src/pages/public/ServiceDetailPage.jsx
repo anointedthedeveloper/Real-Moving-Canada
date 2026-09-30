@@ -8,12 +8,18 @@ import ServiceGrid from '../../components/services/ServiceGrid.jsx';
 import NotFoundPage from './NotFoundPage.jsx';
 import { SERVICE_BY_SLUG, LEGACY_SERVICE_REDIRECTS } from '../../constants/services.js';
 import { useDocumentTitle } from '../../hooks/useDocumentTitle.js';
+import { keywordsFor, serviceJsonLd, breadcrumbJsonLd } from '../../constants/seo.js';
 
 /** One reusable template for every service (design: "Service Detail · Reusable template"). */
 export default function ServiceDetailPage() {
   const { serviceId } = useParams();
   const service = SERVICE_BY_SLUG[serviceId];
-  useDocumentTitle(service?.title ? service.title[0].toUpperCase() + service.title.slice(1) : 'Service not found', service?.summary);
+  const pageTitle = service ? `${service.title[0].toUpperCase()}${service.title.slice(1)} in Saskatoon & Across Canada` : 'Service not found';
+  useDocumentTitle(pageTitle, service && `${service.summary} Real Moving Canada — ${service.title} in Saskatoon, Saskatchewan and across Canada. Get a free quote.`, {
+    keywords: service && keywordsFor('services', [`${service.title} Canada`, `${service.title} Saskatoon`, `${service.name.toLowerCase()} movers`, ...service.idealFor]),
+    jsonLd: service && [serviceJsonLd(service), breadcrumbJsonLd([{ name: 'Home', path: '/' }, { name: 'Services', path: '/services' }, { name: service.name, path: `/services/${service.slug}` }])],
+    image: service && typeof service.image === 'string' && service.image.startsWith('http') ? service.image : undefined,
+  });
 
   if (!service) {
     const moved = LEGACY_SERVICE_REDIRECTS[serviceId];

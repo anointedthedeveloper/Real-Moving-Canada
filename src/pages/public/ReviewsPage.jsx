@@ -8,11 +8,14 @@ import ReviewCard from '../../components/common/ReviewCard.jsx';
 import ReviewForm from '../../components/forms/ReviewForm.jsx';
 import { useAsync } from '../../hooks/useAsync.js';
 import { useDocumentTitle } from '../../hooks/useDocumentTitle.js';
+import { keywordsFor } from '../../constants/seo.js';
 import { loadReviews } from '../../services/catalogService.js';
 import heroImage from '../../assets/images/couch-inside.webp';
 
 export default function ReviewsPage() {
-  useDocumentTitle('Reviews', 'Read reviews from Real Moving Canada customers, or share your own moving experience.');
+  useDocumentTitle('Customer Reviews', 'Read reviews from Real Moving Canada customers, or share your own moving experience with our Saskatoon movers.', {
+    keywords: keywordsFor('reviews'),
+  });
   const [page, setPage] = useState(1);
   const { data, loading } = useAsync(() => loadReviews(page, 9), [page]);
   const summary = data?.summary;

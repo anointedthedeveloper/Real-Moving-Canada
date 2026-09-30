@@ -31,7 +31,7 @@ const COLUMNS = [
 ];
 
 export default function PaymentsPage() {
-  useDocumentTitle('Payments');
+  useDocumentTitle('Payments', undefined, { noindex: true });
   const { data, loading, error, reload } = useAsync(fetchPayments);
   const [tab, setTab] = useState('history');
   const records = data?.items || [];

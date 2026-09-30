@@ -16,7 +16,7 @@ import { fmtDate, formatPlace } from '../../utils/format.js';
 const ACTIVITY_ICON = { quote: 'file', booking: 'calendar', document: 'upload', payment: 'card', message: 'message' };
 
 export default function OverviewPage() {
-  useDocumentTitle('Overview');
+  useDocumentTitle('Overview', undefined, { noindex: true });
   const { user } = useAuth();
   const { data, loading, error, reload } = useAsync(fetchOverview);
   const s = data?.summary;

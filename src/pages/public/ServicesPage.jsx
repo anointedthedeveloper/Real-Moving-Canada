@@ -4,10 +4,14 @@ import CtaBand from '../../components/layout/CtaBand.jsx';
 import ServiceGrid from '../../components/services/ServiceGrid.jsx';
 import { SERVICES } from '../../constants/services.js';
 import { useDocumentTitle } from '../../hooks/useDocumentTitle.js';
+import { keywordsFor, breadcrumbJsonLd } from '../../constants/seo.js';
 import heroImage from '../../assets/images/crew-truck-loading.webp';
 
 export default function ServicesPage() {
-  useDocumentTitle('Services', 'Residential, commercial, packing, storage, cleanout, and specialty moving services.');
+  useDocumentTitle('Moving Services in Canada — Residential, Commercial & Long-Distance', 'Moving services across Canada: residential and office moves, local and long-distance moving, packing, loading, furniture and appliance moving, storage, junk removal and cleanouts.', {
+    keywords: keywordsFor('services', SERVICES.map((s) => `${s.title} Canada`)),
+    jsonLd: breadcrumbJsonLd([{ name: 'Home', path: '/' }, { name: 'Services', path: '/services' }]),
+  });
   return (
     <>
       <PageHero

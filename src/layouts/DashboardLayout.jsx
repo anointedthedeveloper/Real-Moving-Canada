@@ -105,7 +105,7 @@ export default function DashboardLayout() {
               Sign in to see your moves, quotes, bookings, payments and documents. Need help? Call <a className="link" href={`tel:${COMPANY.phoneTel}`}>{COMPANY.phone}</a>.
             </Notice>
           )}
-          <Outlet />
+          <div className="page-enter" key={pathname}><Outlet /></div>
         </main>
       </div>
 
