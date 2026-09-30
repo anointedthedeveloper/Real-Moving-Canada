@@ -62,16 +62,20 @@
   .menu-open .nav-mobile-extra { transition-delay: 330ms; }
   .nav-link::after { display: none; }
   .nav-link.is-active { padding-left: .8rem; border-left: 3px solid var(--red); border-radius: 0; }
-  .dropdown { opacity: 1; visibility: visible; transform: none; display: grid; grid-template-rows: 0fr; padding: 0 .4rem; border-color: transparent; transition: grid-template-rows .35s var(--ease), padding .35s var(--ease), margin .35s; }
-  .dropdown-inner { min-height: 0; overflow: hidden; }
-  .has-dropdown.is-open .dropdown { grid-template-rows: 1fr; padding: .4rem; border-color: var(--line); }
-  .has-dropdown:not(.is-open) .dropdown { margin-bottom: 0; }
   .nav-list { flex-direction: column; align-items: stretch; gap: 0; }
   .nav-item { border-bottom: 1px solid var(--line-2); }
   .nav-link { padding: 1rem 0; font-size: 1.1rem; width: 100%; }
   .nav-split { justify-content: space-between; }
   .dropdown-toggle { width: 44px; height: 44px; margin: 0; }
-  .dropdown { position: static; width: auto; margin: 0 0 1rem; padding: .4rem; box-shadow: none; border-radius: var(--r); background: var(--paper); }
+  /* Services list: fully collapsed (no padding, border or background showing) until opened. */
+  .dropdown {
+    position: static; width: auto; box-shadow: none; border-radius: var(--r);
+    opacity: 1; visibility: visible; transform: none; display: grid; grid-template-rows: 0fr;
+    margin: 0; padding: 0 .4rem; border-color: transparent; background: transparent;
+    transition: grid-template-rows .35s var(--ease), padding .35s var(--ease), margin .35s var(--ease), background .25s, border-color .25s;
+  }
+  .dropdown-inner { min-height: 0; overflow: hidden; }
+  .has-dropdown.is-open .dropdown { grid-template-rows: 1fr; margin-bottom: 1rem; padding: .4rem; border-color: var(--line); background: var(--paper); }
   .dropdown ul { grid-template-columns: 1fr; }
   .dropdown li a { padding: .7rem .6rem; font-size: .95rem; }
   .nav-mobile-extra { display: grid; gap: .6rem; }
