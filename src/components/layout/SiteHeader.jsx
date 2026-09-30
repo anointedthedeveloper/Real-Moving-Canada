@@ -53,9 +53,9 @@ export default function SiteHeader() {
         <Logo />
         <nav id="site-nav" className="site-nav" aria-label="Main">
           <ul className="nav-list">
-            {PRIMARY_NAV.map((item) => item.to === '/services' ? (
+            {PRIMARY_NAV.map((item, i) => item.to === '/services' ? (
               <li
-                key={item.to} ref={servicesRef}
+                key={item.to} ref={servicesRef} style={{ '--i': i }}
                 className={`nav-item has-dropdown${servicesOpen ? ' is-open' : ''}`}
                 onMouseEnter={() => !menuOpen && setServicesOpen(true)}
                 onMouseLeave={() => !menuOpen && setServicesOpen(false)}
@@ -69,21 +69,23 @@ export default function SiteHeader() {
                     <Icon name="chevron-down" />
                   </button>
                 </div>
-                <div id="services-menu" className="dropdown" hidden={!servicesOpen}>
-                  <ul>
-                    {SERVICES.map((s) => (
-                      <li key={s.slug}>
-                        <Link to={`/services/${s.slug}`}><span className="dropdown-icon"><Icon name={s.icon} /></span>{serviceLabel(s)}</Link>
-                      </li>
-                    ))}
-                  </ul>
-                  <Link to="/services" className="dropdown-all">View all services <Icon name="arrow-right" /></Link>
+                <div id="services-menu" className="dropdown" inert={!servicesOpen}>
+                  <div className="dropdown-inner">
+                    <ul>
+                      {SERVICES.map((s, n) => (
+                        <li key={s.slug} style={{ '--d': n * 18 }}>
+                          <Link to={`/services/${s.slug}`}><span className="dropdown-icon"><Icon name={s.icon} /></span>{serviceLabel(s)}</Link>
+                        </li>
+                      ))}
+                    </ul>
+                    <Link to="/services" className="dropdown-all">View all services <Icon name="arrow-right" /></Link>
+                  </div>
                 </div>
               </li>
             ) : (
-              <li key={item.to} className="nav-item"><NavLink to={item.to} end={item.end} className={navClass}>{item.label}</NavLink></li>
+              <li key={item.to} className="nav-item" style={{ '--i': i }}><NavLink to={item.to} end={item.end} className={navClass}>{item.label}</NavLink></li>
             ))}
-            <li className="nav-item"><NavLink to="/login" className={navClass}>Login</NavLink></li>
+            <li className="nav-item" style={{ '--i': PRIMARY_NAV.length }}><NavLink to="/login" className={navClass}>Login</NavLink></li>
           </ul>
           <div className="nav-mobile-extra">
             <Button to="/quote" block iconRight="arrow-right">Get a quote</Button>
@@ -97,7 +99,7 @@ export default function SiteHeader() {
             ref={toggleRef} type="button" className="icon-btn menu-toggle" aria-controls="site-nav" aria-expanded={menuOpen}
             aria-label={menuOpen ? 'Close menu' : 'Open menu'} onClick={() => setMenuOpen((o) => !o)}
           >
-            <Icon name={menuOpen ? 'x' : 'menu'} />
+            <span className="burger" aria-hidden="true"><span /><span /><span /></span>
           </button>
         </div>
       </div>
