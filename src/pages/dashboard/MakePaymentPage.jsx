@@ -32,7 +32,7 @@ const schema = {
 
 /** Provider-neutral payment form with processing, success and failure states (design: Payment States). */
 export default function MakePaymentPage() {
-  useDocumentTitle('Make a payment');
+  useDocumentTitle('Make a payment', undefined, { noindex: true });
   const [params] = useSearchParams();
   const bookingId = params.get('booking');
   const amount = null; // Filled from the booking once the portal API is connected.

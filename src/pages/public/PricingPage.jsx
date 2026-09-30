@@ -5,6 +5,7 @@ import Icon from '../../components/common/Icon.jsx';
 import Button from '../../components/common/Button.jsx';
 import EstimateCalculator from '../../components/estimate/EstimateCalculator.jsx';
 import { useDocumentTitle } from '../../hooks/useDocumentTitle.js';
+import { keywordsFor, faqJsonLd } from '../../constants/seo.js';
 import heroImage from '../../assets/images/hallway-boxes.webp';
 
 const FACTORS = [
@@ -28,7 +29,10 @@ const FAQ = [
 ];
 
 export default function PricingPage() {
-  useDocumentTitle('Pricing & estimates', 'How moving costs are calculated, and an instant estimate for your move.');
+  useDocumentTitle('Moving Costs in Canada — Instant Moving Estimate', 'How much do movers cost in Canada? See what shapes the price of your move — distance, home size, date, packing and storage — and get an instant moving estimate.', {
+    keywords: keywordsFor('pricing'),
+    jsonLd: faqJsonLd(FAQ),
+  });
   return (
     <>
       <PageHero

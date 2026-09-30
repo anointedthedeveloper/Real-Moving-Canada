@@ -8,7 +8,7 @@ import { useDocumentTitle } from '../../hooks/useDocumentTitle.js';
 /** Privacy Policy (/privacy) and Terms of Service (/terms), with an in-page contents list. */
 export default function LegalPage({ kind }) {
   const doc = kind === 'privacy' ? PRIVACY : TERMS;
-  useDocumentTitle(doc.title);
+  useDocumentTitle(doc.title, doc.intro.slice(0, 155));
   return (
     <>
       <section className="legal-hero">

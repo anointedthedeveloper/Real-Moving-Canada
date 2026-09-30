@@ -18,7 +18,7 @@ import { COMPANY } from '../../constants/company.js';
 const CHECKLIST = ['Review the confirmed schedule', 'Complete any pending documents', 'Review payment status'];
 
 export default function BookingsPage() {
-  useDocumentTitle('Bookings');
+  useDocumentTitle('Bookings', undefined, { noindex: true });
   const { data, loading, error, reload } = useAsync(fetchBookings);
   const [selectedId, setSelectedId] = useState(null);
   const [done, setDone] = useState([]);

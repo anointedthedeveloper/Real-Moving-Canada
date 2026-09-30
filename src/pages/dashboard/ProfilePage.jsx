@@ -20,7 +20,7 @@ import { fmtDate, formatPostal } from '../../utils/format.js';
 const EMPTY = { firstName: '', lastName: '', email: '', phone: '', street: '', city: '', province: '', postalCode: '', contactMethod: '' };
 
 export default function ProfilePage() {
-  useDocumentTitle('Profile');
+  useDocumentTitle('Profile', undefined, { noindex: true });
   const { user } = useAuth();
   const { data, loading, error, reload } = useAsync(fetchProfile);
   const form = useForm({

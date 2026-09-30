@@ -11,7 +11,7 @@ import { useAuth } from '../../context/AuthContext.jsx';
 import { required, email } from '../../utils/validation.js';
 
 export default function LoginPage() {
-  useDocumentTitle('Login');
+  useDocumentTitle('Login', undefined, { noindex: true });
   const { login } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();

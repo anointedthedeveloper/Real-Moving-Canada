@@ -1,0 +1,83 @@
+/* ─── Motion ────────────────────────────────────────────────────────────────
+   Page transitions, scroll reveals, hero entrance and hover micro-interactions.
+   Everything here is disabled for visitors who prefer reduced motion (base.css). */
+
+/* Page transition */
+.page-enter { animation: page-in .5s var(--ease) both; }
+@keyframes page-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+/* Scroll reveal (classes are added by useScrollReveal) */
+.reveal { opacity: 0; transform: translateY(22px); transition: opacity .7s var(--ease), transform .7s var(--ease); transition-delay: var(--reveal-delay, 0ms); }
+.reveal.is-visible { opacity: 1; transform: none; }
+
+/* Home hero entrance */
+.hero-media img { animation: hero-zoom 1.6s var(--ease) both; }
+@keyframes hero-zoom { from { transform: scale(1.08); } to { transform: none; } }
+.hero-inner > * { animation: rise-in .8s var(--ease) both; }
+.hero-inner > :nth-child(1) { animation-delay: .15s; }
+.hero-inner > :nth-child(2) { animation-delay: .25s; }
+.hero-inner > :nth-child(3) { animation-delay: .38s; }
+.hero-inner > :nth-child(4) { animation-delay: .5s; }
+.hero-inner > :nth-child(5) { animation-delay: .62s; }
+.hero .ticket { animation: ticket-in .9s .45s var(--ease) both; }
+@keyframes rise-in { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
+@keyframes ticket-in { from { opacity: 0; transform: translateY(30px) scale(.97); } to { opacity: 1; transform: none; } }
+.ticket-line .dot-from { animation: pulse 2.4s 1.4s ease-in-out infinite; }
+@keyframes pulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(225,5,19,.45); } 50% { box-shadow: 0 0 0 8px rgba(225,5,19,0); } }
+
+/* Inner page heroes */
+.page-hero-inner > * { animation: rise-in .7s var(--ease) both; }
+.page-hero-inner > :nth-child(2) { animation-delay: .08s; }
+.page-hero-inner > :nth-child(3) { animation-delay: .16s; }
+.page-hero-inner > :nth-child(4) { animation-delay: .24s; }
+.page-hero-media img { animation: hero-zoom 1.4s var(--ease) both; }
+.page-hero-media { overflow: hidden; }
+
+/* Buttons: lift and nudge the trailing arrow */
+.btn { will-change: transform; }
+.btn:hover:not(:disabled) { transform: translateY(-1px); }
+.btn-primary:hover:not(:disabled) { box-shadow: 0 10px 22px -10px rgba(225,5,19,.6); }
+.btn-dark:hover:not(:disabled) { box-shadow: 0 10px 22px -10px rgba(0,0,0,.55); }
+.btn .icon:last-child:not(:first-child) { transition: transform .25s var(--ease); }
+.btn:hover .icon:last-child:not(:first-child) { transform: translateX(3px); }
+
+/* Service cards and feature cards */
+.service-card .icon-tile, .feature-card .icon-tile { transition: background .25s, color .25s, transform .35s var(--ease); }
+.service-card:hover .icon-tile { background: var(--red); color: var(--white); transform: rotate(-6deg) scale(1.06); }
+.feature-card { transition: transform .3s var(--ease), box-shadow .3s var(--ease), border-color .3s; }
+.feature-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-2); }
+.feature-card.dark:hover { border-color: rgba(255,255,255,.18); }
+
+/* Split / why-choose photos */
+.why-media, .split-media { overflow: hidden; }
+.why-media img, .split-media img { transition: transform 1.2s var(--ease); }
+.why:hover .why-media img, .split-media:hover img { transform: scale(1.04); }
+
+/* Process step numbers */
+.process li { transition: border-color .3s; }
+.process li:hover { border-top-color: var(--red); }
+.process-no { transition: transform .35s var(--ease); display: inline-block; }
+.process li:hover .process-no { transform: translateX(4px); }
+
+/* Areas list, footer links, dashboard items */
+.areas-list a .icon { transition: transform .3s var(--ease); }
+.areas-list a:hover .icon { transform: rotate(90deg); }
+.site-footer a { transition: color .2s; }
+.stat-card, .list-item { transition: border-color .2s, box-shadow .25s var(--ease), transform .25s var(--ease); }
+a.stat-card:hover, .list-item:hover { transform: translateY(-2px); }
+.side-link { transition: background .2s, color .2s, padding-left .25s var(--ease); }
+.side-link:hover:not(.is-active) { padding-left: 1.05rem; }
+
+/* Quote stepper */
+.stepper-dot { transition: background .3s, border-color .3s, box-shadow .3s, transform .3s var(--ease); }
+.is-current .stepper-dot { animation: step-pop .45s var(--ease); }
+@keyframes step-pop { 0% { transform: scale(.8); } 60% { transform: scale(1.12); } 100% { transform: none; } }
+.stepper li::before { transition: background .4s; }
+.quote-card form { animation: page-in .45s var(--ease) both; }
+
+/* Accordion open */
+.accordion details[open] .accordion-body { animation: rise-in .35s var(--ease) both; }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1 !important; transform: none !important; }
+}

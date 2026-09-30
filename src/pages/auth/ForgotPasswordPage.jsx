@@ -10,7 +10,7 @@ import { requestPasswordReset } from '../../services/authService.js';
 import { required, email } from '../../utils/validation.js';
 
 export default function ForgotPasswordPage() {
-  useDocumentTitle('Forgot password');
+  useDocumentTitle('Forgot password', undefined, { noindex: true });
   const form = useForm({ initialValues: { email: '' }, schema: { email: [required('Enter your email address.'), email()] } });
 
   return (

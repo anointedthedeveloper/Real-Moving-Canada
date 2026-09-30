@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import Logo from '../components/common/Logo.jsx';
 import Icon from '../components/common/Icon.jsx';
@@ -46,10 +47,26 @@ const PANELS = {
   },
 };
 
-/** Split screen for Login / Sign up / Forgot / Reset password / Signed out. */
+/** Load every account screen up front so switching between them never shows a loader. */
+const preloadAuthPages = () => Promise.all([
+  import('../pages/auth/LoginPage.jsx'),
+  import('../pages/auth/SignupPage.jsx'),
+  import('../pages/auth/ForgotPasswordPage.jsx'),
+  import('../pages/auth/ResetPasswordPage.jsx'),
+]).catch(() => {});
+
+/** Every panel photo, preloaded so the crossfade never waits on the network. */
+const preloadPhotos = () => Object.values(PANELS).forEach((p) => { new Image().src = p.image; });
+
+/**
+ * Split screen for Login / Sign up / Forgot / Reset password / Signed out. On wide
+ * screens the photo and form slide past each other when switching between login
+ * (form left) and sign-up (form right); the photo crossfades and the new form fades up.
+ */
 export default function AuthLayout() {
   const { pathname } = useLocation();
   const panel = PANELS[pathname] || PANELS['/login'];
+  useEffect(() => { preloadAuthPages(); preloadPhotos(); }, []);
   return (
     <div className={`auth-layout${panel.formOnRight ? ' is-flipped' : ''}`}>
       <div className="auth-panel">
@@ -58,12 +75,14 @@ export default function AuthLayout() {
           <Link to="/" className="auth-back"><Icon name="arrow-left" /> <span className="auth-back-long">Back to </span>home</Link>
         </header>
         <main id="main" className="auth-main">
-          <Outlet />
+          <div className="auth-swap" key={pathname}><Outlet /></div>
         </main>
         <footer className="auth-foot">© {new Date().getFullYear()} {COMPANY.legalName} · <Link to="/privacy">Privacy</Link> · <Link to="/terms">Terms</Link></footer>
       </div>
       <aside className="auth-media" aria-label={panel.title}>
-        <img key={panel.image} src={panel.image} alt="" width="1100" height="1100" />
+        {Object.entries(PANELS).map(([path, p]) => (
+          <img key={path} src={p.image} alt="" width="1100" height="1100" className={p === panel ? 'is-active' : ''} loading={p === panel ? 'eager' : 'lazy'} />
+        ))}
         <div className="auth-media-top"><Logo tone="light" /></div>
         <div className="auth-media-copy" key={pathname}>
           <Kicker tone="gold">{panel.kicker}</Kicker>

@@ -23,7 +23,7 @@ const TABS = [
 const groupOf = (q) => (['accepted'].includes(String(q.status).toLowerCase()) ? 'accepted' : ['archived', 'expired', 'declined'].includes(String(q.status).toLowerCase()) ? 'archived' : 'active');
 
 export default function QuotesPage() {
-  useDocumentTitle('Quotes');
+  useDocumentTitle('Quotes', undefined, { noindex: true });
   const { data, loading, error, reload } = useAsync(fetchQuotes);
   const [tab, setTab] = useState('active');
   const [selectedId, setSelectedId] = useState(null);
