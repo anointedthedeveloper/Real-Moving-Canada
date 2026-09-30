@@ -5,8 +5,10 @@
   display: flex; flex-direction: column; background: var(--ink); color: #CFCAC4; overflow-y: auto;
 }
 .side-brand { padding: 1.4rem 1.1rem 1.2rem; }
-.side-brand .logo img { width: 50px; height: 50px; }
-.side-brand .logo-text strong { font-size: .9rem; }
+.side-brand .logo img { width: 54px; height: 54px; }
+.side-brand .logo { gap: .6rem; }
+.side-brand .logo-text strong { font-size: .8rem; letter-spacing: 0; }
+.side-brand .logo-text small { font-size: .7rem; }
 .side-nav { padding: 0 .85rem; }
 .side-nav ul { list-style: none; margin: 0; padding: 0; display: grid; gap: .2rem; }
 .side-link {
@@ -42,7 +44,7 @@
     position: sticky; top: 0; z-index: 40; display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: .75rem;
     padding: .65rem 1rem; background: var(--white); border-bottom: 1px solid var(--line);
   }
-  .portal-topbar-title { text-align: center; font-size: 1.05rem; color: var(--ink); }
+  .portal-topbar-title { text-align: right; font-size: .95rem; color: var(--muted); min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .portal-topbar .icon-btn { border: 0; }
   .portal-drawer-backdrop { display: block; position: fixed; inset: 0; z-index: 60; background: rgba(22,22,22,.5); opacity: 0; pointer-events: none; transition: opacity .2s; }
   .portal-drawer-backdrop.is-open { opacity: 1; pointer-events: auto; }

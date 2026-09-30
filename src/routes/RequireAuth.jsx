@@ -6,7 +6,7 @@ import Spinner from '../components/common/Spinner.jsx';
 /**
  * Guards the customer portal. When VITE_REQUIRE_AUTH=true, visitors who aren't
  * signed in are sent to /login and returned afterwards. Until accounts exist the
- * guard is off and the portal renders as a clearly labelled preview.
+ * guard is off and the portal shows empty states with a sign-in prompt.
  */
 export default function RequireAuth() {
   const { user, checking } = useAuth();

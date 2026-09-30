@@ -1,11 +1,12 @@
 import { get, post, put, ApiError, isNotConnected } from './apiClient.js';
+import { COMPANY } from '../constants/company.js';
 
 /**
- * Customer portal data. Every read resolves to { items, connected } so pages can
- * render empty states when the portal API isn't connected yet, instead of showing
- * made-up records. Writes reject with a clear message in that case.
+ * Customer portal data from the /api/portal endpoints. Every read resolves to
+ * { items, connected } so pages render empty states (never made-up records) when
+ * the API can't be reached; writes reject with a friendly message in that case.
  */
-const UNAVAILABLE = 'This isn’t available yet — the customer portal isn’t connected to our systems. Please call or email us and we’ll help right away.';
+const UNAVAILABLE = `We couldn’t save this right now. Please try again in a few minutes, or call us at ${COMPANY.phone}.`;
 
 async function list(path, key) {
   try {

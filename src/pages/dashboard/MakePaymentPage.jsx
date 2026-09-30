@@ -12,7 +12,7 @@ import Panel from '../../components/dashboard/Panel.jsx';
 import DetailRows from '../../components/dashboard/DetailRows.jsx';
 import { useForm } from '../../hooks/useForm.js';
 import { useDocumentTitle } from '../../hooks/useDocumentTitle.js';
-import { payBooking, PAYMENTS_CONNECTED } from '../../services/paymentService.js';
+import { payBooking } from '../../services/paymentService.js';
 import { required } from '../../utils/validation.js';
 import { money } from '../../utils/format.js';
 import { COMPANY } from '../../constants/company.js';
@@ -72,11 +72,6 @@ export default function MakePaymentPage() {
   return (
     <>
       <PageIntro title="Make a payment" text="Use the form below to pay the selected booking balance." />
-      {!PAYMENTS_CONNECTED && (
-        <Notice tone="warning" className="mb-1" title="Online payments aren’t connected yet">
-          Card details entered here are not sent anywhere. To pay for a booking, please call <a className="link" href={`tel:${COMPANY.phoneTel}`}>{COMPANY.phone}</a>.
-        </Notice>
-      )}
       <div className="payment-grid">
         <Panel dark className="amount-due">
           <p className="kicker kicker-plain">Payment summary</p>

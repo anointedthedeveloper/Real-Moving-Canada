@@ -15,7 +15,7 @@ export default function CustomerStep({ form }) {
       </div>
       <Checkbox
         className="mt-1" label="Create an account to keep these details together"
-        description="Customer accounts are coming soon — we’ll let you know by email when yours is ready."
+        description="We’ll email you a link to set up your account and follow this move online."
         {...form.checkbox('createAccount')}
       />
     </>

@@ -42,7 +42,7 @@ export default function DashboardLayout() {
   }, [drawerOpen]);
 
   const signOut = async () => { await logout(); navigate('/signed-out', { replace: true }); };
-  const name = user ? `${user.firstName || ''} ${user.lastName || ''}`.trim() || user.email : 'Preview mode';
+  const name = user ? `${user.firstName || ''} ${user.lastName || ''}`.trim() || user.email : 'Guest';
 
   const sidebar = (
     <>
@@ -73,7 +73,7 @@ export default function DashboardLayout() {
       <aside className="portal-side">{sidebar}</aside>
 
       <header className="portal-topbar">
-        <Logo showText={false} size={40} to="/dashboard" />
+        <Logo to="/dashboard" />
         <span className="portal-topbar-title">{title}</span>
         <button type="button" className="icon-btn" aria-label="Open account menu" aria-expanded={drawerOpen} aria-controls="portal-drawer" onClick={() => setDrawerOpen(true)}>
           <Icon name="menu" />
@@ -99,10 +99,10 @@ export default function DashboardLayout() {
         <main id="main" className="portal-content">
           {!user && (
             <Notice
-              tone="info" className="portal-preview" title="Customer accounts aren’t connected yet"
-              action={<Button to="/quote" size="sm" iconRight="arrow-right">Get a quote</Button>}
+              tone="info" className="portal-preview" title="You’re not signed in"
+              action={<Button to="/login" size="sm" iconRight="arrow-right">Sign in</Button>}
             >
-              This is a preview of your customer account. Moves, quotes, bookings, payments and documents will appear here once accounts are live. Need help now? Call <a className="link" href={`tel:${COMPANY.phoneTel}`}>{COMPANY.phone}</a>.
+              Sign in to see your moves, quotes, bookings, payments and documents. Need help? Call <a className="link" href={`tel:${COMPANY.phoneTel}`}>{COMPANY.phone}</a>.
             </Notice>
           )}
           <Outlet />

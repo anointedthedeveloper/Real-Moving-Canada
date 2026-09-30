@@ -157,7 +157,7 @@ function Confirmation({ values: v }) {
         <div className="summary-row"><dt>Services</dt><dd>{v.services.map((s) => labelFor(QUOTE_SERVICES, s)).join(', ') || '—'}</dd></div>
       </dl>
       {v.createAccount && (
-        <Notice tone="info" className="mt-1">Customer accounts aren’t available yet. We’ve noted your request and will email you when you can sign in to track this move.</Notice>
+        <Notice tone="info" className="mt-1">We’ll email {v.email} a link to finish setting up your account so you can follow this move online.</Notice>
       )}
     </SuccessPanel>
   );

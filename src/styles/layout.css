@@ -45,19 +45,11 @@
   .header-cta { display: none; }
   .header-cta-text { display: inline; font-size: .78rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--red); text-decoration: none; }
   .menu-toggle { display: inline-grid; }
-  .header-bar .logo img { width: 48px; height: 48px; }
-  .header-bar .logo { gap: .55rem; }
 }
 @media (max-width: 520px) {
-  .header-bar .logo-text small { display: none; }
   .header-bar { gap: .5rem; }
-  .header-bar .logo img { width: 44px; height: 44px; }
-  .header-bar .logo-text strong { font-size: .88rem; }
   .header-actions { gap: .25rem; margin-left: auto; }
   .header-cta-text { font-size: .72rem; letter-spacing: .04em; }
-}
-@media (max-width: 359px) {
-  .header-bar .logo-text { display: none; }
 }
 
 /* ─── Home hero ─────────────────────────────────────────────────────────── */
@@ -143,7 +135,5 @@
 .header-cta-text { white-space: nowrap; }
 @media (max-width: 960px) { .ticket-head::before, .ticket-head::after { background: var(--paper); } }
 @media (max-width: 420px) {
-  .header-bar .logo img { width: 40px; height: 40px; }
-  .header-bar .logo { gap: .4rem; }
   .header-bar .menu-toggle { width: 36px; }
 }

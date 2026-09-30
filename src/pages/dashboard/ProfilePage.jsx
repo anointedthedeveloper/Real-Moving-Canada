@@ -47,7 +47,7 @@ export default function ProfilePage() {
             <span className="profile-avatar"><Icon name="user" /></span>
             <h3>{name || 'Your name'}</h3>
             <p className="muted small">{form.values.email || 'Email address'}</p>
-            <DetailRows rows={[['Customer since', fmtDate(data?.profile?.createdAt)], ['Active moves', data?.profile?.activeMoves ?? '—'], ['Account status', data?.connected ? 'Active' : 'Preview']]} />
+            <DetailRows rows={[['Customer since', fmtDate(data?.profile?.createdAt)], ['Active moves', data?.profile?.activeMoves ?? '—'], ['Account status', data?.connected ? 'Active' : '—']]} />
           </Panel>
           <Panel>
             <form id={saveId} onSubmit={form.handleSubmit(updateProfile)} noValidate>

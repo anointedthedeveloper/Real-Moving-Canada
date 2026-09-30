@@ -1,4 +1,5 @@
 import { post, ApiError } from './apiClient.js';
+import { COMPANY } from '../constants/company.js';
 
 /**
  * Provider-neutral payments. No payment provider is connected yet, so
@@ -9,7 +10,7 @@ import { post, ApiError } from './apiClient.js';
  */
 export const PAYMENTS_CONNECTED = false;
 
-const NOT_CONNECTED_MESSAGE = 'Online payments aren’t connected yet, so no payment was taken. Please contact us to arrange payment.';
+const NOT_CONNECTED_MESSAGE = `We couldn’t process this payment right now, and no payment was taken. Please try again later, or call us at ${COMPANY.phone} to pay by phone.`;
 
 async function tokenizeCard(/* card */) {
   throw new ApiError(NOT_CONNECTED_MESSAGE, 503);

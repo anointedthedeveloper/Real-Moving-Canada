@@ -12,7 +12,7 @@ export const FORMSPREE_ENDPOINT = import.meta.env.VITE_FORMSPREE_ENDPOINT || 'ht
 
 /**
  * Customer accounts need a backend that doesn't exist yet. While this is false the
- * customer portal can be browsed as a preview (with empty states and a notice); set
+ * customer portal can be browsed without signing in (empty states and a sign-in prompt); set
  * VITE_REQUIRE_AUTH=true once /api/auth is live to require sign-in.
  */
 export const REQUIRE_AUTH = import.meta.env.VITE_REQUIRE_AUTH === 'true';
