@@ -1,11 +1,22 @@
 {
   "name": "real-moving-canada",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "private": true,
-  "description": "RealMovingCanada — Movers You Can Trust. Static marketing site with clean-URL routing.",
+  "type": "module",
+  "description": "Real Moving Canada \u2014 public website, quote flow and customer portal (React + Vite).",
   "scripts": {
-    "build:pages": "node web-sources/scripts/build-pages.js",
-    "start": "node server.js",
-    "dev": "npm run build:pages && npm start"
+    "dev": "vite",
+    "build": "vite build && node scripts/generate-seo.mjs",
+    "preview": "vite preview",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "react-router-dom": "^7.18.4"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^6.1.1",
+    "vite": "^8.3.1"
   }
 }

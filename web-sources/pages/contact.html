@@ -25,12 +25,30 @@
       </div>
     </form>
     <aside class="contact-aside">
-      <div class="info-block"><h3>{{icon:phone}} Phone</h3><p data-contact="phone-link"><span class="placeholder-note">[Phone number]</span></p></div>
-      <div class="info-block"><h3>{{icon:mail}} Email</h3><p data-contact="email-link"><span class="placeholder-note">[Email address]</span></p></div>
-      <div class="info-block"><h3>{{icon:clock}} Business hours</h3><div data-contact="hours"><p><span class="placeholder-note">[Business hours]</span></p></div></div>
+      <div class="info-block"><h3>{{icon:phone}} Phone</h3><p data-contact="phone-link">{{phone}}</p></div>
+      <div class="info-block"><h3>{{icon:mail}} Email</h3><p data-contact="email-link">{{email}}</p></div>
       <div class="info-block"><h3>{{icon:map}} Service area</h3><p data-setting="contact.serviceAreaSummary">Residential, commercial and long-distance moves across Canada.</p><p style="margin-top:.5rem"><a class="link" href="/service-areas">View service areas</a></p></div>
-      <div class="info-block"><h3>{{icon:pin}} Postal code</h3><p>S7V 1R9</p></div>
-      <div class="info-block"><h3>{{icon:users}} Follow us</h3><div class="socials" data-socials data-socials-placeholder><span class="placeholder-note">[Social media links]</span></div></div>
+      <div class="info-block"><h3>{{icon:pin}} Location</h3><p>231 Flynn Bend<br>Saskatoon, Saskatchewan S7V 1R9</p><p style="margin-top:.5rem"><a class="link" href="#map">View on map</a></p></div>
     </aside>
+  </div>
+</section>
+<section class="section tint map-section" id="map">
+  <div class="wrap">
+    <div class="section-head split">
+      <div>
+        <p class="kicker">Find us</p>
+        <h2>Based in Saskatoon, moving across Canada</h2>
+        <p class="lead">231 Flynn Bend, Saskatoon, Saskatchewan S7V 1R9</p>
+      </div>
+      <a class="btn btn-dark" href="https://www.google.com/maps/dir/?api=1&amp;destination=231+Flynn+Bend%2C+Saskatoon%2C+SK+S7V+1R9" target="_blank" rel="noopener noreferrer">{{icon:route}} Get directions</a>
+    </div>
+    <div class="map-frame">
+      <iframe title="Map showing RealMovingCanada at 231 Flynn Bend, Saskatoon" src="https://www.google.com/maps/embed?origin=mfe&amp;pb=!1m3!2m1!1s231+Flynn+Bend,+Saskatoon,+SK+S7V+1R9!6i15" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+      <div class="map-card">
+        <strong>RealMovingCanada</strong>
+        <span>231 Flynn Bend<br>Saskatoon, SK S7V 1R9</span>
+        <span class="map-card-links">{{phone}}{{email}}</span>
+      </div>
+    </div>
   </div>
 </section>

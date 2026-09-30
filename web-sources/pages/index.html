@@ -28,7 +28,7 @@
           <div class="field"><label for="t-from">Moving from</label>
             <select id="t-from" name="from" required><option value="">Province or territory</option></select></div>
           <div class="field"><label for="t-to">Moving to</label>
-            <select id="t-to" name="to" required><option value="">Province, territory or abroad</option></select></div>
+            <select id="t-to" name="to" required><option value="">Choose a destination</option></select></div>
         </div>
         <div class="field" style="margin-bottom:1.2rem"><label for="t-size">Home or office size</label>
           <select id="t-size" name="size"><option value="">Select size</option></select></div>
@@ -66,7 +66,7 @@
       </div>
       <a class="btn btn-outline" href="/services">View all services</a>
     </div>
-    <div data-services><div class="skeleton" style="height:420px"></div></div>
+    <div data-services aria-busy="true">{{skeleton:cards:6}}</div>
   </div>
 </section>
 
@@ -118,7 +118,7 @@
       <h2>What will your move cost?</h2>
       <p class="lead">Answer a few questions and get an estimated price range in seconds — no account needed.</p>
     </div>
-    <div data-estimate><div class="skeleton" style="height:560px"></div></div>
+    <div data-estimate aria-busy="true">{{skeleton:estimate}}</div>
   </div>
 </section>
 
@@ -131,7 +131,7 @@
       </div>
       <a class="btn btn-outline" href="/reviews">All reviews</a>
     </div>
-    <div data-reviews><div class="skeleton" style="height:160px"></div></div>
+    <div data-reviews aria-busy="true">{{skeleton:cards:3}}</div>
   </div>
 </section>
 
@@ -143,7 +143,7 @@
       <p class="lead">From British Columbia to Newfoundland and Labrador, and north to Yukon, the Northwest Territories and Nunavut, we plan moves within provinces and between them.</p>
       <a class="btn btn-light" href="/service-areas" style="margin-top:.8rem">Explore service areas</a>
     </div>
-    <div data-tile-map></div>
+    <div class="tile-map-wrap" data-tile-map aria-busy="true">{{skeleton:tiles}}</div>
   </div>
 </section>
 

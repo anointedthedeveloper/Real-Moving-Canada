@@ -1,91 +1,104 @@
-# RealMovingCanada — Movers You Can Trust
+# Real Moving Canada — Moving Your Life Forward
 
-The public marketing site for RealMovingCanada: home, about, services, service
-areas, pricing, reviews, contact and a quote request form, built as static
-HTML with a shared vanilla-JS design system and clean (extension-less) URL
-routing. There is no login/signup, admin panel or customer account area — the
-only conversion action on the site is **Get a Quote**.
+Public website, five-step quote flow and customer portal for Real Moving Canada,
+built with **React 19 + Vite + React Router**. The design follows the supplied
+Real Moving Canada UI design (public website, quote flow, customer app desktop and
+mobile, and payment states).
 
-## Running it locally
-
-```
-npm run build:pages   # regenerates public/ from web-sources/pages/
-npm start              # serves public/ at http://localhost:3000 with clean routing
-```
-
-or both at once: `npm run dev`.
-
-`server.js` is a zero-dependency Node static file server that resolves
-`/about` to `public/about/index.html` (the same convention Netlify, Vercel,
-GitHub Pages and nginx use for pretty URLs), and falls back to `public/404.html`
-for anything unmatched — so a hard refresh on any route always returns a real
-page. Any other static host that serves a directory's `index.html` for its
-own path works the same way, since every route is already a real directory
-in `public/`.
-
-## What's in here
+## Running it
 
 ```
-public/                  ← the BUILT, servable website
-  index.html               "/" — the homepage
-  home/index.html          "/home" — same homepage, also reachable here
-  about/, services/, service-areas/, pricing/, reviews/, contact/, quote/
-                            one directory + index.html per route (clean URLs,
-                            no .html extensions)
-  404.html                  served for any unmatched route
-  assets/css/                core.css (design tokens/components), site.css (site)
-  assets/js/                  core/ (api client, UI helpers, reference data,
-                              Formspree integration), components/ (location
-                              fields, estimate calculator, cards, carousel),
-                              pages/ (one script per page), site.js
-  assets/img/                 placeholder logo (SVG) + favicon
-  assets/fonts/                self-hosted Archivo variable font
-
-web-sources/              ← EDITABLE page templates + the page builder
-  pages/*.html               one source file per page (each starts with
-                              <!--meta {...}--> for title/description/scripts;
-                              "output" overrides the built path — used by
-                              404.html to stay at the server root)
-  scripts/build-pages.js     wraps each page in the shared header/footer/icon
-                              sprite and writes it into public/ as a clean-URL
-                              directory (npm run build:pages)
-
-server.js                  zero-dependency static file server (see above)
+npm install
+npm run dev       # development server at http://localhost:5173
+npm run build     # production build into dist/
+npm start         # serves dist/ at http://localhost:3000 (zero-dependency Node server)
 ```
 
-To change a page's content, edit the matching file in `web-sources/pages/`
-and run `npm run build:pages`. Assets under `public/assets/` are edited
-directly — they aren't templated by the build script.
+**Vercel** — `vercel.json` builds with Vite into `dist/`, rewrites every page URL to
+`index.html` (so a refresh on any route works and unknown URLs show the app's 404
+page), and caches the hashed files in `/assets/` for a year while always
+revalidating `index.html`, so a new deploy shows up on the next reload.
 
-## How pages fetch data
+`server.js` (for running the build yourself) serves real files from `dist/` and answers every other path with
+`index.html`, so a hard refresh on any route (e.g. `/services/storage`,
+`/dashboard/quotes`) works and unknown URLs show the app's own 404 page. Any static
+host works the same way once it is configured to fall back to `index.html`
+(Netlify `_redirects`, Vercel rewrites, nginx `try_files`).
 
-Every page's JS module calls a small REST client (`assets/js/core/api.js`)
-against `/api/...` routes — e.g. the instant estimate calculator posts to
-`/api/public/estimate`, and the services/reviews/service-area lists read from
-`/api/public/...`. None of that data is hard-coded into the HTML.
+## Structure
 
-**There's no backend wired up yet**, so those calls 404 and every page falls
-back to built-in content (`assets/js/core/data.js`) so the site still looks
-complete. Once a backend exists, pointing it at the same `/api/public/...`
-routes is all that's needed — no frontend changes required.
+```
+src/
+  main.jsx, App.jsx        entry point; BrowserRouter + ScrollToTop + AuthProvider
+  routes/                  AppRoutes (all routes, lazy-loaded pages) and RequireAuth
+  layouts/                 PublicLayout, QuoteLayout, AuthLayout, DashboardLayout
+  pages/public|auth|dashboard/   one component per screen
+  components/
+    common/                Button, Icon, Logo, Badge, Notice, EmptyState, Skeleton,
+                           Accordion, PageHero, SuccessPanel, ScrollToTop, …
+    layout/                SiteHeader (desktop nav, services dropdown, mobile menu),
+                           SiteFooter, CtaBand
+    forms/                 Field, TextField, SelectField, TextareaField, Checkbox,
+                           Switch, PasswordField, LocationFields, ContactForm, ReviewForm
+    home/ services/ quote/ estimate/ dashboard/ auth/   feature components
+  hooks/                   useScrollToTop, useForm, useAsync, useDocumentTitle, useLockBodyScroll
+  services/                apiClient + one module per backend area (see below)
+  constants/               company details, service catalogue, form options, navigation
+  utils/                   formatting, validation, storage, calendar (.ics)
+  styles/                  tokens.css (colours/type), then base, components, layout, pages,
+                           quote, auth and dashboard styles
+  assets/                  logo and photos (optimised WebP)
+static/                    favicon files copied as-is into dist/
+```
 
-## Forms
+Brand colours, type and spacing live in `src/styles/tokens.css`. Business details
+(phone, email, address) live in `src/constants/company.js`. Services — their text,
+photos and related services — live in `src/constants/services.js`; the header menu,
+footer, services pages and quote form are all generated from it.
 
-The quote, contact and review forms all post through one place —
-`submitToFormspree()` in `assets/js/core/formspree.js`. Set
-`FORMSPREE_ENDPOINT` there (a URL from https://formspree.io) to start
-receiving submissions by email; until then, submitting a form shows an honest
-"this form isn't connected yet" message rather than a fake success screen.
+## What talks to what
 
-## Design system
+| Area | Where | Status |
+| --- | --- | --- |
+| Quote, contact and review forms | `services/formsService.js` → Formspree | **Live** (endpoint in `services/config.js` or `VITE_FORMSPREE_ENDPOINT`) |
+| Instant estimate | `POST /api/public/estimate` | No backend yet — the page says so and offers a quote request |
+| Service areas, reviews | `GET /api/public/service-areas`, `/api/public/reviews` | Falls back to built-in provinces / an empty reviews state |
+| Login, sign up, password reset | `services/authService.js` → `/api/auth/*` | No backend yet — forms show "accounts aren't available yet" |
+| Customer portal data | `services/portalService.js` → `/api/portal/*` | No backend yet — every page shows empty states |
+| Payments | `services/paymentService.js` | No provider connected — card details are never sent anywhere |
 
-- Colours, type, spacing and component styles live in `assets/css/core.css`
-  as CSS custom properties — change `--ink` / `--red` / `--paper` etc. there
-  to re-theme the whole site.
-- The logo is a placeholder wordmark (`assets/img/logo.svg` and
-  `logo-light.svg`, plus `favicon.svg`) — swap these for the real
-  RealMovingCanada logo whenever it's ready; every page references the same
-  three files.
-- Contact details (phone, email, hours, social links) show as clearly marked
-  placeholders until real values are wired up through `/api/public/settings`
-  — nothing is invented.
+Until accounts exist, `/dashboard` can be browsed without signing in (empty states and a sign-in prompt). Set
+`VITE_REQUIRE_AUTH=true` once `/api/auth/session` works to require sign-in.
+
+## SEO
+
+- `index.html` carries the default title, description, keywords, Open Graph/Twitter
+  tags (with `static/og-image.jpg`) and `MovingCompany` structured data.
+- Each page sets its own title, description, keywords, canonical URL and social tags
+  through `useDocumentTitle()` (`src/hooks/useDocumentTitle.js`); keyword lists live in
+  `src/constants/seo.js`. Service pages add `Service` + breadcrumb data, the home and
+  pricing pages add FAQ data. Account and dashboard pages are `noindex`.
+- `npm run build` also writes `dist/sitemap.xml` and `dist/robots.txt`
+  (`scripts/generate-seo.mjs`).
+- **Set `VITE_SITE_URL`** (Vercel → Settings → Environment Variables) to the real domain
+  once there is one — canonical links, social previews and the sitemap all use it.
+  It defaults to `https://real-moving-canada-ddne.vercel.app`.
+
+## Notes
+
+- **Scroll restoration** — `hooks/useScrollToTop.js` (mounted once via
+  `<ScrollToTop />`) opens every new route at the top, scrolls to `#hash` targets,
+  restores the previous position on browser back/forward, and ignores query-string
+  changes such as tabs.
+- **Loading** — `index.html` contains a lightweight page frame that shows instantly on
+  a full reload; while a page's code downloads, a skeleton shaped like that page is
+  shown (`components/common/PageSkeleton.jsx`). Common pages are prefetched when the
+  browser is idle (`hooks/usePrefetchRoutes.js`).
+- **Old URLs** — `/home` redirects to `/`, and the previous `/services/<slug>` pages
+  redirect to the closest service in the new catalogue.
+- **Legacy site** — the previous static site is still in `public/` and
+  `web-sources/` for reference. Nothing uses it any more (Vite's static folder is
+  `static/`), so both folders can be deleted.
+- **Photos** — taken from the design file. Photos showing other companies' names
+  were left out, and the branding on the home hero truck was removed.
+- **Privacy / Terms** — full text lives in `src/constants/legal.js` (update `LEGAL_UPDATED` when it changes). It was written for this website and should be reviewed by the company's legal adviser.

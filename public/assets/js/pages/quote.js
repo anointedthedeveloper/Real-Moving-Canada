@@ -4,6 +4,7 @@ import { loadOptions, optionTags, labelFor } from '../core/options.js';
 import { locationFields, wireLocations } from '../components/location.js';
 import { getEstimateDraft, DISCLAIMER } from '../components/estimate.js';
 import { submitToFormspree } from '../core/formspree.js';
+import { PHONE, PHONE_TEL, EMAIL } from '../core/data.js';
 
 const root = $('[data-quote-root]');
 
@@ -17,7 +18,7 @@ const root = $('[data-quote-root]');
         <div class="form-grid" style="--cols:3">
           <div class="field"><label for="q-name">Full name</label><input id="q-name" name="customerName" autocomplete="name" required maxlength="100" placeholder="Jordan Smith"></div>
           <div class="field"><label for="q-email">Email</label><input id="q-email" name="customerEmail" type="email" autocomplete="email" required placeholder="jordan@email.com"></div>
-          <div class="field"><label for="q-phone">Phone</label><input id="q-phone" name="customerPhone" type="tel" autocomplete="tel" required maxlength="30" placeholder="(555) 555-5555"></div>
+          <div class="field"><label for="q-phone">Phone</label><input id="q-phone" name="customerPhone" type="tel" autocomplete="tel" required maxlength="30" placeholder="(306) 555-0123"></div>
         </div></fieldset>
       <fieldset><legend>Moving from</legend>${locationFields('origin', opts)}</fieldset>
       <fieldset><legend>Moving to</legend>${locationFields('destination', opts)}</fieldset>
@@ -47,10 +48,11 @@ const root = $('[data-quote-root]');
     </form>
     <aside class="form-side">
       <div class="notice">${icon('info')}<div><strong>What happens next</strong>A member of our team reviews your request and follows up by phone or email with a confirmed price and any questions about your move.</div></div>
-      <div class="card card-pad"><h3 style="font-size:1.05rem">Prefer to talk it through?</h3><p class="muted small" style="margin:0 0 .9rem">Call or message us directly and we’ll help you plan your move.</p><a class="btn btn-outline btn-block" href="/contact">Contact us</a></div>
+      <div class="card card-pad"><h3 style="font-size:1.05rem">Prefer to talk it through?</h3><p class="muted small" style="margin:0 0 .9rem">Call or message us directly and we’ll help you plan your move.</p><div style="display:grid;gap:.6rem"><a class="btn btn-dark btn-block" href="tel:${PHONE_TEL}">${icon('phone')} ${PHONE}</a><a class="btn btn-outline btn-block" href="/contact">Contact us</a></div></div>
     </aside>
   </div>`;
 
+  root.removeAttribute('aria-busy');
   const form = $('form', root);
   const moveType = form.elements.moveType;
   wireLocations(form, opts, () => {
@@ -94,7 +96,8 @@ const root = $('[data-quote-root]');
             <a class="btn btn-outline" href="/services">Browse our services</a>
           </div>
         </div>
-        <aside class="form-side"><div class="notice">${icon('mail')}<div><strong>Confirmation sent</strong>We’ve recorded a copy of your request and will reply to ${esc(data.customerEmail)}.</div></div></aside>
+        <aside class="form-side"><div class="notice">${icon('mail')}<div><strong>What happens next</strong>A member of our team will review your request and reply to ${esc(data.customerEmail)} or call ${esc(data.customerPhone)}.</div></div>
+          <div class="card card-pad"><h3 style="font-size:1.05rem">Need to add something?</h3><p class="muted small" style="margin:0 0 .9rem">Call us at <a class="link" href="tel:${PHONE_TEL}">${PHONE}</a> or email <a class="link" href="mailto:${EMAIL}">${EMAIL}</a>.</p></div></aside>
       </div>`;
       scrollTo({ top: 0, behavior: 'smooth' });
     },
