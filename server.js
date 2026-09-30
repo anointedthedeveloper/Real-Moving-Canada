@@ -1,28 +1,28 @@
-'use strict';
 /**
- * Zero-dependency static file server for /public with clean-URL routing.
+ * Zero-dependency static server for the built React app (dist/).
  *
- * A request for "/about" is served from "public/about/index.html" (the
- * build script writes every page as a real directory + index.html, so this
- * needs no rewriting — it just resolves the file the same way a directory
- * index normally would). Requests for an actual file ("/assets/css/site.css")
- * are served as-is. Anything that matches nothing gets public/404.html with
- * a 404 status, so a hard refresh on any route always returns a real page
- * instead of a host's generic error screen.
+ * Real files ("/assets/index-abc.js", "/favicon.png") are served as-is with long
+ * caching for hashed assets. Every other GET is answered with dist/index.html so
+ * React Router can render the route — a hard refresh on /services/storage or
+ * /dashboard/quotes works, and unknown paths get the app's own 404 page.
+ * Requests under /api/ get a plain-text 404: there is no backend yet, and the
+ * frontend's service layer reads a non-JSON 404 as "not connected" and falls back
+ * to built-in content or empty states. Proxy /api/ to the real API here once it exists.
  *
- * Usage: node server.js [port]   (defaults to PORT env var, then 3000)
+ * Usage: npm run build && npm start   (port: argv[2], then $PORT, then 3000)
  */
-const http = require('node:http');
-const fs = require('node:fs');
-const path = require('node:path');
+import http from 'node:http';
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-const ROOT = path.join(__dirname, 'public');
+const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), 'dist');
 const PORT = Number(process.argv[2]) || Number(process.env.PORT) || 3000;
+const INDEX = path.join(ROOT, 'index.html');
 
 const TYPES = {
   '.html': 'text/html; charset=utf-8',
   '.js': 'text/javascript; charset=utf-8',
-  '.mjs': 'text/javascript; charset=utf-8',
   '.css': 'text/css; charset=utf-8',
   '.json': 'application/json; charset=utf-8',
   '.svg': 'image/svg+xml',
@@ -32,47 +32,50 @@ const TYPES = {
   '.webp': 'image/webp',
   '.ico': 'image/x-icon',
   '.woff2': 'font/woff2',
-  '.woff': 'font/woff',
   '.txt': 'text/plain; charset=utf-8',
 };
 
-/** Resolves a URL path to a file under ROOT, following the same rules a static host would. */
 function resolveFile(urlPath) {
-  const decoded = decodeURIComponent(urlPath.split('?')[0].split('#')[0]);
-  const safe = path.normalize(decoded).replace(/^(\.\.[/\\])+/, '');
-  let candidate = path.join(ROOT, safe);
+  let decoded;
+  try { decoded = decodeURIComponent(urlPath.split('?')[0].split('#')[0]); } catch { return null; }
+  const candidate = path.join(ROOT, path.normalize(decoded));
   if (!candidate.startsWith(ROOT)) return null; // path traversal guard
-
-  if (fs.existsSync(candidate) && fs.statSync(candidate).isDirectory()) {
-    candidate = path.join(candidate, 'index.html');
+  try {
+    return fs.statSync(candidate).isFile() ? candidate : null;
+  } catch {
+    return null;
   }
-  if (fs.existsSync(candidate) && fs.statSync(candidate).isFile()) return candidate;
-
-  // "/about" with no trailing slash and no extension -> "/about/index.html"
-  if (!path.extname(candidate)) {
-    const asDir = path.join(ROOT, safe, 'index.html');
-    if (fs.existsSync(asDir)) return asDir;
-  }
-  return null;
 }
 
-const server = http.createServer((req, res) => {
-  const file = resolveFile(req.url);
-  if (file) {
-    res.writeHead(200, { 'Content-Type': TYPES[path.extname(file)] || 'application/octet-stream' });
-    fs.createReadStream(file).pipe(res);
-    return;
-  }
-  const notFound = path.join(ROOT, '404.html');
-  if (fs.existsSync(notFound)) {
-    res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8' });
-    fs.createReadStream(notFound).pipe(res);
-    return;
-  }
-  res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' });
-  res.end('404 Not Found');
-});
+function send(res, file, status = 200) {
+  const ext = path.extname(file);
+  const hashed = file.includes(`${path.sep}assets${path.sep}`);
+  res.writeHead(status, {
+    'Content-Type': TYPES[ext] || 'application/octet-stream',
+    'Cache-Control': hashed ? 'public, max-age=31536000, immutable' : 'no-cache',
+  });
+  fs.createReadStream(file).pipe(res);
+}
 
-server.listen(PORT, () => {
-  console.log(`[server] RealMovingCanada is running at http://localhost:${PORT}`);
+if (!fs.existsSync(INDEX)) {
+  console.error('[server] dist/index.html not found — run "npm run build" first.');
+  process.exit(1);
+}
+
+http.createServer((req, res) => {
+  if (req.url.startsWith('/api/')) {
+    res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' });
+    res.end('No API is connected.');
+    return;
+  }
+  const file = resolveFile(req.url);
+  if (file) return send(res, file);
+  if (req.method !== 'GET' && req.method !== 'HEAD') {
+    res.writeHead(405, { Allow: 'GET, HEAD' });
+    res.end();
+    return;
+  }
+  send(res, INDEX); // SPA fallback: React Router renders the route (or its 404 page)
+}).listen(PORT, () => {
+  console.log(`[server] Real Moving Canada is running at http://localhost:${PORT}`);
 });
