@@ -1,11 +1,12 @@
 import { get, post, ApiError, isNotConnected } from './apiClient.js';
+import { COMPANY } from '../constants/company.js';
 
 /**
- * Customer authentication. These call the /api/auth endpoints a backend will provide;
- * until then every call rejects with an honest "not available yet" message and
- * nobody is ever shown as signed in.
+ * Customer authentication against the /api/auth endpoints. If the auth service
+ * can't be reached, calls reject with a friendly message and nobody is shown as
+ * signed in.
  */
-const UNAVAILABLE = 'Customer accounts aren’t available yet. To request a move, use Get a quote — no account needed.';
+const UNAVAILABLE = `We couldn’t reach your account right now. Please try again in a few minutes, or call us at ${COMPANY.phone}.`;
 
 const wrap = (promise) => promise.catch((err) => {
   if (isNotConnected(err)) throw new ApiError(UNAVAILABLE, 503);

@@ -67,7 +67,7 @@ footer, services pages and quote form are all generated from it.
 | Customer portal data | `services/portalService.js` → `/api/portal/*` | No backend yet — every page shows empty states |
 | Payments | `services/paymentService.js` | No provider connected — card details are never sent anywhere |
 
-Until accounts exist, `/dashboard` is viewable as a labelled preview. Set
+Until accounts exist, `/dashboard` can be browsed without signing in (empty states and a sign-in prompt). Set
 `VITE_REQUIRE_AUTH=true` once `/api/auth/session` works to require sign-in.
 
 ## Notes
@@ -87,4 +87,4 @@ Until accounts exist, `/dashboard` is viewable as a labelled preview. Set
   `static/`), so both folders can be deleted.
 - **Photos** — taken from the design file. Photos showing other companies' names
   were left out, and the branding on the home hero truck was removed.
-- **Privacy / Terms** — placeholder pages until the company supplies the text.
+- **Privacy / Terms** — full text lives in `src/constants/legal.js` (update `LEGAL_UPDATED` when it changes). It was written for this website and should be reviewed by the company's legal adviser.

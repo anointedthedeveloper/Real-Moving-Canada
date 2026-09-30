@@ -190,3 +190,28 @@ form .notice { margin-top: 1.25rem; }
 .not-found { display: grid; justify-items: center; text-align: center; gap: .5rem; max-width: 640px; }
 .not-found .kicker { margin-top: 1rem; }
 .not-found .kicker::before { display: none; }
+
+/* ─── Privacy / Terms ───────────────────────────────────────────────────── */
+.legal-hero { background: var(--ink); color: var(--white); padding-block: clamp(2.5rem, 6vw, 4rem); }
+.legal-hero h1 { color: var(--white); font-family: var(--font-body); font-weight: 300; letter-spacing: -.03em; margin: 0 0 .5rem; }
+.legal-updated { color: #BDB8B2; margin: 0; }
+.legal-grid { display: grid; grid-template-columns: 260px minmax(0, 1fr); gap: clamp(2rem, 5vw, 4rem); align-items: start; }
+.legal-toc { position: sticky; top: calc(var(--header-h) + 1.5rem); font-size: .9rem; }
+.legal-toc-title { font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin-bottom: .6rem; }
+.legal-toc ol { list-style: none; margin: 0; padding: 0; display: grid; gap: .1rem; border-left: 2px solid var(--line); }
+.legal-toc a { display: block; padding: .35rem .9rem; margin-left: -2px; border-left: 2px solid transparent; color: var(--muted); text-decoration: none; }
+.legal-toc a:hover { color: var(--red); border-left-color: var(--red); }
+.legal-other { margin-top: 1.25rem; }
+.legal-body { max-width: 760px; }
+.legal-body > .lead { color: var(--text); margin-bottom: 2rem; }
+.legal-body section { padding-top: 1.75rem; margin-top: 1.75rem; border-top: 1px solid var(--line); }
+.legal-body h2 { display: flex; gap: .8rem; align-items: baseline; font-size: clamp(1.25rem, 2vw, 1.5rem); }
+.legal-body h2 span { color: var(--red); font-size: .9rem; }
+.legal-body p, .legal-body li { color: var(--text); }
+.legal-body ul { margin: 0 0 1em; padding-left: 1.2rem; display: grid; gap: .45rem; }
+.legal-body li::marker { color: var(--red); }
+@media (max-width: 860px) {
+  .legal-grid { grid-template-columns: 1fr; }
+  .legal-toc { position: static; padding: 1rem 1.1rem; background: var(--white); border: 1px solid var(--line); border-radius: var(--r-lg); }
+}
+.legal-toc .legal-other a { display: inline; padding: 0; margin: 0; border: 0; color: var(--red); }

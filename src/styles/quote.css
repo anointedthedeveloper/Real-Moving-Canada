@@ -3,7 +3,7 @@
 .quote-header { background: var(--white); border-bottom: 1px solid var(--line); }
 .quote-header-bar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 76px; }
 .quote-header-actions { display: flex; align-items: center; gap: 1rem; }
-@media (max-width: 640px) { .quote-saved { display: none; } .quote-header-bar .logo-text { display: none; } }
+@media (max-width: 640px) { .quote-saved { display: none; } }
 
 .quote-page { padding-block: clamp(1.5rem, 4vw, 2.5rem) 4rem; }
 .quote-page .wrap { max-width: 1000px; }
