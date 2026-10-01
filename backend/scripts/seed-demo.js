@@ -5,11 +5,11 @@
  * Sign in as demo@realmovingcanada.test / DemoMove2026!  — refuses to run against
  * production unless --force is given. Re-running replaces the demo data.
  */
-import { connectDb, disconnectDb } from '../db.js';
-import { config } from '../config.js';
-import { hashPassword } from '../lib/auth.js';
-import { reference } from '../lib/ids.js';
-import { User, Move, Quote, Booking, Payment, Document, Conversation, Activity, QuoteRequest } from '../models/index.js';
+import { connectDb, disconnectDb } from '../src/db.js';
+import { config } from '../src/config.js';
+import { hashPassword } from '../src/lib/auth.js';
+import { reference } from '../src/lib/ids.js';
+import { User, Move, Quote, Booking, Payment, Document, Conversation, Activity, QuoteRequest } from '../src/models/index.js';
 
 if (config.isProd && !process.argv.includes('--force')) {
   console.error('Refusing to seed demo data in production. Use --force if you really mean it.');

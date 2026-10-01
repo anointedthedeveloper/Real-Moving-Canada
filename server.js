@@ -5,9 +5,8 @@
  * caching for hashed assets. Every other GET is answered with dist/index.html so
  * React Router can render the route — a hard refresh on /services/storage or
  * /dashboard/quotes works, and unknown paths get the app's own 404 page.
- * Requests under /api/ are handled by the Express API in server/app.js (the same
- * app Vercel runs as a serverless function), so this file can host the whole site
- * on any Node server.
+ * The API is a separate service (backend/, e.g. https://api.realmovingcanada.ca);
+ * the website calls it at VITE_API_BASE.
  *
  * Usage: npm run build && npm start   (port: argv[2], then $PORT, then 3000)
  */
@@ -15,7 +14,6 @@ import http from 'node:http';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import api from './server/app.js';
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), 'dist');
 const PORT = Number(process.argv[2]) || Number(process.env.PORT) || 3000;
@@ -64,10 +62,6 @@ if (!fs.existsSync(INDEX)) {
 }
 
 http.createServer((req, res) => {
-  if (req.url === '/api' || req.url.startsWith('/api/')) {
-    api(req, res);
-    return;
-  }
   const file = resolveFile(req.url);
   if (file) return send(res, file);
   if (req.method !== 'GET' && req.method !== 'HEAD') {

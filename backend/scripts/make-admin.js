@@ -3,8 +3,8 @@
  *   npm run make:admin -- someone@example.com            (admin)
  *   npm run make:admin -- someone@example.com staff
  */
-import { connectDb, disconnectDb } from '../db.js';
-import { User } from '../models/index.js';
+import { connectDb, disconnectDb } from '../src/db.js';
+import { User } from '../src/models/index.js';
 
 const [email, role = 'admin'] = process.argv.slice(2);
 if (!email || !['staff', 'admin', 'customer'].includes(role)) {

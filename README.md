@@ -72,10 +72,17 @@ Until accounts exist, `/dashboard` can be browsed without signing in (empty stat
 
 ## Backend (API + MongoDB Atlas)
 
-The API lives in this repo and deploys with the site as a Vercel serverless function
-(`api/index.js` → `server/`). See **[docs/BACKEND.md](docs/BACKEND.md)** for the setup
-checklist (Atlas, secrets, email, payments, storage, pricing), the endpoint list and
-how to run it locally (`npm run dev:api`, `npm test`, `npm run seed:demo`).
+The API is a separate project in **[`backend/`](backend/README.md)** (Express + MongoDB
+Atlas), deployed on its own at `https://api.realmovingcanada.ca`. The website calls it
+at `VITE_API_BASE` with cookies; the API allows the website's origins (CORS) and is the
+only thing that connects to the database. Setup, environment variables and the
+go-live checklist are in [backend/README.md](backend/README.md).
+
+```
+npm run dev:api      # backend on http://localhost:4000 (needs backend/.env)
+npm run dev          # website on http://localhost:5173 — /api is proxied to the backend
+npm run test:api     # backend tests
+```
 
 ## SEO
 

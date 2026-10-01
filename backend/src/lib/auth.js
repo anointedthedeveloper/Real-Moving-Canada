@@ -26,15 +26,15 @@ export function startSession(res, user, { remember = false } = {}) {
   const token = jwt.sign({ sub: String(user._id), role: user.role }, config.jwtSecret, { expiresIn: maxAge });
   res.cookie(config.sessionCookie, token, {
     httpOnly: true,
-    secure: config.isProd,
-    sameSite: 'lax',
+    secure: config.cookieSecure,
+    sameSite: config.cookieSameSite,
     path: '/',
     ...(remember ? { maxAge: maxAge * 1000 } : {}),
   });
 }
 
 export function endSession(res) {
-  res.clearCookie(config.sessionCookie, { httpOnly: true, secure: config.isProd, sameSite: 'lax', path: '/' });
+  res.clearCookie(config.sessionCookie, { httpOnly: true, secure: config.cookieSecure, sameSite: config.cookieSameSite, path: '/' });
 }
 
 /** Returns the token payload, or null when the cookie is missing, invalid or expired. */

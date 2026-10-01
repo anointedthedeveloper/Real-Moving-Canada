@@ -83,7 +83,7 @@ router.post('/forgot-password', rateLimit({ windowMs: 60 * 60 * 1000, max: 8 }),
     const token = randomToken();
     await PasswordReset.deleteMany({ userId: user._id, usedAt: { $exists: false } });
     await PasswordReset.create({ userId: user._id, tokenHash: sha256(token), expiresAt: new Date(Date.now() + RESET_TTL_MINUTES * 60 * 1000) });
-    const url = `${config.appUrl}/reset-password?token=${encodeURIComponent(token)}`;
+    const url = `${config.frontendUrl}/reset-password?token=${encodeURIComponent(token)}`;
     await sendEmail({
       to: user.email,
       subject: 'Reset your Real Moving Canada password',

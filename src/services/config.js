@@ -1,8 +1,11 @@
 /**
- * Runtime configuration. Values can be overridden with Vite env vars
- * (e.g. VITE_API_BASE=https://api.example.com/api in a .env file).
+ * Runtime configuration from Vite env vars (set in Vercel → Environment Variables,
+ * or a local .env file — see .env.example).
+ *
+ * VITE_API_BASE is the backend's address, e.g. https://api.realmovingcanada.ca/api.
+ * Locally it defaults to /api, which Vite proxies to the backend on port 4000.
  */
-export const API_BASE = import.meta.env.VITE_API_BASE || '/api';
+export const API_BASE = (import.meta.env.VITE_API_BASE || '/api').replace(/\/+$/, '');
 
 /**
  * Formspree endpoint that receives the public forms (quote, contact, reviews).

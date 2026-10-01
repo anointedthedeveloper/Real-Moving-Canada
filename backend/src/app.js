@@ -1,6 +1,6 @@
 import express from 'express';
 import cookieParser from 'cookie-parser';
-import { securityHeaders, requireAjax } from './middleware/security.js';
+import { corsPolicy, securityHeaders, requireAjax } from './middleware/security.js';
 import { loadUser } from './middleware/auth.js';
 import { apiNotFound, errorHandler } from './middleware/errors.js';
 import authRoutes from './routes/auth.js';
@@ -14,7 +14,11 @@ import portalRoutes from './routes/portal.js';
 export function createApp() {
   const app = express();
   app.disable('x-powered-by');
-  app.set('trust proxy', 1); // Vercel / reverse proxies set X-Forwarded-For
+  app.set('trust proxy', 1); // hosting platforms sit behind a proxy that sets X-Forwarded-For
+
+  app.use(corsPolicy);
+  app.get('/', (_req, res) => res.json({ name: 'Real Moving Canada API', health: '/api/health' }));
+  app.get('/health', (_req, res) => res.json({ ok: true }));
 
   const api = express.Router();
   api.use(securityHeaders);

@@ -13,13 +13,14 @@ before(async () => {
   mongo = await MongoMemoryServer.create();
   process.env.MONGODB_URI = mongo.getUri();
   process.env.JWT_SECRET = 'test-secret-that-is-definitely-longer-than-32-chars';
-  process.env.APP_URL = 'http://localhost:5173';
+  process.env.FRONTEND_URL = 'https://realmovingcanada.ca';
+  process.env.CORS_ORIGINS = 'https://www.realmovingcanada.ca,http://localhost:5173';
   // Capture outgoing emails (no RESEND_API_KEY in tests, so they are logged).
   const info = console.info;
   console.info = (msg, ...rest) => (String(msg).startsWith('[email:not-sent]') ? emails.push(String(msg)) : info(msg, ...rest));
-  ({ default: app } = await import('../app.js'));
-  models = await import('../models/index.js');
-  ({ disconnectDb } = await import('../db.js'));
+  ({ default: app } = await import('../src/app.js'));
+  models = await import('../src/models/index.js');
+  ({ disconnectDb } = await import('../src/db.js'));
 });
 
 after(async () => {
@@ -48,6 +49,16 @@ describe('platform', () => {
   test('state-changing requests without the AJAX header are blocked (CSRF)', async () => {
     const res = await request(app).post('/api/auth/login').send({ email: 'a@b.co', password: 'x' });
     assert.equal(res.status, 403);
+  });
+
+  test('CORS allows the website origins only', async () => {
+    const ok = await request(app).options('/api/auth/login').set('Origin', 'https://realmovingcanada.ca').set('Access-Control-Request-Method', 'POST');
+    assert.equal(ok.headers['access-control-allow-origin'], 'https://realmovingcanada.ca');
+    assert.equal(ok.headers['access-control-allow-credentials'], 'true');
+    const bad = await request(app).options('/api/auth/login').set('Origin', 'https://evil.example').set('Access-Control-Request-Method', 'POST');
+    assert.equal(bad.headers['access-control-allow-origin'], undefined);
+    const blocked = await request(app).post('/api/auth/login').set(XHR).set('Origin', 'https://evil.example').send({ email: 'a@b.co', password: 'x' });
+    assert.equal(blocked.status, 403);
   });
 
   test('validation errors come back per field', async () => {

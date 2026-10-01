@@ -28,7 +28,7 @@ export async function api(path, { method = 'GET', body, signal } = {}) {
       method,
       headers,
       signal,
-      credentials: 'same-origin',
+      credentials: 'include', // the API is on its own domain (api.realmovingcanada.ca)
       body: body === undefined ? undefined : isForm ? body : JSON.stringify(body),
     });
   } catch (err) {
