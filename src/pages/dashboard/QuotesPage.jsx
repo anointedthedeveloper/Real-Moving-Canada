@@ -38,6 +38,8 @@ export default function QuotesPage() {
     try {
       await acceptQuote(selected.id);
       setAction({ busy: false, error: '', done: 'Quote accepted. We’ll confirm your booking shortly.' });
+      setTab('accepted');
+      setSelectedId(selected.id);
       reload();
     } catch (err) {
       setAction({ busy: false, error: err.message, done: '' });

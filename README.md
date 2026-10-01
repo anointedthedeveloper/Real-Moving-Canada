@@ -70,6 +70,13 @@ footer, services pages and quote form are all generated from it.
 Until accounts exist, `/dashboard` can be browsed without signing in (empty states and a sign-in prompt). Set
 `VITE_REQUIRE_AUTH=true` once `/api/auth/session` works to require sign-in.
 
+## Backend (API + MongoDB Atlas)
+
+The API lives in this repo and deploys with the site as a Vercel serverless function
+(`api/index.js` → `server/`). See **[docs/BACKEND.md](docs/BACKEND.md)** for the setup
+checklist (Atlas, secrets, email, payments, storage, pricing), the endpoint list and
+how to run it locally (`npm run dev:api`, `npm test`, `npm run seed:demo`).
+
 ## SEO
 
 - `index.html` carries the default title, description, keywords, Open Graph/Twitter

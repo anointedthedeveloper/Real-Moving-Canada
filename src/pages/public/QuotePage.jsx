@@ -70,10 +70,10 @@ export default function QuotePage() {
   const back = () => { form.setFormError(''); setStep((s) => Math.max(0, s - 1)); };
 
   const submit = form.handleSubmit(async (values) => {
-    await submitQuoteRequest(values);
+    const { reference } = await submitQuoteRequest(values);
     local.remove(STORAGE_KEYS.quoteDraft);
     session.remove(STORAGE_KEYS.estimateDraft);
-    setSubmitted(values);
+    setSubmitted({ ...values, reference });
   }, { paths: STEP_FIELDS[3] });
 
   const startOver = () => {
@@ -154,6 +154,7 @@ function Confirmation({ values: v }) {
     >
       <dl className="summary-section submitted">
         <header><h3>Submitted details</h3></header>
+        {v.reference && <div className="summary-row"><dt>Reference</dt><dd><strong>{v.reference}</strong></dd></div>}
         <div className="summary-row"><dt>Customer</dt><dd>{`${v.firstName} ${v.lastName}`}</dd></div>
         <div className="summary-row"><dt>Route</dt><dd>{formatPlace(v.origin)} → {formatPlace(v.destination)}</dd></div>
         <div className="summary-row"><dt>Move date</dt><dd>{fmtDate(v.moveDate)}</dd></div>

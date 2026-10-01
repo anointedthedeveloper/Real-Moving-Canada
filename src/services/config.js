@@ -11,8 +11,7 @@ export const API_BASE = import.meta.env.VITE_API_BASE || '/api';
 export const FORMSPREE_ENDPOINT = import.meta.env.VITE_FORMSPREE_ENDPOINT || 'https://formspree.io/f/xaenbadr';
 
 /**
- * Customer accounts need a backend that doesn't exist yet. While this is false the
- * customer portal can be browsed without signing in (empty states and a sign-in prompt); set
- * VITE_REQUIRE_AUTH=true once /api/auth is live to require sign-in.
+ * The customer portal requires signing in. Set VITE_REQUIRE_AUTH=false only to
+ * preview the portal screens without the API (they then show empty states).
  */
-export const REQUIRE_AUTH = import.meta.env.VITE_REQUIRE_AUTH === 'true';
+export const REQUIRE_AUTH = import.meta.env.VITE_REQUIRE_AUTH !== 'false';

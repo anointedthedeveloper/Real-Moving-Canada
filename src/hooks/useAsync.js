@@ -7,7 +7,8 @@ export function useAsync(loader, deps = []) {
 
   const load = useCallback(() => {
     const id = ++run.current;
-    setState((s) => ({ ...s, loading: true, error: null }));
+    // Refreshes keep the data already on screen; only the first load shows a skeleton.
+    setState((s) => ({ ...s, loading: s.data == null, error: null }));
     Promise.resolve()
       .then(loader)
       .then((data) => { if (id === run.current) setState({ data, loading: false, error: null }); })

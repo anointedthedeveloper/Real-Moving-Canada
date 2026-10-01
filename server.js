@@ -5,9 +5,9 @@
  * caching for hashed assets. Every other GET is answered with dist/index.html so
  * React Router can render the route — a hard refresh on /services/storage or
  * /dashboard/quotes works, and unknown paths get the app's own 404 page.
- * Requests under /api/ get a plain-text 404: there is no backend yet, and the
- * frontend's service layer reads a non-JSON 404 as "not connected" and falls back
- * to built-in content or empty states. Proxy /api/ to the real API here once it exists.
+ * Requests under /api/ are handled by the Express API in server/app.js (the same
+ * app Vercel runs as a serverless function), so this file can host the whole site
+ * on any Node server.
  *
  * Usage: npm run build && npm start   (port: argv[2], then $PORT, then 3000)
  */
@@ -15,6 +15,7 @@ import http from 'node:http';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import api from './server/app.js';
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), 'dist');
 const PORT = Number(process.argv[2]) || Number(process.env.PORT) || 3000;
@@ -63,9 +64,8 @@ if (!fs.existsSync(INDEX)) {
 }
 
 http.createServer((req, res) => {
-  if (req.url.startsWith('/api/')) {
-    res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' });
-    res.end('No API is connected.');
+  if (req.url === '/api' || req.url.startsWith('/api/')) {
+    api(req, res);
     return;
   }
   const file = resolveFile(req.url);

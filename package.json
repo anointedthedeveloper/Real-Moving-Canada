@@ -6,17 +6,32 @@
   "description": "Real Moving Canada \u2014 public website, quote flow and customer portal (React + Vite).",
   "scripts": {
     "dev": "vite",
+    "dev:api": "node --env-file-if-exists=.env server/dev.js",
     "build": "vite build && node scripts/generate-seo.mjs",
     "preview": "vite preview",
-    "start": "node server.js"
+    "start": "node --env-file-if-exists=.env server.js",
+    "test": "node --test \"server/tests/*.test.js\"",
+    "seed:demo": "node --env-file-if-exists=.env server/scripts/seed-demo.js",
+    "make:admin": "node --env-file-if-exists=.env server/scripts/make-admin.js"
   },
   "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "cookie-parser": "^1.4.7",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^9.10.3",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
-    "react-router-dom": "^7.18.4"
+    "react-router-dom": "^7.18.4",
+    "zod": "^4.6.5"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^6.1.1",
+    "mongodb-memory-server": "^11.3.0",
+    "supertest": "^7.3.0",
     "vite": "^8.3.1"
+  },
+  "engines": {
+    "node": ">=20.12"
   }
 }
