@@ -1,13 +1,27 @@
 import { submitToFormspree } from './formspree.js';
+import { post, isNotConnected } from './apiClient.js';
 import { labelFor, MOVE_TYPES, PROPERTY_TYPES, CONTACT_METHODS, CONTACT_TOPICS } from '../constants/options.js';
 import { SERVICES } from '../constants/services.js';
 import { formatPlace, fmtDate } from '../utils/format.js';
 
-/** Quote / booking request from the five-step quote flow. */
+/**
+ * Sends a form to both destinations: the API (saved in the database and shown in the
+ * customer's account) and Formspree (emailed to the team). The visitor sees success
+ * if either one receives it; validation errors from the API are shown on the form.
+ */
+async function sendToBoth(apiCall, formspreeCall) {
+  const [api, email] = await Promise.allSettled([apiCall(), formspreeCall()]);
+  if (api.status === 'rejected' && api.reason?.status === 400) throw api.reason;
+  if (api.status === 'fulfilled') return api.value || {};
+  if (email.status === 'fulfilled') return {};
+  throw isNotConnected(api.reason) ? email.reason : api.reason;
+}
+
+/** Quote / booking request from the five-step quote flow. Resolves to { reference } when saved. */
 export function submitQuoteRequest(q) {
   const name = `${q.firstName} ${q.lastName}`.trim();
   const services = q.services.map((v) => SERVICES.find((s) => s.quoteValue === v)?.name || v);
-  return submitToFormspree({
+  return sendToBoth(() => post('/public/quotes', q), () => submitToFormspree({
     'Name': name,
     'Email': q.email,
     'Phone': q.phone,
@@ -27,7 +41,7 @@ export function submitQuoteRequest(q) {
     'Move notes': q.notes || '—',
     _replyto: q.email,
     _gotcha: q._gotcha,
-  }, { subject: `New moving quote request — ${name}` });
+  }, { subject: `New moving quote request — ${name}` }));
 }
 
 export function submitContactMessage(m) {
@@ -44,7 +58,7 @@ export function submitContactMessage(m) {
 }
 
 export function submitReview(r) {
-  return submitToFormspree({
+  return sendToBoth(() => post('/public/reviews', r), () => submitToFormspree({
     'Name': r.name,
     'Email': r.email,
     'Rating': `${r.rating} / 5`,
@@ -52,5 +66,5 @@ export function submitReview(r) {
     'Review': r.body,
     _replyto: r.email,
     _gotcha: r._gotcha,
-  }, { subject: `New customer review — ${r.name}` });
+  }, { subject: `New customer review — ${r.name}` }));
 }

@@ -8,5 +8,9 @@ process.env.VITE_SITE_URL ||= 'https://real-moving-canada-ddne.vercel.app';
 export default defineConfig({
   plugins: [react()],
   publicDir: 'static',
-  server: { port: 5173 },
+  server: {
+    port: 5173,
+    // `npm run dev:api` serves the API locally; the frontend calls it as /api like in production.
+    proxy: { '/api': 'http://localhost:4000' },
+  },
 });

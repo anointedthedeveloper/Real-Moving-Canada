@@ -70,6 +70,20 @@ footer, services pages and quote form are all generated from it.
 Until accounts exist, `/dashboard` can be browsed without signing in (empty states and a sign-in prompt). Set
 `VITE_REQUIRE_AUTH=true` once `/api/auth/session` works to require sign-in.
 
+## Backend (API + MongoDB Atlas)
+
+The API is a separate project in **[`backend/`](backend/README.md)** (Express + MongoDB
+Atlas), deployed on its own at `https://api.realmovingcanada.ca`. The website calls it
+at `VITE_API_BASE` with cookies; the API allows the website's origins (CORS) and is the
+only thing that connects to the database. Setup, environment variables and the
+go-live checklist are in [backend/README.md](backend/README.md).
+
+```
+npm run dev:api      # backend on http://localhost:4000 (needs backend/.env)
+npm run dev          # website on http://localhost:5173 — /api is proxied to the backend
+npm run test:api     # backend tests
+```
+
 ## SEO
 
 - `index.html` carries the default title, description, keywords, Open Graph/Twitter

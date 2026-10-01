@@ -7,10 +7,12 @@ import { PRIMARY_NAV } from '../../constants/navigation.js';
 import { SERVICES, serviceLabel } from '../../constants/services.js';
 import { COMPANY } from '../../constants/company.js';
 import { useLockBodyScroll } from '../../hooks/useLockBodyScroll.js';
+import { useAuth } from '../../context/AuthContext.jsx';
 
 const navClass = ({ isActive }) => `nav-link${isActive ? ' is-active' : ''}`;
 
 export default function SiteHeader() {
+  const { user } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -85,7 +87,9 @@ export default function SiteHeader() {
             ) : (
               <li key={item.to} className="nav-item" style={{ '--i': i }}><NavLink to={item.to} end={item.end} className={navClass}>{item.label}</NavLink></li>
             ))}
-            <li className="nav-item" style={{ '--i': PRIMARY_NAV.length }}><NavLink to="/login" className={navClass}>Login</NavLink></li>
+            <li className="nav-item" style={{ '--i': PRIMARY_NAV.length }}>{user
+              ? <NavLink to="/dashboard" className={navClass}>My account</NavLink>
+              : <NavLink to="/login" className={navClass}>Login</NavLink>}</li>
           </ul>
           <div className="nav-mobile-extra">
             <Button to="/quote" block iconRight="arrow-right">Get a quote</Button>

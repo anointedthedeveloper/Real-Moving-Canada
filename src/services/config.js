@@ -1,8 +1,11 @@
 /**
- * Runtime configuration. Values can be overridden with Vite env vars
- * (e.g. VITE_API_BASE=https://api.example.com/api in a .env file).
+ * Runtime configuration from Vite env vars (set in Vercel → Environment Variables,
+ * or a local .env file — see .env.example).
+ *
+ * VITE_API_BASE is the backend's address, e.g. https://api.realmovingcanada.ca/api.
+ * Locally it defaults to /api, which Vite proxies to the backend on port 4000.
  */
-export const API_BASE = import.meta.env.VITE_API_BASE || '/api';
+export const API_BASE = (import.meta.env.VITE_API_BASE || '/api').replace(/\/+$/, '');
 
 /**
  * Formspree endpoint that receives the public forms (quote, contact, reviews).
@@ -11,8 +14,7 @@ export const API_BASE = import.meta.env.VITE_API_BASE || '/api';
 export const FORMSPREE_ENDPOINT = import.meta.env.VITE_FORMSPREE_ENDPOINT || 'https://formspree.io/f/xaenbadr';
 
 /**
- * Customer accounts need a backend that doesn't exist yet. While this is false the
- * customer portal can be browsed without signing in (empty states and a sign-in prompt); set
- * VITE_REQUIRE_AUTH=true once /api/auth is live to require sign-in.
+ * The customer portal requires signing in. Set VITE_REQUIRE_AUTH=false only to
+ * preview the portal screens without the API (they then show empty states).
  */
-export const REQUIRE_AUTH = import.meta.env.VITE_REQUIRE_AUTH === 'true';
+export const REQUIRE_AUTH = import.meta.env.VITE_REQUIRE_AUTH !== 'false';
