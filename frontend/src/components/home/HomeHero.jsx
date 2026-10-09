@@ -6,26 +6,27 @@ import { MapleLeaf } from '../common/LogoMark.jsx';
 import { COMPANY } from '../../constants/company.js';
 import heroImage from '../../assets/images/hero-rmc.webp';
 
-const HERO_SERVICES = ['Residential', 'Commercial', 'Packing & Unpacking', 'Junk Removal', 'Secure Storage'];
+const HERO_SERVICES = [['Residential', 'Commercial', 'Packing & Unpacking'], ['Junk Removal', 'Secure Storage']];
 
-/** Hero from the RMC brand mock-up: copy on a light panel, crew and truck photo on the right. */
+/** Hero from the RMC brand mock-up: full-width photo, copy over the skyline. */
 export default function HomeHero() {
   return (
     <section className="hero" aria-labelledby="hero-title">
       <div className="hero-media">
-        <img src={heroImage} alt="Real Moving Canada movers carrying boxes from an RMC truck to a family’s new home" width="980" height="585" fetchpriority="high" />
+        <img src={heroImage} alt="Real Moving Canada movers carrying boxes from an RMC truck to a family’s new home" width="1600" height="585" fetchpriority="high" />
       </div>
       <div className="wrap hero-grid">
         <div className="hero-inner">
           <Kicker>Your move <span aria-hidden="true">•</span> Our priority</Kicker>
           <h1 id="hero-title">Professional Moving Services Across Canada</h1>
-          <ul className="hero-services" aria-label="Services">
-            {HERO_SERVICES.map((s) => <li key={s}>{s}</li>)}
-          </ul>
+          <div className="hero-services" aria-label="Services">
+            {HERO_SERVICES.map((row) => (
+              <ul key={row[0]}>{row.map((s) => <li key={s}>{s}</li>)}</ul>
+            ))}
+          </div>
           <p className="hero-promise">Safe. Reliable. On Time.<br />We Move What Matters.</p>
           <div className="actions">
             <Button to="/quote" size="lg" iconRight="arrow-right">Get a Free Quote</Button>
-            <Button href={`tel:${COMPANY.phoneTel}`} variant="outline" size="lg" icon="phone">{COMPANY.phone}</Button>
           </div>
         </div>
       </div>
