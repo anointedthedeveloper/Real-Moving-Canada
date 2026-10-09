@@ -5,6 +5,7 @@ import Icon from '../common/Icon.jsx';
 import { MapleLeaf } from '../common/LogoMark.jsx';
 import { COMPANY } from '../../constants/company.js';
 import heroImage from '../../assets/images/hero-rmc.webp';
+import heroImageLarge from '../../assets/images/hero-rmc-2880.webp';
 
 const HERO_SERVICES = [['Residential', 'Commercial', 'Packing & Unpacking'], ['Junk Removal', 'Secure Storage']];
 
@@ -13,7 +14,7 @@ export default function HomeHero() {
   return (
     <section className="hero" aria-labelledby="hero-title">
       <div className="hero-media">
-        <img src={heroImage} alt="Real Moving Canada movers carrying boxes from an RMC truck to a family’s new home" width="1600" height="585" fetchpriority="high" />
+        <img src={heroImage} srcSet={`${heroImage} 1600w, ${heroImageLarge} 2880w`} sizes="100vw" alt="Real Moving Canada movers carrying boxes from an RMC truck to a family’s new home" width="1600" height="585" fetchpriority="high" />
       </div>
       <div className="wrap wrap-wide hero-grid">
         <div className="hero-inner">
