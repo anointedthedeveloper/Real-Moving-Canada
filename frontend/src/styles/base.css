@@ -44,9 +44,9 @@ p { margin: 0 0 1em; }
 .section { padding-block: var(--section); }
 .section.tint { background: var(--paper-2); }
 .section.white { background: var(--white); }
-.section.dark { background: var(--ink); color: #D9D6D2; }
+.section.dark { background: var(--ink); color: #C9D4E6; }
 .section.dark h2, .section.dark h3 { color: var(--white); }
-.section.dark .lead { color: #BDB8B2; }
+.section.dark .lead { color: #AFBCD2; }
 
 .sr-only { position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 .skip-link { position: absolute; left: 1rem; top: -100px; z-index: 100; background: var(--ink); color: var(--white); padding: .6rem 1rem; border-radius: var(--r-sm); text-decoration: none; }

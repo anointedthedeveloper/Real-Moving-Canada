@@ -11,7 +11,8 @@ export default function SiteFooter() {
       <div className="wrap footer-grid">
         <div className="footer-brand">
           <Logo tone="light" />
-          <p>{COMPANY.tagline}</p>
+          <p className="footer-slogan">{COMPANY.slogan}</p>
+          <p>{COMPANY.promise}</p>
         </div>
         <nav aria-label="Company">
           <h2 className="footer-title">Company</h2>
@@ -30,6 +31,7 @@ export default function SiteFooter() {
           <h2 className="footer-title">Contact</h2>
           <ul className="footer-contact">
             <li><a href={`tel:${COMPANY.phoneTel}`}>{COMPANY.phone}</a></li>
+            <li><a href={`tel:${COMPANY.phone2Tel}`}>{COMPANY.phone2}</a></li>
             <li><a href={`mailto:${COMPANY.email}`}>{COMPANY.email}</a></li>
             <li>{address.street}<br />{address.city}, {address.province} {address.postal}</li>
           </ul>

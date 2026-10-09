@@ -1,4 +1,7 @@
-import HomeHero from '../../components/home/HomeHero.jsx';
+import HomeHero, { HeroServiceStrip, TrustBar } from '../../components/home/HomeHero.jsx';
+import RouteTicket from '../../components/home/RouteTicket.jsx';
+import Kicker from '../../components/common/Kicker.jsx';
+import Icon from '../../components/common/Icon.jsx';
 import WhyChoose from '../../components/home/WhyChoose.jsx';
 import ProcessSteps from '../../components/home/ProcessSteps.jsx';
 import ServiceAreasPanel from '../../components/home/ServiceAreasPanel.jsx';
@@ -21,7 +24,24 @@ export default function HomePage() {
   return (
     <>
       <HomeHero />
-      <section className="section" aria-labelledby="help-title">
+      <HeroServiceStrip />
+      <TrustBar />
+      <section className="section estimate-band" aria-labelledby="estimate-band-title">
+        <div className="wrap estimate-band-grid">
+          <div>
+            <Kicker>Instant estimate</Kicker>
+            <h2 id="estimate-band-title">Get an instant moving estimate</h2>
+            <p className="lead">Pick your route and home size to see a price range in seconds — then request a free quote and our team confirms the details.</p>
+            <ul className="tick-list">
+              <li><Icon name="check" />Local, long-distance and cross-Canada moves</li>
+              <li><Icon name="check" />No account needed</li>
+              <li><Icon name="check" />Free, no-obligation quote</li>
+            </ul>
+          </div>
+          <RouteTicket />
+        </div>
+      </section>
+      <section className="section white" aria-labelledby="help-title">
         <div className="wrap">
           <SectionHeader
             id="help-title" kicker="How we can help" title="Moving support for every stage"

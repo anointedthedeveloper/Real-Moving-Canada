@@ -2,28 +2,70 @@ import { Link } from 'react-router-dom';
 import Kicker from '../common/Kicker.jsx';
 import Button from '../common/Button.jsx';
 import Icon from '../common/Icon.jsx';
-import RouteTicket from './RouteTicket.jsx';
-import heroImage from '../../assets/images/hero-home.webp';
+import { MapleLeaf } from '../common/LogoMark.jsx';
+import { COMPANY } from '../../constants/company.js';
+import heroImage from '../../assets/images/hero-rmc.webp';
 
+const HERO_SERVICES = [['Residential', 'Commercial', 'Packing & Unpacking'], ['Junk Removal', 'Secure Storage']];
+
+/** Hero from the RMC brand mock-up: full-width photo, copy over the skyline. */
 export default function HomeHero() {
   return (
     <section className="hero" aria-labelledby="hero-title">
       <div className="hero-media">
-        <img src={heroImage} alt="Two movers carrying a plastic-wrapped couch toward a moving truck" width="1584" height="672" fetchpriority="high" />
+        <img src={heroImage} alt="Real Moving Canada movers carrying boxes from an RMC truck to a family’s new home" width="1600" height="585" fetchpriority="high" />
       </div>
-      <div className="wrap hero-grid">
+      <div className="wrap wrap-wide hero-grid">
         <div className="hero-inner">
-          <Kicker tone="light">Real Moving Canada</Kicker>
-          <h1 id="hero-title">Moving your life forward, with care.</h1>
-          <p className="lead">Residential, commercial, packing, cleanout, storage, and specialty moving services—planned around the details of your move.</p>
-          <div className="actions">
-            <Button to="/quote" size="lg" iconRight="arrow-right">Book a move</Button>
-            <Button to="/quote" variant="light" size="lg" iconRight="arrow-right">Get a quote</Button>
+          <Kicker>Your move <span aria-hidden="true">•</span> Our priority</Kicker>
+          <h1 id="hero-title">Professional Moving Services Across Canada</h1>
+          <div className="hero-services" aria-label="Services">
+            {HERO_SERVICES.map((row) => (
+              <ul key={row[0]}>{row.map((s) => <li key={s}>{s}</li>)}</ul>
+            ))}
           </div>
-          <Link to="/quote" className="hero-chip"><Icon name="calendar" /> Start with your move date and addresses</Link>
+          <p className="hero-promise">Safe. Reliable. On Time.<br />We Move What Matters.</p>
+          <div className="actions">
+            <Button to="/quote" size="lg" iconRight="arrow-right">Get a Free Quote</Button>
+          </div>
         </div>
-        <RouteTicket />
       </div>
     </section>
+  );
+}
+
+const STRIP = [
+  { slug: 'residential', icon: 'home', label: 'Residential Moving' },
+  { slug: 'commercial-office', icon: 'building', label: 'Commercial Moving' },
+  { slug: 'packing-unpacking', icon: 'box', label: 'Packing & Unpacking' },
+  { slug: 'junk-removal', icon: 'truck', label: 'Junk Removal' },
+  { slug: 'storage', icon: 'warehouse', label: 'Storage Solutions' },
+];
+
+/** The row of service icons under the hero. */
+export function HeroServiceStrip() {
+  return (
+    <nav className="service-strip" aria-label="Our main services">
+      <ul className="wrap">
+        {STRIP.map((s) => (
+          <li key={s.slug}>
+            <Link to={`/services/${s.slug}`}><Icon name={s.icon} /><span>{s.label}</span></Link>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  );
+}
+
+/** Trust line: Trusted | Insured | Professional · Proudly serving Canada · Saskatoon, SK. */
+export function TrustBar() {
+  return (
+    <div className="trust-bar">
+      <div className="wrap wrap-wide trust-bar-inner">
+        <p><Icon name="shield" /><span>Trusted <i aria-hidden="true">|</i> Insured <i aria-hidden="true">|</i> Professional</span></p>
+        <p className="trust-center"><MapleLeaf className="trust-leaf" /><span>Proudly Serving Communities Across Canada</span></p>
+        <p><Icon name="pin" /><span>{COMPANY.address.city}, {COMPANY.address.provinceCode}</span></p>
+      </div>
+    </div>
   );
 }

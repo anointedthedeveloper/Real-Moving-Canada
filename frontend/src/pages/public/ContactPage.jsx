@@ -7,7 +7,7 @@ import ContactForm from '../../components/forms/ContactForm.jsx';
 import { COMPANY, MAP_EMBED_URL, MAP_DIRECTIONS_URL } from '../../constants/company.js';
 import { useDocumentTitle } from '../../hooks/useDocumentTitle.js';
 import { keywordsFor, businessJsonLd } from '../../constants/seo.js';
-import heroImage from '../../assets/images/clipboard-check.webp';
+import truckBanner from '../../assets/images/truck-banner.webp';
 
 export default function ContactPage() {
   useDocumentTitle('Contact Our Movers — Saskatoon, Saskatchewan', `Contact Real Moving Canada: call ${COMPANY.phone}, email ${COMPANY.email}, or visit ${COMPANY.address.street}, Saskatoon. Ask about your move or start a free moving quote.`, {
@@ -18,10 +18,11 @@ export default function ContactPage() {
   return (
     <>
       <PageHero
+        variant="banner"
         kicker="Contact" title="Let’s talk about your move"
-        text="Send a message, or start a quote to share complete move details."
-        image={heroImage} imageAlt="Two movers reviewing a checklist beside a moving truck"
-        actions={<Button to="/quote" iconRight="arrow-right">Start a quote</Button>}
+        text={`${COMPANY.promise} Call ${COMPANY.phone} or ${COMPANY.phone2}, send a message, or start a quote.`}
+        image={truckBanner} imageAlt="Real Moving Canada truck with the RMC livery, movers and moving supplies"
+        actions={<><Button to="/quote" variant="light" icon="mail">Get a Free Quote</Button><Button href={`tel:${COMPANY.phoneTel}`} variant="ghost-light" icon="phone">Call now</Button></>}
       />
       <section className="section" aria-labelledby="reach-title">
         <div className="wrap contact-grid">
@@ -30,7 +31,7 @@ export default function ContactPage() {
             <h2 id="reach-title">Contact information</h2>
             <p className="lead">Questions about a move or a quote? Call, email, or send a message and our team will get back to you.</p>
             <ul className="contact-list">
-              <li><span className="icon-tile"><Icon name="phone" /></span><div><small>Phone</small><a href={`tel:${COMPANY.phoneTel}`}>{COMPANY.phone}</a></div></li>
+              <li><span className="icon-tile"><Icon name="phone" /></span><div><small>Call today</small><a href={`tel:${COMPANY.phoneTel}`}>{COMPANY.phone}</a><a href={`tel:${COMPANY.phone2Tel}`}>{COMPANY.phone2}</a></div></li>
               <li><span className="icon-tile"><Icon name="mail" /></span><div><small>Email</small><a href={`mailto:${COMPANY.email}`}>{COMPANY.email}</a></div></li>
               <li><span className="icon-tile"><Icon name="pin" /></span><div><small>Business address</small><span>{address.street}<br />{address.city}, {address.province} {address.postal}</span></div></li>
               <li><span className="icon-tile"><Icon name="map" /></span><div><small>Service area</small><span>Residential, commercial and long-distance moves across Canada.</span></div></li>

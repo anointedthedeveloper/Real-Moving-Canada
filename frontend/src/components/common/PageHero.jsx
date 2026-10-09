@@ -1,12 +1,13 @@
 import Kicker from './Kicker.jsx';
 
 /**
- * Inner-page hero: dark copy panel beside a photo on desktop, and copy over the
- * photo on phones (Services, Service detail, About and Contact in the design).
+ * Inner-page hero. `split` (default): navy copy panel beside a photo on desktop,
+ * copy over the photo on phones. `banner`: the photo fills the whole hero behind
+ * the copy (used with the RMC truck banner on Contact).
  */
-export default function PageHero({ kicker, title, text, image, imageAlt = '', actions, children }) {
+export default function PageHero({ kicker, title, text, image, imageAlt = '', actions, children, variant = 'split' }) {
   return (
-    <section className="page-hero">
+    <section className={`page-hero${variant === 'banner' ? ' page-hero-banner' : ''}`}>
       <div className="page-hero-copy">
         <div className="page-hero-inner">
           {kicker && <Kicker tone="gold">{kicker}</Kicker>}

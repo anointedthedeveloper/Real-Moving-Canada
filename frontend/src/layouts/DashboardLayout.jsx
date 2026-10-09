@@ -73,7 +73,7 @@ export default function DashboardLayout() {
       <aside className="portal-side">{sidebar}</aside>
 
       <header className="portal-topbar">
-        <Logo to="/dashboard" />
+        <Logo to="/dashboard" compact />
         <span className="portal-topbar-title">{title}</span>
         <button type="button" className="icon-btn" aria-label="Open account menu" aria-expanded={drawerOpen} aria-controls="portal-drawer" onClick={() => setDrawerOpen(true)}>
           <Icon name="menu" />

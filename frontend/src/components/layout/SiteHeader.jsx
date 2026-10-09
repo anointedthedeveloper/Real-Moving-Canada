@@ -16,7 +16,7 @@ export default function SiteHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const { pathname } = useLocation();
+  const { pathname, hash } = useLocation();
   const servicesRef = useRef(null);
   const toggleRef = useRef(null);
 
@@ -49,9 +49,9 @@ export default function SiteHeader() {
   const servicesActive = pathname.startsWith('/services');
 
   return (
-    <header className={`site-header${scrolled ? ' is-scrolled' : ''}${menuOpen ? ' menu-open' : ''}`}>
+    <header className={`site-header${pathname === '/' ? ' is-home' : ''}${scrolled ? ' is-scrolled' : ''}${menuOpen ? ' menu-open' : ''}`}>
       <a className="skip-link" href="#main">Skip to content</a>
-      <div className="wrap header-bar">
+      <div className="wrap wrap-wide header-bar">
         <Logo />
         <nav id="site-nav" className="site-nav" aria-label="Main">
           <ul className="nav-list">
@@ -85,19 +85,34 @@ export default function SiteHeader() {
                 </div>
               </li>
             ) : (
-              <li key={item.to} className="nav-item" style={{ '--i': i }}><NavLink to={item.to} end={item.end} className={navClass}>{item.label}</NavLink></li>
+              <li key={item.to} className="nav-item" style={{ '--i': i }}>
+                {item.to.includes('#')
+                  ? <Link to={item.to} className={`nav-link${pathname === '/' && hash === item.to.slice(1) ? ' is-active' : ''}`}>{item.label}</Link>
+                  : <NavLink to={item.to} end={item.end} className={({ isActive }) => navClass({ isActive: isActive && !(item.end && hash) })}>{item.label}</NavLink>}
+              </li>
             ))}
-            <li className="nav-item" style={{ '--i': PRIMARY_NAV.length }}>{user
+            <li className="nav-item nav-item-account" style={{ '--i': PRIMARY_NAV.length }}>{user
               ? <NavLink to="/dashboard" className={navClass}>My account</NavLink>
               : <NavLink to="/login" className={navClass}>Login</NavLink>}</li>
           </ul>
           <div className="nav-mobile-extra">
-            <Button to="/quote" block iconRight="arrow-right">Get a quote</Button>
+            <Button to="/quote" block icon="mail">Get a Free Quote</Button>
             <Button href={`tel:${COMPANY.phoneTel}`} variant="outline" block icon="phone">{COMPANY.phone}</Button>
+            <Button href={`tel:${COMPANY.phone2Tel}`} variant="outline" block icon="phone">{COMPANY.phone2}</Button>
           </div>
         </nav>
         <div className="header-actions">
-          <Button to="/quote" className="header-cta" iconRight="arrow-right">Get a quote</Button>
+          <div className="header-phones">
+            <span className="header-phone-icon"><Icon name="phone" /></span>
+            <span>
+              <a href={`tel:${COMPANY.phoneTel}`}>{COMPANY.phone}</a>
+              <a href={`tel:${COMPANY.phone2Tel}`}>{COMPANY.phone2}</a>
+            </span>
+          </div>
+          <Link to={user ? '/dashboard' : '/login'} className="icon-btn header-account" aria-label={user ? 'My account' : 'Login'} title={user ? 'My account' : 'Login'}>
+            <Icon name="user" />
+          </Link>
+          <Button to="/quote" className="header-cta" icon="mail">Get a Free Quote</Button>
           <Link to="/quote" className="header-cta-text">Get a quote</Link>
           <button
             ref={toggleRef} type="button" className="icon-btn menu-toggle" aria-controls="site-nav" aria-expanded={menuOpen}
