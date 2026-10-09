@@ -50,7 +50,7 @@
 .nav-item-account { display: none; }
 @media (min-width: 961px) { .header-bar .logo { --logo-h: clamp(56px, 9.4vh, 84px); } }
 @media (max-width: 1520px) and (min-width: 961px) { .header-bar .logo { --logo-h: clamp(56px, 9.4vh, 72px); } .nav-link { padding-inline: .6rem; } .header-bar { gap: 1rem; } }
-@media (max-width: 1360px) { .header-phones { display: none; } }
+@media (max-width: 1400px) { .header-phones { display: none; } }
 @media (max-width: 1280px) and (min-width: 961px) { .header-bar .logo { --logo-h: clamp(56px, 9vh, 64px); } .nav-link { padding-inline: .5rem; font-size: .95rem; } }
 @media (max-width: 1100px) and (min-width: 961px) { .nav-link { padding-inline: .5rem; font-size: .9rem; } .header-bar .logo-text small { display: none; } }
 .header-cta-text { display: none; }
@@ -103,6 +103,9 @@
   .header-bar { gap: .5rem; }
   .header-actions { gap: .25rem; margin-left: auto; }
   .header-cta-text { font-size: .72rem; letter-spacing: .04em; }
+}
+@media (max-width: 359px) {
+  .header-cta-text { display: none; }
 }
 
 /* ─── Home hero (RMC brand mock-up) ─────────────────────────────────────── */
