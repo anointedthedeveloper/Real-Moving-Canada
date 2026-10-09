@@ -23,9 +23,11 @@ export default function HomePage() {
   });
   return (
     <>
-      <HomeHero />
-      <HeroServiceStrip />
-      <TrustBar />
+      <div className="home-fold">
+        <HomeHero />
+        <HeroServiceStrip />
+        <TrustBar />
+      </div>
       <section className="section estimate-band" aria-labelledby="estimate-band-title">
         <div className="wrap estimate-band-grid">
           <div>

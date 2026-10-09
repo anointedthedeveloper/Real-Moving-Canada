@@ -9,8 +9,8 @@
     "build": "vite build && node scripts/generate-seo.mjs",
     "preview": "vite preview",
     "start": "node server.js",
-    "dev:api": "npm --prefix ../backend run dev",
-    "test:api": "npm --prefix ../backend test"
+    "dev:api": "npm --prefix backend run dev",
+    "test:api": "npm --prefix backend test"
   },
   "dependencies": {
     "react": "^19.3.0",

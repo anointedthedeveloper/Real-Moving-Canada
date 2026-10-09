@@ -48,9 +48,10 @@
 .header-phones a:hover { color: var(--red); }
 .header-account { border-radius: 50%; color: var(--navy); }
 .nav-item-account { display: none; }
-@media (max-width: 1520px) and (min-width: 961px) { .header-bar .logo { --logo-h: 72px; } .nav-link { padding-inline: .6rem; } .header-bar { gap: 1rem; } }
+@media (min-width: 961px) { .header-bar .logo { --logo-h: clamp(56px, 9.4vh, 84px); } }
+@media (max-width: 1520px) and (min-width: 961px) { .header-bar .logo { --logo-h: clamp(56px, 9.4vh, 72px); } .nav-link { padding-inline: .6rem; } .header-bar { gap: 1rem; } }
 @media (max-width: 1360px) { .header-phones { display: none; } }
-@media (max-width: 1280px) and (min-width: 961px) { .header-bar .logo { --logo-h: 64px; } .nav-link { padding-inline: .5rem; font-size: .95rem; } }
+@media (max-width: 1280px) and (min-width: 961px) { .header-bar .logo { --logo-h: clamp(56px, 9vh, 64px); } .nav-link { padding-inline: .5rem; font-size: .95rem; } }
 @media (max-width: 1100px) and (min-width: 961px) { .nav-link { padding-inline: .5rem; font-size: .9rem; } .header-bar .logo-text small { display: none; } }
 .header-cta-text { display: none; }
 .menu-toggle { display: none; border: 0; }
@@ -124,6 +125,20 @@
 .hero-promise { margin: .5rem 0 0; color: #3A4760; font-size: clamp(1rem, 1.15vw, 1.12rem); line-height: 1.45; }
 .hero .actions { margin-top: .9rem; }
 .hero .actions .btn { min-width: 16rem; justify-content: center; }
+
+/* First screen on desktop: header + hero + service strip + trust bar fill the viewport, like the mock-up */
+@media (min-width: 961px) {
+  .home-fold { display: flex; flex-direction: column; min-height: clamp(560px, calc(100svh - var(--header-h) - 1px), max(640px, calc(36.6vw + 190px))); }
+  .home-fold .hero { flex: 1 1 auto; display: flex; }
+  .home-fold .hero-grid { flex: 1; min-height: 0; padding-block: clamp(1.25rem, 5.2vh, 4.5rem) clamp(1rem, 3vh, 3rem); }
+  .home-fold .hero-inner { gap: clamp(.6rem, 1.7vh, 1rem); }
+  .home-fold .hero .kicker { margin-bottom: clamp(.1rem, 1vh, .55rem); }
+  .home-fold .hero h1 { font-size: clamp(2rem, min(2.9vw, 5.6vh), 3.1rem); }
+  .home-fold .hero-services { font-size: clamp(1rem, min(1.3vw, 2.4vh), 1.25rem); }
+  .home-fold .hero .actions { margin-top: clamp(.3rem, 1.2vh, .9rem); }
+  .home-fold .service-strip a { padding-block: clamp(.8rem, 2.3vh, 1.6rem); }
+  .home-fold .trust-bar-inner { padding-block: clamp(.6rem, 1.5vh, 1rem); }
+}
 
 /* Service strip and trust bar under the hero */
 .service-strip { background: var(--white); border-block: 1px solid var(--line); }
