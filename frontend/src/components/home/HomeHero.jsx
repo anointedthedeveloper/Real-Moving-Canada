@@ -15,7 +15,7 @@ export default function HomeHero() {
       <div className="hero-media">
         <img src={heroImage} alt="Real Moving Canada movers carrying boxes from an RMC truck to a family’s new home" width="1600" height="585" fetchpriority="high" />
       </div>
-      <div className="wrap hero-grid">
+      <div className="wrap wrap-wide hero-grid">
         <div className="hero-inner">
           <Kicker>Your move <span aria-hidden="true">•</span> Our priority</Kicker>
           <h1 id="hero-title">Professional Moving Services Across Canada</h1>
@@ -61,7 +61,7 @@ export function HeroServiceStrip() {
 export function TrustBar() {
   return (
     <div className="trust-bar">
-      <div className="wrap trust-bar-inner">
+      <div className="wrap wrap-wide trust-bar-inner">
         <p><Icon name="shield" /><span>Trusted <i aria-hidden="true">|</i> Insured <i aria-hidden="true">|</i> Professional</span></p>
         <p className="trust-center"><MapleLeaf className="trust-leaf" /><span>Proudly Serving Communities Across Canada</span></p>
         <p><Icon name="pin" /><span>{COMPANY.address.city}, {COMPANY.address.provinceCode}</span></p>

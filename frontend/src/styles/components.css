@@ -46,7 +46,7 @@
 .actions { display: flex; flex-wrap: wrap; gap: .75rem; }
 
 /* ─── Logo ──────────────────────────────────────────────────────────────── */
-.logo { --logo-h: 72px; display: inline-flex; align-items: center; gap: .7rem; text-decoration: none; color: var(--navy); flex: none; }
+.logo { --logo-h: 84px; display: inline-flex; align-items: center; gap: .7rem; text-decoration: none; color: var(--navy); flex: none; }
 .logo-mark { height: var(--logo-h); width: auto; aspect-ratio: 150 / 100; flex: none; overflow: visible; }
 .logo-text { display: grid; line-height: 1; font-family: var(--font-head); }
 .logo-text strong { font-weight: 800; font-size: calc(var(--logo-h) * .3); letter-spacing: .005em; line-height: 1.02; white-space: nowrap; }

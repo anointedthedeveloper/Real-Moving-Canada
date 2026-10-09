@@ -5,6 +5,7 @@
 .auth-layout.is-flipped .auth-media { order: 1; }
 .auth-panel { display: flex; flex-direction: column; padding: clamp(1rem, 2.5vw, 1.75rem) clamp(1rem, 4vw, 3rem); }
 .auth-top { display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+.auth-top .logo { --logo-h: 64px; }
 .auth-back { display: inline-flex; align-items: center; gap: .4rem; color: var(--red); font-weight: 600; font-size: .88rem; text-decoration: none; }
 .auth-back:hover { text-decoration: underline; }
 .auth-main { flex: 1; display: flex; flex-direction: column; justify-content: center; width: 100%; max-width: 440px; margin: 2rem auto; }

@@ -49,9 +49,9 @@ export default function SiteHeader() {
   const servicesActive = pathname.startsWith('/services');
 
   return (
-    <header className={`site-header${scrolled ? ' is-scrolled' : ''}${menuOpen ? ' menu-open' : ''}`}>
+    <header className={`site-header${pathname === '/' ? ' is-home' : ''}${scrolled ? ' is-scrolled' : ''}${menuOpen ? ' menu-open' : ''}`}>
       <a className="skip-link" href="#main">Skip to content</a>
-      <div className="wrap header-bar">
+      <div className="wrap wrap-wide header-bar">
         <Logo />
         <nav id="site-nav" className="site-nav" aria-label="Main">
           <ul className="nav-list">
