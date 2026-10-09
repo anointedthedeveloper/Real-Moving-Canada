@@ -1,45 +1,54 @@
-/* Real Moving Canada design tokens — taken from the supplied UI design. */
+/* Real Moving Canada Inc. design tokens — navy and red brand (RMC logo, truck livery). */
 :root {
-  --red: #E10513;
-  --red-dark: #B8030F;
-  --red-tint: #FCE9EA;
-  --red-soft: #F7C9CD;
-  --ink: #161616;
-  --ink-2: #242424;
-  --ink-3: #2E2E2E;
-  --text: #2B2B2B;
-  --muted: #5F5B57;
-  --faint: #8B8580;
-  --line: #E4E1DD;
-  --line-2: #EFECE8;
-  --paper: #F9F9F6;
-  --paper-2: #F2F0EB;
-  --white: #FFFFFF;
-  --gold: #C89A36;
-  --gold-light: #E4C27A;
+  /* Brand */
+  --navy: #0B2A55;
+  --navy-dark: #071D3D;
+  --navy-2: #163C72;
+  --navy-tint: #E9EFF8;
+  --red: #E21F26;
+  --red-dark: #B8141B;
+  --red-tint: #FDECEC;
+  --red-soft: #F6C3C5;
 
-  --info: #2B5E8C;    --info-tint: #E7F0F7;
+  /* Neutrals (cool, to sit with the navy) */
+  --ink: var(--navy);           /* headings and dark sections */
+  --ink-2: #102F5E;
+  --ink-3: #1A3A69;
+  --text: #2A3448;
+  --muted: #5A6578;
+  --faint: #8A93A3;
+  --line: #DCE3EC;
+  --line-2: #EBEFF5;
+  --paper: #F5F7FB;
+  --paper-2: #EDF1F7;
+  --white: #FFFFFF;
+  /* Accent used for kickers/labels on dark backgrounds (was gold) */
+  --gold: #E21F26;
+  --gold-light: #FF7A7F;
+
+  --info: #2563A8;    --info-tint: #E7F0FA;
   --ok: #1F7A4A;      --ok-tint: #E8F4ED;
   --warn: #8A5A00;    --warn-tint: #FBF1DC;
-  --danger: #B8030F;  --danger-tint: #FCE9EA;
-  --neutral: #55514D; --neutral-tint: #EEECE8;
+  --danger: #B8141B;  --danger-tint: #FDECEC;
+  --neutral: #4E5A6E; --neutral-tint: #EDF0F5;
 
   --font-body: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  --font-head: 'Manrope', var(--font-body);
+  --font-head: 'Montserrat', var(--font-body);
 
-  --r-sm: 6px;
-  --r: 10px;
-  --r-lg: 14px;
-  --shadow-1: 0 1px 2px rgba(22, 22, 22, .05);
-  --shadow-2: 0 10px 30px -14px rgba(22, 22, 22, .25), 0 2px 6px rgba(22, 22, 22, .05);
-  --shadow-3: 0 30px 60px -24px rgba(22, 22, 22, .4);
+  --r-sm: 8px;
+  --r: 12px;
+  --r-lg: 16px;
+  --r-pill: 999px;
+  --shadow-1: 0 1px 2px rgba(11, 42, 85, .06);
+  --shadow-2: 0 12px 30px -14px rgba(11, 42, 85, .3), 0 2px 6px rgba(11, 42, 85, .05);
+  --shadow-3: 0 30px 60px -24px rgba(11, 42, 85, .45);
 
   --wrap: 1440px;
   --gutter: clamp(1rem, 3vw, 2rem);
   --section: clamp(2.75rem, 5.5vw, 4.75rem);
-  --header-h: 80px;
+  --header-h: 92px;
   --ease: cubic-bezier(.2, .7, .2, 1);
 }
 @media (max-width: 960px) {
-  :root { --header-h: 66px; }
+  :root { --header-h: 70px; }
 }

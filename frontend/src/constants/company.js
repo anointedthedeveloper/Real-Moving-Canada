@@ -1,14 +1,20 @@
 /**
- * Business details carried over from the original site (assets/js/core/data.js).
- * Anything not known yet (e.g. operating hours) is left out rather than invented.
+ * Business details from the company's branding (RMC truck livery and website
+ * mock-up). Anything not known yet (e.g. operating hours) is left out rather than invented.
  */
 export const COMPANY = {
   name: 'Real Moving Canada',
   legalName: 'Real Moving Canada Inc.',
   tagline: 'Moving Your Life Forward',
+  slogan: 'Your Move. Our Priority.',
+  promise: 'Safe. Reliable. On Time. We Move What Matters.',
+  services: 'Moving • Junk Removal • Storage',
   phone: '+1 (306) 880-4560',
   phoneTel: '+13068804560',
-  email: 'etualiu@yahoo.com',
+  phone2: '+1 (306) 202-7026',
+  phone2Tel: '+13062027026',
+  email: 'info@realmovingcanada.ca',
+  website: 'www.realmovingcanada.ca',
   address: {
     street: '231 Flynn Bend',
     city: 'Saskatoon',

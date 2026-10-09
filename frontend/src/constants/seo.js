@@ -45,7 +45,7 @@ export const businessJsonLd = () => ({
   legalName: COMPANY.legalName,
   slogan: COMPANY.tagline,
   url: SITE_URL,
-  logo: `${SITE_URL}/apple-touch-icon.png`,
+  logo: `${SITE_URL}/icon-192.png`,
   image: OG_IMAGE,
   telephone: COMPANY.phoneTel,
   email: COMPANY.email,

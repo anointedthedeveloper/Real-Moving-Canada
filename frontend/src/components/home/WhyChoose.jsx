@@ -10,7 +10,7 @@ const POINTS = [
 
 export default function WhyChoose() {
   return (
-    <section className="why" aria-labelledby="why-title">
+    <section className="why" id="why" aria-labelledby="why-title">
       <div className="why-media"><img src={image} alt="Two movers wrapping a table in moving blankets" loading="lazy" width="1100" height="1100" /></div>
       <div className="why-panel">
         <div className="why-inner">

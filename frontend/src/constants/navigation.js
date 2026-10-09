@@ -2,8 +2,9 @@
 
 export const PRIMARY_NAV = [
   { to: '/', label: 'Home', end: true },
+  { to: '/about', label: 'About Us' },
   { to: '/services', label: 'Services' },
-  { to: '/about', label: 'About' },
+  { to: '/#why', label: 'Why Choose Us' },
   { to: '/contact', label: 'Contact' },
 ];
 
