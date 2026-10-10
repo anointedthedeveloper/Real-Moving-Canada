@@ -1,0 +1,275 @@
+import couchIntoHome from '../assets/images/couch-into-home.webp';
+import clipboardCheck from '../assets/images/clipboard-check.webp';
+import blanketWrapping from '../assets/images/blanket-wrapping.webp';
+import crewTruckLoading from '../assets/images/crew-truck-loading.webp';
+import couchInside from '../assets/images/couch-inside.webp';
+import armchairRamp from '../assets/images/armchair-ramp.webp';
+import packingSupplies from '../assets/images/packing-supplies.webp';
+import hallwayBoxes from '../assets/images/hallway-boxes.webp';
+import crewAtTruck from '../assets/images/crew-at-truck.webp';
+
+const unsplash = (id) => `https://images.unsplash.com/${id}?auto=format&fit=crop&w=1400&q=75`;
+
+/**
+ * The service catalogue shown in the design. Descriptions reuse the copy from the
+ * original site where a matching service existed; the old per-service slugs are
+ * redirected to the closest entry here (see LEGACY_SERVICE_REDIRECTS).
+ *
+ * `quoteValue` is the checkbox value used by the quote flow for this service.
+ */
+export const SERVICES = [
+  {
+    slug: 'residential',
+    name: 'Residential',
+    title: 'Residential moving',
+    icon: 'home',
+    quoteValue: 'residential',
+    headline: 'A residential move, organized around your home',
+    summary: 'Houses, apartments and condos — planned around your rooms, access and moving date.',
+    intro: 'Share the details of your origin and destination, then select the moving support you need.',
+    description: [
+      'Moving your home means a full day of lifting, loading and logistics. Our crews arrive with a truck sized to your home, protect floors and doorways, and move everything in one well-planned trip.',
+      'Apartment and condo moves come with elevators to book and building rules to follow — we plan around your building’s moving windows and protect common areas along the way.',
+    ],
+    includes: ['Origin and destination details', 'Move date and property type', 'Rooms and item notes', 'Packing, storage, and heavy-item needs'],
+    idealFor: ['Houses and townhouses', 'High-rise and walk-up apartments', 'Condos with booked elevator times'],
+    related: ['packing-unpacking', 'storage', 'furniture-appliance-moving'],
+    image: couchIntoHome,
+    imageAlt: 'Two movers carrying a wrapped couch into a bright home',
+  },
+  {
+    slug: 'commercial-office',
+    name: 'Commercial / Office',
+    title: 'Commercial and office moving',
+    icon: 'building',
+    quoteValue: 'commercial_office',
+    headline: 'Office and commercial moves with less downtime',
+    summary: 'Structured moves for offices, retail stores and clinics, scheduled around your business.',
+    intro: 'Tell us about your workspace, timing and equipment so we can plan the move around your business.',
+    description: [
+      'Every hour your business is closed costs money. We plan commercial moves around your schedule, including evenings and weekends, and label furniture, equipment and files so each workstation is set up in the right place.',
+      'You get one point of contact from planning to the first day in your new space.',
+    ],
+    includes: ['Moves scheduled around business hours', 'Office furniture dismantling and setup', 'Workstations, files and equipment', 'One point of contact for your move'],
+    idealFor: ['Offices and small businesses', 'Retail stores and clinics', 'Moves outside business hours'],
+    related: ['furniture-disassembly-reassembly', 'loading-unloading', 'storage'],
+    image: unsplash('photo-1497366216548-37526070297c'),
+    imageAlt: 'A bright, modern open-plan office',
+  },
+  {
+    slug: 'local-long-distance',
+    name: 'Local & Long-Distance',
+    title: 'Local and long-distance moving',
+    icon: 'route',
+    quoteValue: 'local_long_distance',
+    headline: 'Across town or across the country',
+    summary: 'Moves within your city and between cities and provinces, with agreed pickup and delivery windows.',
+    intro: 'Enter your origin and destination in the quote flow so we can understand your route.',
+    description: [
+      'Local moves are planned as one efficient trip with a crew and truck sized to your home and a clear, upfront estimate before moving day.',
+      'For moves to another city or province, we plan your route and timeline in advance, record an inventory at pickup, and agree on pickup and delivery windows. Vehicle shipping for cars, motorcycles and RVs can be coordinated through trusted carriers to match your move.',
+    ],
+    includes: ['Moves within and between provinces', 'Agreed pickup and delivery windows', 'Inventory recorded at pickup', 'Vehicle shipping through trusted carriers'],
+    idealFor: ['Same-city moves', 'Cross-province relocations', 'Job transfers and new starts'],
+    related: ['packing-unpacking', 'storage', 'loading-unloading'],
+    image: clipboardCheck,
+    imageAlt: 'Two movers reviewing a checklist beside a moving truck',
+  },
+  {
+    slug: 'packing-unpacking',
+    name: 'Packing / Unpacking',
+    title: 'Packing and unpacking',
+    icon: 'box',
+    quoteValue: 'packing_unpacking',
+    headline: 'Packed carefully, unpacked quickly',
+    summary: 'Full or partial packing, custom crating for valuables, and unpacking once you arrive.',
+    intro: 'Choose full-service packing, just the tricky rooms, or unpacking at your new home.',
+    description: [
+      'Our team brings quality boxes, paper, wrap and tape, and packs your home room by room with every box labelled for its destination. Prefer to pack most of it yourself? We can take on just the kitchen, artwork or electronics.',
+      'For high-value antiques, fine art and mirrors we build custom wooden crates. At your new home we unpack onto flat surfaces and haul away used packing materials.',
+    ],
+    includes: ['Full-service or partial packing', 'Fragile items wrapped and protected', 'Custom crating for valuables', 'Unpacking and debris removal'],
+    idealFor: ['Busy households', 'Kitchens, glassware and electronics', 'Antiques, art and heirlooms'],
+    related: ['moving-supplies', 'loading-unloading', 'storage'],
+    image: blanketWrapping,
+    imageAlt: 'Two movers wrapping a wooden table in protective moving blankets',
+  },
+  {
+    slug: 'loading-unloading',
+    name: 'Loading / Unloading',
+    title: 'Loading and unloading',
+    icon: 'truck',
+    quoteValue: 'loading_unloading',
+    headline: 'Loaded securely, unloaded where it belongs',
+    summary: 'Careful loading and unloading of trucks, containers and storage units.',
+    intro: 'Tell us where the truck or container will be and what needs to be loaded or unloaded.',
+    description: [
+      'Secure loading protects your belongings in transit. Our crew blanket-wraps furniture, stacks boxes by weight, and straps everything in place.',
+      'At the other end we unload room by room, so furniture and labelled boxes end up where you want them.',
+    ],
+    includes: ['Blanket wrapping and strapping', 'Boxes stacked by weight and room', 'Room-by-room unloading', 'Trucks, containers and storage units'],
+    idealFor: ['Rental truck and container moves', 'Moves into or out of storage', 'Help at one end of a move'],
+    related: ['furniture-disassembly-reassembly', 'packing-unpacking', 'heavy-oversized-items'],
+    image: crewTruckLoading,
+    imageAlt: 'Movers loading wrapped furniture and boxes into a truck',
+  },
+  {
+    slug: 'furniture-disassembly-reassembly',
+    name: 'Furniture Disassembly / Reassembly',
+    title: 'Furniture disassembly and reassembly',
+    icon: 'sliders',
+    quoteValue: 'furniture_disassembly',
+    headline: 'Taken apart and put back together',
+    summary: 'Beds, desks and entertainment units taken apart at your origin and reassembled at your destination.',
+    intro: 'List the pieces that need to come apart and we’ll plan the time and tools for them.',
+    description: [
+      'Large furniture often won’t fit through a doorway in one piece. Our crew takes apart beds, desks, shelving and entertainment units, keeps the hardware bagged and labelled, and puts everything back together at your new place.',
+      'Disassembly and reassembly can be added to any residential or office move.',
+    ],
+    includes: ['Beds, desks and entertainment units', 'Hardware kept bagged and labelled', 'Reassembled at your new home', 'Available for homes and offices'],
+    idealFor: ['Bed frames and bunk beds', 'Modular desks and shelving', 'Wardrobes and entertainment units'],
+    related: ['furniture-appliance-moving', 'loading-unloading', 'residential'],
+    image: couchInside,
+    imageAlt: 'Two movers carrying furniture through a home entryway',
+  },
+  {
+    slug: 'furniture-appliance-moving',
+    name: 'Furniture & Appliance Moving',
+    title: 'Furniture and appliance moving',
+    icon: 'sofa',
+    quoteValue: 'furniture_appliance',
+    headline: 'Single items and appliances, moved with care',
+    summary: 'Sofas, dressers, fridges, washers and other large pieces — on their own or as part of a move.',
+    intro: 'Describe the items, their size and any stairs or tight spaces at either end.',
+    description: [
+      'Not every job is a full move. We move individual pieces of furniture and household appliances, wrapped and protected, with floors and doorways covered along the way.',
+      'Tell us about the items and the access at both ends in your quote request so we can bring the right equipment.',
+    ],
+    includes: ['Sofas, beds and dressers', 'Fridges, washers and dryers', 'Floor and doorway protection', 'Single-item or full-move service'],
+    idealFor: ['New furniture deliveries', 'Moving a few large items', 'Appliance swaps'],
+    related: ['heavy-oversized-items', 'furniture-disassembly-reassembly', 'residential'],
+    image: armchairRamp,
+    imageAlt: 'A mover wheeling a plastic-wrapped armchair down a truck ramp',
+  },
+  {
+    slug: 'junk-removal',
+    name: 'Junk Removal',
+    title: 'Junk removal',
+    icon: 'trash',
+    quoteValue: 'junk_removal',
+    headline: 'Clear out what you don’t need',
+    summary: 'Furniture, debris and unwanted items cleared away when you’re moving out, downsizing or cleaning up.',
+    intro: 'Tell us what needs to go and we’ll confirm the items we can accept through the quote process.',
+    description: [
+      'Whether you’re moving out, downsizing, clearing a property, or simply need unwanted furniture and packing materials hauled away, our team can help clear the space so you don’t have to.',
+      'The exact items we’re able to accept can be confirmed through the quote process.',
+    ],
+    includes: ['Furniture removal', 'Moving debris removal', 'Household junk removal', 'Packing material removal'],
+    idealFor: ['Move-outs and downsizing', 'Estate and property clean-outs', 'Clearing packing debris after a move'],
+    related: ['cleanouts', 'residential', 'storage'],
+    image: unsplash('photo-1742858492775-8f58f645aa12'),
+    imageAlt: 'A delivery van with its back doors open, ready to be loaded',
+  },
+  {
+    slug: 'cleanouts',
+    name: 'Household, Garage, Basement, Attic, Construction, and Estate Cleanouts',
+    shortName: 'Cleanouts',
+    title: 'Cleanouts',
+    icon: 'archive',
+    quoteValue: 'cleanouts',
+    headline: 'Household, garage, basement, attic, construction, and estate cleanouts',
+    summary: 'Clearing whole spaces — from a crowded garage or attic to a full estate or post-construction site.',
+    intro: 'Tell us which spaces need clearing and roughly what’s in them.',
+    description: [
+      'Some jobs are about a whole space rather than a single move. We clear household rooms, garages, basements and attics, construction debris and estate contents.',
+      'Describe the space and what it holds in your quote request, and we’ll confirm what we can take and how long it will take.',
+    ],
+    includes: ['Household rooms, garages and basements', 'Attics and storage areas', 'Construction debris', 'Estate cleanouts'],
+    idealFor: ['Estate and property sales', 'Renovation projects', 'Downsizing and decluttering'],
+    related: ['junk-removal', 'storage', 'loading-unloading'],
+    image: hallwayBoxes,
+    imageAlt: 'Two movers carrying labelled boxes down a hallway',
+  },
+  {
+    slug: 'moving-supplies',
+    name: 'Moving Supplies',
+    title: 'Moving supplies',
+    icon: 'box',
+    quoteValue: 'moving_supplies',
+    headline: 'The right supplies for packing yourself',
+    summary: 'Boxes, tape, wrap and protective materials for customers who prefer to pack on their own.',
+    intro: 'Let us know what you need and roughly how much you’re packing.',
+    description: [
+      'Packing yourself? Quality materials make a difference. Ask for the boxes, tape, paper, wrap and moving pads your move needs.',
+      'Add supplies to your quote request and we’ll confirm what’s available.',
+    ],
+    includes: ['Moving boxes', 'Tape, paper and wrap', 'Moving blankets and pads', 'Labels for every room'],
+    idealFor: ['Do-it-yourself packing', 'Partial packing', 'Items going into storage'],
+    related: ['packing-unpacking', 'storage', 'residential'],
+    image: packingSupplies,
+    imageAlt: 'Labelled moving boxes, blankets and a hand truck laid out on a floor',
+  },
+  {
+    slug: 'storage',
+    name: 'Storage',
+    title: 'Short-term and long-term storage',
+    icon: 'warehouse',
+    quoteValue: 'storage',
+    headline: 'Storage for when dates don’t line up',
+    summary: 'Short- and long-term storage when your new home isn’t ready quite yet.',
+    intro: 'Tell us how long you need storage and roughly what will be stored.',
+    description: [
+      'When move-out and move-in dates don’t line up, storage bridges the gap. Your belongings are inventoried and stored until you’re ready, for a few days or several months.',
+      'When it’s time, we deliver from storage straight to your new home.',
+    ],
+    includes: ['Short- and long-term options', 'Items inventoried before storage', 'Storage between move-out and move-in', 'Delivery from storage when you’re ready'],
+    idealFor: ['Closing dates that don’t match', 'Renovations and home staging', 'Temporary relocations'],
+    related: ['packing-unpacking', 'loading-unloading', 'local-long-distance'],
+    image: unsplash('photo-1553413077-190dd305871c'),
+    imageAlt: 'Shelving inside a storage warehouse',
+  },
+  {
+    slug: 'heavy-oversized-items',
+    name: 'Heavy / Oversized Items',
+    title: 'Heavy and oversized items',
+    icon: 'scale',
+    quoteValue: 'heavy_oversized',
+    headline: 'Pianos, safes and other heavy items',
+    summary: 'Pianos, pool tables, safes, hot tubs and other heavy or awkward items, moved with the right equipment.',
+    intro: 'Describe the item, where it is and any stairs or tight access.',
+    description: [
+      'Pianos, safes, pool tables and hot tubs need the right equipment, planning and crew. We assess access at both ends, bring dollies, straps and rigging gear, and protect floors, walls and doorways.',
+      'Tell us about the item and the access in your quote request and we’ll plan the move around it.',
+    ],
+    includes: ['Pianos, pool tables, safes and hot tubs', 'Dollies, straps and rigging gear', 'Floor, wall and doorway protection', 'Access assessed at both ends'],
+    idealFor: ['Upright and grand pianos', 'Gun safes and heavy cabinets', 'Gym equipment and hot tubs'],
+    related: ['furniture-appliance-moving', 'loading-unloading', 'residential'],
+    image: crewAtTruck,
+    imageAlt: 'A three-person moving crew standing beside an open moving truck',
+  },
+];
+
+export const SERVICE_BY_SLUG = Object.fromEntries(SERVICES.map((s) => [s.slug, s]));
+export const serviceLabel = (s) => s.shortName || s.name;
+
+/** The six services featured on the home page, in the design's order. */
+export const FEATURED_SERVICE_SLUGS = ['residential', 'commercial-office', 'local-long-distance', 'packing-unpacking', 'loading-unloading', 'furniture-disassembly-reassembly'];
+
+/** Service columns shown in the footer. */
+export const FOOTER_SERVICE_SLUGS = ['residential', 'commercial-office', 'packing-unpacking', 'storage'];
+
+/** Old /services/<slug> URLs from the static site → the closest service in the new catalogue. */
+export const LEGACY_SERVICE_REDIRECTS = {
+  'local-moving': 'local-long-distance',
+  'long-distance-moving': 'local-long-distance',
+  'vehicle-shipping': 'local-long-distance',
+  'apartment-condo-moving': 'residential',
+  'full-service-packing': 'packing-unpacking',
+  'partial-packing': 'packing-unpacking',
+  'custom-crating': 'packing-unpacking',
+  'unpacking-debris-removal': 'packing-unpacking',
+  'piano-heavy-item-moving': 'heavy-oversized-items',
+  'office-commercial-relocation': 'commercial-office',
+  'disassembly-reassembly': 'furniture-disassembly-reassembly',
+  'storage-solutions': 'storage',
+};
