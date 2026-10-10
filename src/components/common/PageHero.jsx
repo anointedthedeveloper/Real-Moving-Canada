@@ -6,6 +6,7 @@ import Kicker from './Kicker.jsx';
  * the copy (used with the RMC truck banner on Contact).
  */
 export default function PageHero({ kicker, title, text, image, imageAlt = '', actions, children, variant = 'split' }) {
+  const img = typeof image === 'string' ? { src: image } : image;
   return (
     <section className={`page-hero${variant === 'banner' ? ' page-hero-banner' : ''}`}>
       <div className="page-hero-copy">
@@ -18,7 +19,7 @@ export default function PageHero({ kicker, title, text, image, imageAlt = '', ac
         </div>
       </div>
       <div className="page-hero-media">
-        <img src={image} alt={imageAlt} width="1200" height="800" fetchpriority="high" />
+        <img src={img.src} srcSet={img.srcSet} sizes={variant === 'banner' ? '100vw' : '(max-width: 960px) 100vw, 50vw'} alt={imageAlt} width="1200" height="800" fetchpriority="high" />
       </div>
     </section>
   );

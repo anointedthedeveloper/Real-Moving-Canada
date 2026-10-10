@@ -5,8 +5,11 @@ import Icon from '../../components/common/Icon.jsx';
 import CtaBand from '../../components/layout/CtaBand.jsx';
 import { useDocumentTitle } from '../../hooks/useDocumentTitle.js';
 import { keywordsFor, businessJsonLd, breadcrumbJsonLd } from '../../constants/seo.js';
-import heroImage from '../../assets/images/crew-at-truck.webp';
-import approachImage from '../../assets/images/packing-supplies.webp';
+import { COMPANY } from '../../constants/company.js';
+import { photo } from '../../constants/photos.js';
+
+const heroImage = photo('crew-at-truck');
+const approachImage = photo('packing-supplies');
 
 const PRINCIPLES = [
   { icon: 'file', title: 'Clear information', text: 'Share your route, dates, property details, rooms and access notes once, in one place.' },
@@ -28,7 +31,7 @@ export default function AboutPage() {
   return (
     <>
       <PageHero
-        kicker="About Real Moving Canada" title="Moving Your Life Forward"
+        kicker="About Real Moving Canada" title={COMPANY.motto}
         text="A practical approach to residential, commercial, packing, cleanout, storage, and specialty moving needs."
         image={heroImage} imageAlt="A three-person moving crew beside an open truck"
       />
@@ -40,7 +43,7 @@ export default function AboutPage() {
             <p className="lead">Every move has different spaces, items, access details, and support needs. Our booking experience helps capture those details clearly from the start.</p>
             <p className="lead">From a residential move to an office move, cleanout, or oversized item, you can choose the services that fit and add notes that help describe the work.</p>
           </div>
-          <div className="split-media"><img src={approachImage} alt="Labelled moving boxes, blankets and a hand truck" loading="lazy" width="1200" height="800" /></div>
+          <div className="split-media"><img src={approachImage.src} srcSet={approachImage.srcSet} sizes="(max-width: 960px) 100vw, 50vw" alt="Labelled moving boxes, blankets and a hand truck" loading="lazy" width="1200" height="800" /></div>
         </div>
       </section>
       <section className="section dark" aria-labelledby="guides-title">

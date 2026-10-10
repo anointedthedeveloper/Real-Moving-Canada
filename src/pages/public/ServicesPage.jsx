@@ -5,7 +5,9 @@ import ServiceGrid from '../../components/services/ServiceGrid.jsx';
 import { SERVICES } from '../../constants/services.js';
 import { useDocumentTitle } from '../../hooks/useDocumentTitle.js';
 import { keywordsFor, breadcrumbJsonLd } from '../../constants/seo.js';
-import heroImage from '../../assets/images/crew-truck-loading.webp';
+import { photo } from '../../constants/photos.js';
+
+const heroImage = photo('crew-truck-loading');
 
 export default function ServicesPage() {
   useDocumentTitle('Moving Services in Canada — Residential, Commercial & Long-Distance', 'Moving services across Canada: residential and office moves, local and long-distance moving, packing, loading, furniture and appliance moving, storage, junk removal and cleanouts.', {

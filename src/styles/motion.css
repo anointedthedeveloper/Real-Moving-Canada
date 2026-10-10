@@ -43,7 +43,7 @@
 
 /* Service cards and feature cards */
 .service-card .icon-tile, .feature-card .icon-tile { transition: background .25s, color .25s, transform .35s var(--ease); }
-.service-card:hover .icon-tile { background: var(--red); color: var(--white); transform: rotate(-6deg) scale(1.06); }
+.service-card:hover .icon-tile { background: var(--red); color: var(--white); transform: translateY(-50%) rotate(-6deg) scale(1.06); }
 .feature-card { transition: transform .3s var(--ease), box-shadow .3s var(--ease), border-color .3s; }
 .feature-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-2); }
 .feature-card.dark:hover { border-color: rgba(255,255,255,.18); }

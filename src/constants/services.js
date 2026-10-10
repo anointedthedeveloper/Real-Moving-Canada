@@ -1,14 +1,5 @@
-import couchIntoHome from '../assets/images/couch-into-home.webp';
-import clipboardCheck from '../assets/images/clipboard-check.webp';
-import blanketWrapping from '../assets/images/blanket-wrapping.webp';
-import crewTruckLoading from '../assets/images/crew-truck-loading.webp';
-import couchInside from '../assets/images/couch-inside.webp';
-import armchairRamp from '../assets/images/armchair-ramp.webp';
-import packingSupplies from '../assets/images/packing-supplies.webp';
-import hallwayBoxes from '../assets/images/hallway-boxes.webp';
-import crewAtTruck from '../assets/images/crew-at-truck.webp';
 
-const unsplash = (id) => `https://images.unsplash.com/${id}?auto=format&fit=crop&w=1400&q=75`;
+import { photo } from './photos.js';
 
 /**
  * The service catalogue shown in the design. Descriptions reuse the copy from the
@@ -34,8 +25,8 @@ export const SERVICES = [
     includes: ['Origin and destination details', 'Move date and property type', 'Rooms and item notes', 'Packing, storage, and heavy-item needs'],
     idealFor: ['Houses and townhouses', 'High-rise and walk-up apartments', 'Condos with booked elevator times'],
     related: ['packing-unpacking', 'storage', 'furniture-appliance-moving'],
-    image: couchIntoHome,
-    imageAlt: 'Two movers carrying a wrapped couch into a bright home',
+    image: photo('hero-home'),
+    imageAlt: 'Two movers carrying a wrapped sofa from a house to a Real Moving Canada truck',
   },
   {
     slug: 'commercial-office',
@@ -53,8 +44,8 @@ export const SERVICES = [
     includes: ['Moves scheduled around business hours', 'Office furniture dismantling and setup', 'Workstations, files and equipment', 'One point of contact for your move'],
     idealFor: ['Offices and small businesses', 'Retail stores and clinics', 'Moves outside business hours'],
     related: ['furniture-disassembly-reassembly', 'loading-unloading', 'storage'],
-    image: unsplash('photo-1497366216548-37526070297c'),
-    imageAlt: 'A bright, modern open-plan office',
+    image: photo('commercial-office'),
+    imageAlt: 'Two movers wheeling office chairs and carrying a wrapped monitor through an office',
   },
   {
     slug: 'local-long-distance',
@@ -72,8 +63,8 @@ export const SERVICES = [
     includes: ['Moves within and between provinces', 'Agreed pickup and delivery windows', 'Inventory recorded at pickup', 'Vehicle shipping through trusted carriers'],
     idealFor: ['Same-city moves', 'Cross-province relocations', 'Job transfers and new starts'],
     related: ['packing-unpacking', 'storage', 'loading-unloading'],
-    image: clipboardCheck,
-    imageAlt: 'Two movers reviewing a checklist beside a moving truck',
+    image: photo('long-distance'),
+    imageAlt: 'A Real Moving Canada truck on a prairie highway',
   },
   {
     slug: 'packing-unpacking',
@@ -91,7 +82,7 @@ export const SERVICES = [
     includes: ['Full-service or partial packing', 'Fragile items wrapped and protected', 'Custom crating for valuables', 'Unpacking and debris removal'],
     idealFor: ['Busy households', 'Kitchens, glassware and electronics', 'Antiques, art and heirlooms'],
     related: ['moving-supplies', 'loading-unloading', 'storage'],
-    image: blanketWrapping,
+    image: photo('blanket-wrapping'),
     imageAlt: 'Two movers wrapping a wooden table in protective moving blankets',
   },
   {
@@ -110,7 +101,7 @@ export const SERVICES = [
     includes: ['Blanket wrapping and strapping', 'Boxes stacked by weight and room', 'Room-by-room unloading', 'Trucks, containers and storage units'],
     idealFor: ['Rental truck and container moves', 'Moves into or out of storage', 'Help at one end of a move'],
     related: ['furniture-disassembly-reassembly', 'packing-unpacking', 'heavy-oversized-items'],
-    image: crewTruckLoading,
+    image: photo('crew-truck-loading'),
     imageAlt: 'Movers loading wrapped furniture and boxes into a truck',
   },
   {
@@ -129,8 +120,8 @@ export const SERVICES = [
     includes: ['Beds, desks and entertainment units', 'Hardware kept bagged and labelled', 'Reassembled at your new home', 'Available for homes and offices'],
     idealFor: ['Bed frames and bunk beds', 'Modular desks and shelving', 'Wardrobes and entertainment units'],
     related: ['furniture-appliance-moving', 'loading-unloading', 'residential'],
-    image: couchInside,
-    imageAlt: 'Two movers carrying furniture through a home entryway',
+    image: photo('bed-disassembly'),
+    imageAlt: 'A mover taking apart a wooden bed frame with a drill',
   },
   {
     slug: 'furniture-appliance-moving',
@@ -148,7 +139,7 @@ export const SERVICES = [
     includes: ['Sofas, beds and dressers', 'Fridges, washers and dryers', 'Floor and doorway protection', 'Single-item or full-move service'],
     idealFor: ['New furniture deliveries', 'Moving a few large items', 'Appliance swaps'],
     related: ['heavy-oversized-items', 'furniture-disassembly-reassembly', 'residential'],
-    image: armchairRamp,
+    image: photo('armchair-ramp'),
     imageAlt: 'A mover wheeling a plastic-wrapped armchair down a truck ramp',
   },
   {
@@ -167,8 +158,8 @@ export const SERVICES = [
     includes: ['Furniture removal', 'Moving debris removal', 'Household junk removal', 'Packing material removal'],
     idealFor: ['Move-outs and downsizing', 'Estate and property clean-outs', 'Clearing packing debris after a move'],
     related: ['cleanouts', 'residential', 'storage'],
-    image: unsplash('photo-1742858492775-8f58f645aa12'),
-    imageAlt: 'A delivery van with its back doors open, ready to be loaded',
+    image: photo('junk-removal'),
+    imageAlt: 'Two movers carrying an old armchair to a Real Moving Canada truck for removal',
   },
   {
     slug: 'cleanouts',
@@ -187,8 +178,8 @@ export const SERVICES = [
     includes: ['Household rooms, garages and basements', 'Attics and storage areas', 'Construction debris', 'Estate cleanouts'],
     idealFor: ['Estate and property sales', 'Renovation projects', 'Downsizing and decluttering'],
     related: ['junk-removal', 'storage', 'loading-unloading'],
-    image: hallwayBoxes,
-    imageAlt: 'Two movers carrying labelled boxes down a hallway',
+    image: photo('basement-cleanout'),
+    imageAlt: 'Two movers carrying boxes out of a cluttered basement',
   },
   {
     slug: 'moving-supplies',
@@ -206,7 +197,7 @@ export const SERVICES = [
     includes: ['Moving boxes', 'Tape, paper and wrap', 'Moving blankets and pads', 'Labels for every room'],
     idealFor: ['Do-it-yourself packing', 'Partial packing', 'Items going into storage'],
     related: ['packing-unpacking', 'storage', 'residential'],
-    image: packingSupplies,
+    image: photo('packing-supplies'),
     imageAlt: 'Labelled moving boxes, blankets and a hand truck laid out on a floor',
   },
   {
@@ -225,8 +216,8 @@ export const SERVICES = [
     includes: ['Short- and long-term options', 'Items inventoried before storage', 'Storage between move-out and move-in', 'Delivery from storage when you’re ready'],
     idealFor: ['Closing dates that don’t match', 'Renovations and home staging', 'Temporary relocations'],
     related: ['packing-unpacking', 'loading-unloading', 'local-long-distance'],
-    image: unsplash('photo-1553413077-190dd305871c'),
-    imageAlt: 'Shelving inside a storage warehouse',
+    image: photo('storage-units'),
+    imageAlt: 'A mover wheeling boxes into a clean storage unit',
   },
   {
     slug: 'heavy-oversized-items',
@@ -244,8 +235,8 @@ export const SERVICES = [
     includes: ['Pianos, pool tables, safes and hot tubs', 'Dollies, straps and rigging gear', 'Floor, wall and doorway protection', 'Access assessed at both ends'],
     idealFor: ['Upright and grand pianos', 'Gun safes and heavy cabinets', 'Gym equipment and hot tubs'],
     related: ['furniture-appliance-moving', 'loading-unloading', 'residential'],
-    image: crewAtTruck,
-    imageAlt: 'A three-person moving crew standing beside an open moving truck',
+    image: photo('piano-moving'),
+    imageAlt: 'Three movers moving a blanket-wrapped piano on a dolly',
   },
 ];
 

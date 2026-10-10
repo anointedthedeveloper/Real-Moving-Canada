@@ -48,8 +48,11 @@ function restore(top) {
  *  - query-string-only changes (tabs, filters) leave the scroll position alone.
  */
 export function useScrollToTop() {
-  const { pathname, hash, key } = useLocation();
+  const { pathname, hash, key: historyKey } = useLocation();
   const navigationType = useNavigationType();
+  // Every fresh page load has the history key "default", so pair it with the path:
+  // otherwise opening a new URL would restore another page's scroll position.
+  const key = `${historyKey}:${pathname}`;
   const currentKey = useRef(key);
 
   // Record the scroll position of the current history entry. Scroll events fire

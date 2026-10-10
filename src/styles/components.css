@@ -55,7 +55,14 @@
 .logo-light { color: var(--white); }
 .logo.is-compact .logo-rule, .logo.is-compact small { display: none; }
 @media (max-width: 960px) { .logo { --logo-h: 50px; gap: .55rem; } }
-@media (max-width: 420px) { .logo { --logo-h: 42px; } .logo-text small { letter-spacing: .12em; } }
+@media (max-width: 600px) {
+  /* The services line is too small to read on phones: show a bigger wordmark instead. */
+  .site-header .logo, .auth-top .logo, .portal-topbar .logo, .quote-header .logo { --logo-h: 46px; }
+  .site-header .logo-text strong, .auth-top .logo-text strong, .portal-topbar .logo-text strong, .quote-header .logo-text strong { font-size: 15px; }
+  .site-header .logo-text small, .auth-top .logo-text small, .portal-topbar .logo-text small, .quote-header .logo-text small { display: none; }
+  .site-header .logo-rule, .auth-top .logo-rule, .portal-topbar .logo-rule, .quote-header .logo-rule { margin: 5px 0 0; }
+}
+@media (max-width: 359px) { .site-header .logo, .auth-top .logo, .quote-header .logo { --logo-h: 40px; } .site-header .logo-text strong, .auth-top .logo-text strong, .quote-header .logo-text strong { font-size: 13.5px; } .quote-header-actions .btn { padding-inline: .8rem; } }
 
 /* ─── Kicker / section header ───────────────────────────────────────────── */
 /* Spaced capitals with a short red rule underneath ("YOUR MOVE • OUR PRIORITY"). */
