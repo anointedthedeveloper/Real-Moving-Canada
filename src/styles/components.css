@@ -59,9 +59,11 @@
   /* The services line is too small to read on phones: show a bigger wordmark instead. */
   .site-header .logo, .auth-top .logo, .portal-topbar .logo, .quote-header .logo { --logo-h: 46px; }
   .site-header .logo-text strong, .auth-top .logo-text strong, .portal-topbar .logo-text strong, .quote-header .logo-text strong { font-size: 15px; }
-  .site-header .logo-text small, .auth-top .logo-text small, .portal-topbar .logo-text small, .quote-header .logo-text small { display: none; }
-  .site-header .logo-rule, .auth-top .logo-rule, .portal-topbar .logo-rule, .quote-header .logo-rule { margin: 5px 0 0; }
+  /* Motto line stays readable on phones: fixed size, tighter tracking. */
+  .site-header .logo-text small, .auth-top .logo-text small, .portal-topbar .logo-text small, .quote-header .logo-text small { font-size: 8.5px; letter-spacing: .12em; margin-top: 1px; }
+  .site-header .logo-rule, .auth-top .logo-rule, .portal-topbar .logo-rule, .quote-header .logo-rule { margin: 4px 0 3px; }
 }
+@media (max-width: 380px) { .site-header .logo-text small, .auth-top .logo-text small, .quote-header .logo-text small { letter-spacing: .06em; } }
 @media (max-width: 359px) { .site-header .logo, .auth-top .logo, .quote-header .logo { --logo-h: 40px; } .site-header .logo-text strong, .auth-top .logo-text strong, .quote-header .logo-text strong { font-size: 13.5px; } .quote-header-actions .btn { padding-inline: .8rem; } }
 
 /* ─── Kicker / section header ───────────────────────────────────────────── */

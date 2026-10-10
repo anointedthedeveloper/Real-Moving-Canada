@@ -42,7 +42,6 @@
 @keyframes auth-rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
 @media (max-width: 880px) {
   .auth-layout, .auth-layout.is-flipped { grid-template-columns: 1fr; }
-  .auth-top .logo-text small { display: none; }
   .auth-media { display: none; }
   .auth-main { margin: 2rem auto; justify-content: flex-start; }
 }
