@@ -4,8 +4,8 @@ import { COMPANY } from '../../constants/company.js';
 
 /**
  * Real Moving Canada Inc. logo: the RMC house mark plus the wordmark and the
- * "Moving • Junk Removal • Storage" line. `tone="light"` is the white version for
- * dark backgrounds; `compact` hides the service line (small spaces).
+ * "Movers You Can Trust" motto line. `tone="light"` is the white version for
+ * dark backgrounds; `compact` hides the motto line (small spaces).
  */
 export default function Logo({ tone = 'dark', to = '/', compact = false, className = '' }) {
   return (
@@ -14,7 +14,7 @@ export default function Logo({ tone = 'dark', to = '/', compact = false, classNa
       <span className="logo-text" aria-hidden="true">
         <strong>REAL MOVING<br />CANADA INC.</strong>
         <span className="logo-rule" />
-        <small>MOVING • JUNK REMOVAL • STORAGE</small>
+        <small>{COMPANY.motto.toUpperCase()}</small>
       </span>
     </Link>
   );
