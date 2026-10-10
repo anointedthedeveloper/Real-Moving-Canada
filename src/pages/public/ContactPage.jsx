@@ -20,7 +20,7 @@ export default function ContactPage() {
       <PageHero
         variant="banner"
         kicker="Contact" title="Let’s talk about your move"
-        text={`${COMPANY.promise} Call ${COMPANY.phone} or ${COMPANY.phone2}, send a message, or start a quote.`}
+        text={`${COMPANY.motto}. Call ${COMPANY.phone} or ${COMPANY.phone2}, send a message, or start a quote.`}
         image={truckBanner} imageAlt="Real Moving Canada truck with the RMC livery, movers and moving supplies"
         actions={<><Button to="/quote" variant="light" icon="mail">Get a Free Quote</Button><Button href={`tel:${COMPANY.phoneTel}`} variant="ghost-light" icon="phone">Call now</Button></>}
       />

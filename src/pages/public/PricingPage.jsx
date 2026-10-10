@@ -6,7 +6,9 @@ import Button from '../../components/common/Button.jsx';
 import EstimateCalculator from '../../components/estimate/EstimateCalculator.jsx';
 import { useDocumentTitle } from '../../hooks/useDocumentTitle.js';
 import { keywordsFor, faqJsonLd } from '../../constants/seo.js';
-import heroImage from '../../assets/images/hallway-boxes.webp';
+import { photo } from '../../constants/photos.js';
+
+const heroImage = photo('hallway-boxes');
 
 const FACTORS = [
   { icon: 'route', title: 'Distance', text: 'How far your belongings travel — across town, across the province or across the country.' },

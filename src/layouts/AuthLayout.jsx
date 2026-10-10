@@ -4,11 +4,13 @@ import Logo from '../components/common/Logo.jsx';
 import Icon from '../components/common/Icon.jsx';
 import Kicker from '../components/common/Kicker.jsx';
 import { COMPANY } from '../constants/company.js';
-import carryingBoxes from '../assets/images/carrying-boxes.webp';
-import crewAtTruck from '../assets/images/crew-at-truck.webp';
-import hallwayBoxes from '../assets/images/hallway-boxes.webp';
-import clipboardCheck from '../assets/images/clipboard-check.webp';
-import couchIntoHome from '../assets/images/couch-into-home.webp';
+import { photo } from '../constants/photos.js';
+
+const carryingBoxes = photo('carrying-boxes');
+const crewAtTruck = photo('crew-at-truck');
+const hallwayBoxes = photo('hallway-boxes');
+const clipboardCheck = photo('clipboard-check');
+const couchIntoHome = photo('couch-into-home');
 
 /** Photo-side content for each account screen. Sign-up mirrors login: form right, photo left. */
 const PANELS = {
@@ -41,7 +43,7 @@ const PANELS = {
   },
   '/signed-out': {
     image: couchIntoHome,
-    kicker: COMPANY.tagline,
+    kicker: COMPANY.motto,
     title: 'Thanks for moving with us',
     text: `Questions about your move? Call ${COMPANY.phone} and our team will help.`,
   },
@@ -56,7 +58,7 @@ const preloadAuthPages = () => Promise.all([
 ]).catch(() => {});
 
 /** Every panel photo, preloaded so the crossfade never waits on the network. */
-const preloadPhotos = () => Object.values(PANELS).forEach((p) => { new Image().src = p.image; });
+const preloadPhotos = () => Object.values(PANELS).forEach((p) => { const i = new Image(); i.srcset = p.image.srcSet || ''; i.sizes = '50vw'; i.src = p.image.src; });
 
 /**
  * Split screen for Login / Sign up / Forgot / Reset password / Signed out. On wide
@@ -81,7 +83,7 @@ export default function AuthLayout() {
       </div>
       <aside className="auth-media" aria-label={panel.title}>
         {Object.entries(PANELS).map(([path, p]) => (
-          <img key={path} src={p.image} alt="" width="1100" height="1100" className={p === panel ? 'is-active' : ''} loading={p === panel ? 'eager' : 'lazy'} />
+          <img key={path} src={p.image.src} srcSet={p.image.srcSet} sizes="(max-width: 960px) 100vw, 55vw" alt="" width="1100" height="1100" className={p === panel ? 'is-active' : ''} loading={p === panel ? 'eager' : 'lazy'} />
         ))}
         <div className="auth-media-top"><Logo tone="light" /></div>
         <div className="auth-media-copy" key={pathname}>

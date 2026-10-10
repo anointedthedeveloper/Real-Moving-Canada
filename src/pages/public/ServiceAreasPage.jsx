@@ -6,7 +6,9 @@ import { useDocumentTitle } from '../../hooks/useDocumentTitle.js';
 import { keywordsFor, breadcrumbJsonLd } from '../../constants/seo.js';
 import { loadServiceAreas } from '../../services/catalogService.js';
 import { PROVINCES, REGION_ORDER } from '../../constants/options.js';
-import heroImage from '../../assets/images/clipboard-check.webp';
+import { photo } from '../../constants/photos.js';
+
+const heroImage = photo('clipboard-check');
 
 const slug = (region) => region.toLowerCase().replace(/\s+/g, '-');
 

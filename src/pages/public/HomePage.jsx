@@ -50,7 +50,7 @@ export default function HomePage() {
             text="Choose the services you need, from careful packing and loading to storage, cleanouts, and oversized-item support."
             action={<Button to="/services" variant="dark" iconRight="arrow-right">View all services</Button>}
           />
-          <ServiceGrid services={featured} />
+          <ServiceGrid services={featured} showSummary swipe />
         </div>
       </section>
       <WhyChoose />

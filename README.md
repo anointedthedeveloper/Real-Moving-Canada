@@ -1,4 +1,4 @@
-# Real Moving Canada — Moving Your Life Forward
+# Real Moving Canada — Movers You Can Trust
 
 Public website, five-step quote flow and customer portal for Real Moving Canada,
 built with **React 19 + Vite + React Router**. The design follows the supplied

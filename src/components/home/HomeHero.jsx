@@ -14,18 +14,17 @@ export default function HomeHero() {
   return (
     <section className="hero" aria-labelledby="hero-title">
       <div className="hero-media">
-        <img src={heroImage} srcSet={`${heroImage} 1600w, ${heroImageLarge} 2880w`} sizes="100vw" alt="Real Moving Canada movers carrying boxes from an RMC truck to a family’s new home" width="1600" height="585" fetchpriority="high" />
+        <img src={heroImage} srcSet={`${heroImage} 1600w, ${heroImageLarge} 2880w`} sizes="(max-width: 960px) 180vw, 100vw" alt="Real Moving Canada movers carrying boxes from an RMC truck to a family’s new home" width="1600" height="585" fetchpriority="high" />
       </div>
       <div className="wrap wrap-wide hero-grid">
         <div className="hero-inner">
-          <Kicker>Your move <span aria-hidden="true">•</span> Our priority</Kicker>
+          <Kicker>{COMPANY.motto}</Kicker>
           <h1 id="hero-title">Professional Moving Services Across Canada</h1>
           <div className="hero-services" aria-label="Services">
             {HERO_SERVICES.map((row) => (
               <ul key={row[0]}>{row.map((s) => <li key={s}>{s}</li>)}</ul>
             ))}
           </div>
-          <p className="hero-promise">Safe. Reliable. On Time.<br />We Move What Matters.</p>
           <div className="actions">
             <Button to="/quote" size="lg" iconRight="arrow-right">Get a Free Quote</Button>
           </div>
