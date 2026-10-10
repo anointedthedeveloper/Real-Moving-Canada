@@ -11,8 +11,8 @@ export default function SiteFooter() {
       <div className="wrap footer-grid">
         <div className="footer-brand">
           <Logo tone="light" />
-          <p className="footer-slogan">{COMPANY.slogan}</p>
-          <p>{COMPANY.promise}</p>
+          <p className="footer-slogan">{COMPANY.motto}</p>
+          <p>{COMPANY.services}</p>
         </div>
         <nav aria-label="Company">
           <h2 className="footer-title">Company</h2>

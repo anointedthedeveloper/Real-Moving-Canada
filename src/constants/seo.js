@@ -20,7 +20,7 @@ export const BASE_KEYWORDS = [
 
 /** Extra phrases for each page, combined with BASE_KEYWORDS. */
 export const PAGE_KEYWORDS = {
-  home: ['best movers in Canada', 'reliable movers', 'house movers', 'apartment movers', 'condo movers', 'moving help', 'book movers online', 'Moving Your Life Forward'],
+  home: ['best movers in Canada', 'reliable movers', 'house movers', 'apartment movers', 'condo movers', 'moving help', 'book movers online', 'movers you can trust', 'trusted movers'],
   services: ['moving services', 'full service movers', 'furniture movers', 'appliance movers', 'loading and unloading help', 'furniture disassembly and assembly', 'moving supplies', 'cleanout services', 'heavy item movers', 'piano movers'],
   about: ['about Real Moving Canada', 'Saskatoon moving company', 'trusted movers Canada', 'family moving company'],
   contact: ['contact movers', 'moving company phone number', 'Saskatoon movers contact', 'moving company near me'],
@@ -43,7 +43,7 @@ export const businessJsonLd = () => ({
   '@id': `${SITE_URL}/#business`,
   name: COMPANY.name,
   legalName: COMPANY.legalName,
-  slogan: COMPANY.tagline,
+  slogan: COMPANY.motto,
   url: SITE_URL,
   logo: `${SITE_URL}/icon-192.png`,
   image: OG_IMAGE,

@@ -28,25 +28,36 @@ form .notice { margin-top: 1.25rem; }
 .service-grid { list-style: none; margin: 0; padding: 0; display: grid; gap: 1rem; grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .service-grid > li { display: flex; }
 .service-card {
-  position: relative; display: grid; grid-template-columns: 1fr auto; grid-template-rows: auto 1fr; gap: 2.2rem .75rem; width: 100%;
-  padding: 1.35rem; background: var(--white); border: 1px solid var(--line); border-radius: var(--r-lg);
-  text-decoration: none; color: var(--ink); transition: border-color .2s, box-shadow .2s, transform .2s var(--ease);
+  position: relative; display: flex; flex-direction: column; width: 100%; overflow: hidden;
+  background: var(--white); border: 1px solid var(--line); border-radius: var(--r-lg);
+  text-decoration: none; color: var(--ink); transition: border-color .2s, box-shadow .25s, transform .25s var(--ease);
 }
-.service-card:hover { border-color: var(--ink); box-shadow: var(--shadow-2); transform: translateY(-2px); }
-.service-card .icon-tile { grid-column: 1; }
-.service-card-body { grid-column: 1; grid-row: 2; display: grid; gap: .35rem; align-self: end; }
-.service-card-title { font-weight: 600; font-size: 1rem; line-height: 1.35; }
-.service-card-text { font-size: .88rem; color: var(--muted); line-height: 1.5; }
-.service-card-arrow { grid-column: 2; grid-row: 2; align-self: end; color: var(--muted); transition: transform .2s, color .2s; }
+.service-card:hover { border-color: transparent; box-shadow: var(--shadow-2); transform: translateY(-3px); }
+.service-card-media { position: relative; display: block; aspect-ratio: 16 / 10; overflow: hidden; background: var(--paper-2); }
+.service-card-media img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s var(--ease); }
+.service-card:hover .service-card-media img { transform: scale(1.05); }
+.service-card-media::after { content: ''; position: absolute; inset: auto 0 0; height: 40%; background: linear-gradient(180deg, rgba(11,42,85,0), rgba(11,42,85,.28)); pointer-events: none; }
+.service-card-main { position: relative; flex: 1; display: grid; grid-template-columns: 1fr auto; align-items: start; align-content: start; gap: .3rem .75rem; padding: 1.75rem 1.25rem 1.2rem; }
+.service-card .icon-tile { position: absolute; top: 0; left: 1.25rem; transform: translateY(-50%); width: 44px; height: 44px; background: var(--white); color: var(--red); box-shadow: 0 6px 16px -6px rgba(11,42,85,.35); border-radius: 12px; }
+.service-card-body { display: grid; gap: .35rem; }
+.service-card-title { font-family: var(--font-head); font-weight: 700; font-size: 1.05rem; line-height: 1.3; color: var(--navy); }
+.service-card-text { font-size: .9rem; color: var(--muted); line-height: 1.5; }
+.service-card-arrow { align-self: end; color: var(--muted); transition: transform .2s, color .2s; }
 .service-card:hover .service-card-arrow { color: var(--red); transform: translateX(3px); }
 @media (max-width: 960px) { .service-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 600px) {
-  .service-grid { grid-template-columns: 1fr; gap: .75rem; }
-  .service-card { grid-template-columns: auto 1fr auto; grid-template-rows: auto; gap: 1rem; align-items: center; padding: 1rem 1.1rem; }
-  .service-card-body, .service-card-arrow { grid-row: 1; align-self: center; }
-  .service-card-body { grid-column: 2; }
-  .service-card-arrow { grid-column: 3; }
-  .service-card-text { display: none; }
+  .service-grid { grid-template-columns: minmax(0, 1fr); gap: 1rem; }
+  .service-card-media { aspect-ratio: 16 / 9; }
+  .service-card-main { padding: 1.6rem 1.1rem 1.1rem; }
+  .service-card-title { font-size: 1.08rem; }
+  /* Swipeable row of cards (home page, related services) */
+  .service-grid.is-swipe {
+    display: flex; gap: .85rem; overflow-x: auto; scroll-snap-type: x mandatory; overscroll-behavior-x: contain;
+    margin-inline: calc(var(--gutter) * -1); padding: .25rem var(--gutter) 1rem; scroll-padding-inline: var(--gutter);
+    scrollbar-width: none; -webkit-overflow-scrolling: touch;
+  }
+  .service-grid.is-swipe::-webkit-scrollbar { display: none; }
+  .service-grid.is-swipe > li { flex: 0 0 82%; scroll-snap-align: start; }
 }
 
 /* ─── Home: why choose us ───────────────────────────────────────────────── */

@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { COMPANY } from '../constants/company.js';
 import { SITE_URL, OG_IMAGE, BASE_KEYWORDS } from '../constants/seo.js';
 
-const DEFAULT_TITLE = `${COMPANY.name} — Movers in Saskatoon & Across Canada | ${COMPANY.tagline}`;
+const DEFAULT_TITLE = `${COMPANY.name} — Movers in Saskatoon & Across Canada | ${COMPANY.motto}`;
 
 /** Creates or updates a <meta>/<link> tag in <head>. */
 function setTag(tag, attr, key, value, valueAttr = 'content') {

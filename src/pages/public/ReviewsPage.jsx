@@ -10,7 +10,9 @@ import { useAsync } from '../../hooks/useAsync.js';
 import { useDocumentTitle } from '../../hooks/useDocumentTitle.js';
 import { keywordsFor, breadcrumbJsonLd } from '../../constants/seo.js';
 import { loadReviews } from '../../services/catalogService.js';
-import heroImage from '../../assets/images/couch-inside.webp';
+import { photo } from '../../constants/photos.js';
+
+const heroImage = photo('couch-inside');
 
 export default function ReviewsPage() {
   useDocumentTitle('Customer Reviews', 'Read reviews from Real Moving Canada customers, or share your own moving experience with our Saskatoon movers.', {

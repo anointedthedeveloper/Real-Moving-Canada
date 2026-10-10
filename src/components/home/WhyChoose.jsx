@@ -1,6 +1,8 @@
 import Kicker from '../common/Kicker.jsx';
 import Icon from '../common/Icon.jsx';
-import image from '../../assets/images/blanket-wrapping.webp';
+import { photo } from '../../constants/photos.js';
+
+const image = photo('blanket-wrapping');
 
 const POINTS = [
   { title: 'Plan around your move', text: 'Share property details, rooms, access notes, dates, and addresses in one place.' },
@@ -11,7 +13,7 @@ const POINTS = [
 export default function WhyChoose() {
   return (
     <section className="why" id="why" aria-labelledby="why-title">
-      <div className="why-media"><img src={image} alt="Two movers wrapping a table in moving blankets" loading="lazy" width="1100" height="1100" /></div>
+      <div className="why-media"><img src={image.src} srcSet={image.srcSet} sizes="(max-width: 960px) 100vw, 50vw" alt="Two movers wrapping a table in moving blankets" loading="lazy" width="1100" height="1100" /></div>
       <div className="why-panel">
         <div className="why-inner">
           <Kicker tone="light">Why choose us</Kicker>

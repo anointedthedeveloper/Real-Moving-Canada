@@ -5,9 +5,8 @@
 export const COMPANY = {
   name: 'Real Moving Canada',
   legalName: 'Real Moving Canada Inc.',
-  tagline: 'Moving Your Life Forward',
-  slogan: 'Your Move. Our Priority.',
-  promise: 'Safe. Reliable. On Time. We Move What Matters.',
+  /** The company motto — used everywhere a tagline or slogan appears. */
+  motto: 'Movers You Can Trust',
   services: 'Moving • Junk Removal • Storage',
   phone: '+1 (306) 880 4560',
   phoneTel: '+13068804560',

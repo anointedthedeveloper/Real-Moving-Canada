@@ -2,6 +2,7 @@ import { useRef } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import SiteHeader from '../components/layout/SiteHeader.jsx';
 import SiteFooter from '../components/layout/SiteFooter.jsx';
+import MobileActionBar from '../components/layout/MobileActionBar.jsx';
 import { useScrollReveal } from '../hooks/useScrollReveal.js';
 
 export default function PublicLayout() {
@@ -16,6 +17,7 @@ export default function PublicLayout() {
         <div className="page-enter" key={pathname}><Outlet /></div>
       </main>
       <SiteFooter />
+      <MobileActionBar />
     </>
   );
 }
