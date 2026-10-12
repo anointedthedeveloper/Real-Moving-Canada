@@ -5,7 +5,7 @@ import { COMPANY } from './company.js';
  * links, the sitemap and social previews — set VITE_SITE_URL when the site moves
  * to its own domain (e.g. https://realmovingcanada.ca).
  */
-export const SITE_URL = (import.meta.env?.VITE_SITE_URL || 'https://real-moving-canada-ddne.vercel.app').replace(/\/+$/, '');
+export const SITE_URL = (import.meta.env?.VITE_SITE_URL || 'https://realmovingcanada.ca').replace(/\/+$/, '');
 export const OG_IMAGE = `${SITE_URL}/og-image.jpg`;
 
 /** Search phrases people use when looking for movers in Canada, used across the site. */

@@ -96,7 +96,7 @@ npm run test:api     # backend tests
   (`scripts/generate-seo.mjs`).
 - **Set `VITE_SITE_URL`** (Vercel → Settings → Environment Variables) to the real domain
   once there is one — canonical links, social previews and the sitemap all use it.
-  It defaults to `https://real-moving-canada-ddne.vercel.app`.
+  It defaults to `https://realmovingcanada.ca`.
 
 ## Notes
 
