@@ -64,7 +64,7 @@ The API runs anywhere Node 20.12+ runs.
 | Host | How | MongoDB Atlas → Network Access |
 | --- | --- | --- |
 | **Render / Railway / VPS** | Root directory `backend`, build `npm install`, start `npm start` | Add the host's **static outbound IPs**. Render and Railway provide these on paid plans; a VPS has its own IP. |
-| **Vercel (separate project)** | New Vercel project from this repo with **Root Directory `backend`** (uses `backend/vercel.json`) | Vercel has no fixed IPs. Use the **MongoDB Atlas Vercel integration**, or allow `0.0.0.0/0` (the strong database password is then the only protection). |
+| **Vercel (separate project)** | New Vercel project from this repo with **Root Directory `backend`** (`backend/vercel.json` builds `api/index.js` explicitly, so the Framework Preset setting doesn't matter) | Vercel has no fixed IPs. Use the **MongoDB Atlas Vercel integration**, or allow `0.0.0.0/0` (the strong database password is then the only protection). |
 
 Then:
 1. Add the environment variables above on the host.

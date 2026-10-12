@@ -120,8 +120,8 @@ export const SERVICES = [
     includes: ['Beds, desks and entertainment units', 'Hardware kept bagged and labelled', 'Reassembled at your new home', 'Available for homes and offices'],
     idealFor: ['Bed frames and bunk beds', 'Modular desks and shelving', 'Wardrobes and entertainment units'],
     related: ['furniture-appliance-moving', 'loading-unloading', 'residential'],
-    image: photo('bed-disassembly'),
-    imageAlt: 'A mover taking apart a wooden bed frame with a drill',
+    image: photo('couch-inside'),
+    imageAlt: 'Two movers in RMC caps carrying a plastic-wrapped sofa into a home',
   },
   {
     slug: 'furniture-appliance-moving',
@@ -139,8 +139,8 @@ export const SERVICES = [
     includes: ['Sofas, beds and dressers', 'Fridges, washers and dryers', 'Floor and doorway protection', 'Single-item or full-move service'],
     idealFor: ['New furniture deliveries', 'Moving a few large items', 'Appliance swaps'],
     related: ['heavy-oversized-items', 'furniture-disassembly-reassembly', 'residential'],
-    image: photo('armchair-ramp'),
-    imageAlt: 'A mover wheeling a plastic-wrapped armchair down a truck ramp',
+    image: photo('couch-into-home'),
+    imageAlt: 'Two movers carrying a wrapped sofa into a bright living room',
   },
   {
     slug: 'junk-removal',
@@ -158,8 +158,8 @@ export const SERVICES = [
     includes: ['Furniture removal', 'Moving debris removal', 'Household junk removal', 'Packing material removal'],
     idealFor: ['Move-outs and downsizing', 'Estate and property clean-outs', 'Clearing packing debris after a move'],
     related: ['cleanouts', 'residential', 'storage'],
-    image: photo('junk-removal'),
-    imageAlt: 'Two movers carrying an old armchair to a Real Moving Canada truck for removal',
+    image: photo('carrying-boxes'),
+    imageAlt: 'Two movers carrying boxes out through a home hallway',
   },
   {
     slug: 'cleanouts',
@@ -178,8 +178,8 @@ export const SERVICES = [
     includes: ['Household rooms, garages and basements', 'Attics and storage areas', 'Construction debris', 'Estate cleanouts'],
     idealFor: ['Estate and property sales', 'Renovation projects', 'Downsizing and decluttering'],
     related: ['junk-removal', 'storage', 'loading-unloading'],
-    image: photo('basement-cleanout'),
-    imageAlt: 'Two movers carrying boxes out of a cluttered basement',
+    image: photo('hallway-boxes'),
+    imageAlt: 'Two movers carrying boxes down a hallway',
   },
   {
     slug: 'moving-supplies',
@@ -216,8 +216,8 @@ export const SERVICES = [
     includes: ['Short- and long-term options', 'Items inventoried before storage', 'Storage between move-out and move-in', 'Delivery from storage when you’re ready'],
     idealFor: ['Closing dates that don’t match', 'Renovations and home staging', 'Temporary relocations'],
     related: ['packing-unpacking', 'loading-unloading', 'local-long-distance'],
-    image: photo('storage-units'),
-    imageAlt: 'A mover wheeling boxes into a clean storage unit',
+    image: photo('packing-supplies'),
+    imageAlt: 'Labelled moving boxes, blankets and a hand truck ready for storage',
   },
   {
     slug: 'heavy-oversized-items',
@@ -235,8 +235,8 @@ export const SERVICES = [
     includes: ['Pianos, pool tables, safes and hot tubs', 'Dollies, straps and rigging gear', 'Floor, wall and doorway protection', 'Access assessed at both ends'],
     idealFor: ['Upright and grand pianos', 'Gun safes and heavy cabinets', 'Gym equipment and hot tubs'],
     related: ['furniture-appliance-moving', 'loading-unloading', 'residential'],
-    image: photo('piano-moving'),
-    imageAlt: 'Three movers moving a blanket-wrapped piano on a dolly',
+    image: photo('crew-at-truck'),
+    imageAlt: 'A three-person moving crew beside an open truck',
   },
 ];
 
