@@ -3,7 +3,7 @@ import SectionHeader from '../../components/common/SectionHeader.jsx';
 import Accordion from '../../components/common/Accordion.jsx';
 import Icon from '../../components/common/Icon.jsx';
 import Button from '../../components/common/Button.jsx';
-import EstimateCalculator from '../../components/estimate/EstimateCalculator.jsx';
+import MovingCalculator from '../../components/estimate/MovingCalculator.jsx';
 import { useDocumentTitle } from '../../hooks/useDocumentTitle.js';
 import { keywordsFor, faqJsonLd } from '../../constants/seo.js';
 import { photo } from '../../constants/photos.js';
@@ -22,8 +22,9 @@ const FACTORS = [
 ];
 
 const FAQ = [
-  { q: 'Is the online estimate my final price?', a: 'No. The online estimate is a price range based on the information you provide. A Real Moving Canada representative reviews every request and confirms the final price with you before your move.' },
-  { q: 'How is distance calculated?', a: 'We estimate the road distance between the cities you enter. Exact addresses, access and routing are confirmed when a representative reviews your quote.' },
+  { q: 'How is my estimate calculated?', a: 'Local moves are priced by the hour: we estimate how long your crew needs from your items, stairs or elevators, and the drive between addresses, then multiply the hours by the crew’s hourly rate and add any extra services and tax. Long-distance moves are priced by shipment weight: the estimated weight of your belongings times the rate for your route, plus fuel, loading and unloading, extras and tax.' },
+  { q: 'Is the online estimate my final price?', a: 'No. The calculator gives an estimate based on the information you enter. A Real Moving Canada representative reviews every request and confirms the final price with you before your move.' },
+  { q: 'How is distance calculated?', a: 'We estimate the driving distance between the cities you enter. You can type the exact distance if you know it. Exact addresses and routing are confirmed when a representative reviews your quote.' },
   { q: 'Why does my moving date change the estimate?', a: 'Demand is highest in summer, on weekends and around the end of the month. Choosing a mid-week or off-season date can lower your cost.' },
   { q: 'Do I need an account to get an estimate?', a: 'No — the instant estimate and the quote request are both open to everyone. A representative will follow up directly by phone or email.' },
   { q: 'What counts as special handling?', a: 'Items that need extra equipment, crew or care — such as pianos, artwork, antiques and very heavy items — and difficult access such as narrow stairwells or long walks to the truck. Mention them in your request so we can plan for them.' },
@@ -59,8 +60,8 @@ export default function PricingPage() {
       </section>
       <section className="section tint" id="estimate" aria-labelledby="estimate-title">
         <div className="wrap">
-          <SectionHeader id="estimate-title" kicker="Instant estimate" title="Get your moving estimate" text="An estimated price range based on the details you provide, calculated with our current pricing." />
-          <EstimateCalculator />
+          <SectionHeader id="estimate-title" kicker="Moving calculator" title="Calculate your moving cost" text="Add your route, the items you’re moving and any extra services. Your estimate updates as you go." />
+          <MovingCalculator />
         </div>
       </section>
       <section className="section white" aria-labelledby="pricing-faq">
