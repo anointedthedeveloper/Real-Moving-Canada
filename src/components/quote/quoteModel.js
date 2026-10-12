@@ -54,17 +54,16 @@ export const STEP_FIELDS = [
 /** Services offered in the quote form (the design's catalogue, in two columns). */
 export const QUOTE_SERVICES = SERVICES.map((s) => ({ value: s.quoteValue, label: s.name }));
 
-/** Maps the instant-estimate draft (original site) onto quote values. */
-const ESTIMATE_SERVICE_MAP = { packing: 'packing_unpacking', unpacking: 'packing_unpacking', storage: 'storage', loading: 'loading_unloading', unloading: 'loading_unloading', furniture_delivery: 'furniture_appliance' };
-export function fromEstimateDraft(d) {
+/** Maps the moving calculator's hand-off (see MovingCalculator) onto quote values. */
+export function fromEstimateDraft(draft) {
+  const d = draft?.quote;
   if (!d) return {};
-  const services = [...new Set((d.services || []).map((s) => ESTIMATE_SERVICE_MAP[s]).filter(Boolean))];
   return {
     origin: { ...emptyPlace, province: d.origin?.province || '', city: d.origin?.city || '', rooms: d.propertySize || '' },
     destination: { ...emptyPlace, province: d.destination?.province || '', city: d.destination?.city || '' },
     moveDate: d.moveDate || '',
-    moveType: ['local', 'long_distance', 'international'].includes(d.moveType) ? d.moveType : '',
-    services,
+    moveType: ['local', 'long_distance'].includes(d.moveType) ? d.moveType : '',
+    services: (d.services || []).filter((v) => QUOTE_SERVICES.some((s) => s.value === v)),
     notes: d.details || '',
   };
 }

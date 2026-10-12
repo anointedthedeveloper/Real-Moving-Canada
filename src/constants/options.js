@@ -29,15 +29,6 @@ export const MOVE_TYPES = [
   { value: 'international', label: 'International' },
 ];
 
-/** Move categories used by the instant estimate (matches the estimate API contract). */
-export const ESTIMATE_MOVE_TYPES = [
-  { value: 'residential', label: 'Residential' },
-  { value: 'commercial', label: 'Commercial' },
-  { value: 'local', label: 'Local' },
-  { value: 'long_distance', label: 'Long-distance' },
-  { value: 'international', label: 'International' },
-];
-
 export const PROPERTY_TYPES = [
   { value: 'house', label: 'House' },
   { value: 'apartment', label: 'Apartment' },
@@ -57,15 +48,6 @@ export const PROPERTY_SIZES = [
   { value: 'four_bed', label: '4 bedrooms' },
   { value: 'five_plus', label: '5+ bedrooms' },
   { value: 'office', label: 'Office / commercial' },
-];
-
-export const ESTIMATE_SERVICES = [
-  { value: 'packing', label: 'Packing' },
-  { value: 'unpacking', label: 'Unpacking' },
-  { value: 'storage', label: 'Storage' },
-  { value: 'furniture_delivery', label: 'Furniture delivery' },
-  { value: 'loading', label: 'Loading' },
-  { value: 'unloading', label: 'Unloading' },
 ];
 
 export const TIME_WINDOWS = [

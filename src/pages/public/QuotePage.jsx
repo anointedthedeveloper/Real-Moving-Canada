@@ -28,16 +28,21 @@ const HEADINGS = [
   ['Review your move request', 'Check each section and edit anything that needs to change before submitting.'],
 ];
 
-/** Builds the starting values: saved draft → instant-estimate draft → ?service= preselection. */
-function initialQuote(serviceParam) {
+/**
+ * Builds the starting values: saved draft → moving-calculator hand-off → ?service= preselection.
+ * Arriving from the calculator (?from=calculator) keeps the saved contact details but
+ * replaces the move details with the calculator's route, items and services.
+ */
+function initialQuote(serviceParam, fromCalculator) {
   const draft = local.get(STORAGE_KEYS.quoteDraft);
+  const estimate = fromEstimateDraft(session.get(STORAGE_KEYS.estimateDraft));
   const base = draft?.values
-    ? { ...EMPTY_QUOTE, ...draft.values, confirm: false }
-    : { ...EMPTY_QUOTE, ...fromEstimateDraft(session.get(STORAGE_KEYS.estimateDraft)) };
+    ? { ...EMPTY_QUOTE, ...draft.values, ...(fromCalculator ? estimate : {}), confirm: false }
+    : { ...EMPTY_QUOTE, ...estimate };
   if (serviceParam && QUOTE_SERVICES.some((s) => s.value === serviceParam) && !base.services.includes(serviceParam)) {
     base.services = [...base.services, serviceParam];
   }
-  return { values: base, step: draft?.values ? Math.min(draft.step || 0, 2) : 0, resumed: !!draft?.values };
+  return { values: base, step: draft?.values && !fromCalculator ? Math.min(draft.step || 0, 2) : 0, resumed: !!draft?.values && !fromCalculator };
 }
 
 /** Get a Quote / Book a Move — five-step flow from the design. Submits through Formspree. */
@@ -47,7 +52,7 @@ export default function QuotePage() {
     jsonLd: breadcrumbJsonLd([{ name: 'Home', path: '/' }, { name: 'Get a Quote', path: '/quote' }]),
   });
   const [params] = useSearchParams();
-  const initial = useMemo(() => initialQuote(params.get('service')), []); // eslint-disable-line react-hooks/exhaustive-deps
+  const initial = useMemo(() => initialQuote(params.get('service'), params.get('from') === 'calculator'), []); // eslint-disable-line react-hooks/exhaustive-deps
   const [step, setStep] = useState(initial.step);
   const [savedNotice, setSavedNotice] = useState(initial.resumed ? 'resumed' : '');
   const [submitted, setSubmitted] = useState(null);
